@@ -1,0 +1,34 @@
+serviceAccount:
+  create: false
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+autoscaling:
+  enabled: false
+Release:
+  Name: ''
+
+testConnection:
+  enabled: false
+
+deployment:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  lifecycle: {}
+  replicaCount: 1
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  envFrom:
+    - configMapRef:
+        name: laravel-config
+    - secretRef:
+        name: laravel-secrets
+  volumes: {}
+image:
+  pullPolicy: IfNotPresent

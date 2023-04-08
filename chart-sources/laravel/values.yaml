@@ -1,0 +1,165 @@
+global:
+  name: app
+  imagePullSecrets: []
+  appVersion : "1.16"
+  namespace: "app"
+  image:
+    repository: nginx
+fpm:
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: false
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+  podAnnotations: {}
+  podSecurityContext: {}
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 9000
+    targetPort: 9000
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+      nginx.ingress.kubernetes.io/proxy-buffer-size: 16m
+      nginx.ingress.kubernetes.io/proxy-body-size: 16m
+
+
+
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+
+  Release:
+    Name: ''
+
+  testConnection:
+    enabled: false
+
+  deployment:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    replicaCount: 1
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+
+
+laravel-web:
+  nameOverride: "don-gestion-dev-fpm"
+  fullnameOverride: "don-gestion-dev-web-server"
+  namespace: "don-gestion-dev"
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: false
+    # Annotations to add to the service account
+    annotations: { }
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+  podAnnotations: { }
+  podSecurityContext: { }
+  # fsGroup: 2000
+
+  securityContext: { }
+    # capabilities:
+    #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 9000
+    targetPort: 9000
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+      nginx.ingress.kubernetes.io/proxy-buffer-size: 16m
+      nginx.ingress.kubernetes.io/proxy-body-size: 16m
+    hosts:
+      - host: dev.dongestion.com.ar
+        paths:
+          - path: /
+      - host: "*.dev.dongestion.com.ar"
+        paths:
+          - path: /
+    tls:
+      - secretName: don-gestion-dev
+        hosts:
+          - "*.dev.dongestion.com.ar"
+          - "dev.dongestion.com.ar"
+
+
+
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+
+  Release:
+    Name: ''
+
+  testConnection:
+    enabled: false
+
+  deployment:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    volumeMounts: { }
+    lifecycle: { }
+    replicaCount: 1
+    nodeSelector: { }
+    tolerations: [ ]
+    affinity: { }
+    env:
+      - name: ENV
+        value: dev
+      - name: FPM_HOST
+        value: don-gestion-dev-fpm:9000
+    envFrom: { }
+    volumes: { }
+  image:
+    repository: axtersoftware/dongestion-plataformaweb
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+    component: web-server
