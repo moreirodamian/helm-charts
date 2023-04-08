@@ -5,6 +5,9 @@ global:
   namespace: "app"
   image:
     repository: nginx
+  dockerSecret:
+    name: secret
+    key: test
 fpm:
   serviceAccount:
     # Specifies whether a service account should be created
