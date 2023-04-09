@@ -1,3 +1,5 @@
+cron:
+  create: true
 serviceAccount:
   create: false
   podAnnotations: {}
@@ -5,6 +7,7 @@ serviceAccount:
   securityContext: {}
 autoscaling:
   enabled: false
+
 Release:
   Name: ''
 

@@ -13,11 +13,6 @@ service:
   port: 9000
   targetPort: 9000
 
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-
 autoscaling:
   enabled: true
   minReplicas: 1

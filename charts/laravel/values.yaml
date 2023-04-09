@@ -1,5 +1,6 @@
 global:
   name: app
+  environment: jose
   imagePullSecrets: []
   appVersion : "1.16"
   namespace: "app"

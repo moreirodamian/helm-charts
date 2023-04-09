@@ -32,3 +32,6 @@ deployment:
   volumes: {}
 image:
   pullPolicy: IfNotPresent
+
+queue:
+  create: true
