@@ -30,6 +30,7 @@ deployment:
     - secretRef:
         name: laravel-secrets
   volumes: {}
+
 image:
   pullPolicy: IfNotPresent
   component: cli

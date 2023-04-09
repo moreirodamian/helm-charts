@@ -3,6 +3,11 @@ global:
   environment: jose
   imagePullSecrets: []
   appVersion : "1.16"
+  image:
+    repository: nginx
+  dockerSecret:
+    name: dockerSecretName
+    key: dockerSecretKey
 fpm:
   serviceAccount:
     # Specifies whether a service account should be created
