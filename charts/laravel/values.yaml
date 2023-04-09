@@ -111,17 +111,17 @@ laravel-web:
       nginx.ingress.kubernetes.io/proxy-buffer-size: 16m
       nginx.ingress.kubernetes.io/proxy-body-size: 16m
     hosts:
-      - host: dev.dongestion.com.ar
+      - host: example.com
         paths:
           - path: /
-      - host: "*.dev.dongestion.com.ar"
+      - host: "*.example.com"
         paths:
           - path: /
     tls:
       - secretName: don-gestion-dev
         hosts:
-          - "*.dev.dongestion.com.ar"
-          - "dev.dongestion.com.ar"
+          - "*.example.com"
+          - "example.com"
 
 
 
