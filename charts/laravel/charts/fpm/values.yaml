@@ -39,6 +39,7 @@ deployment:
   volumes: {}
 image:
   pullPolicy: IfNotPresent
+  component: fpm
 
 config: {}
 secrets: {}

@@ -49,5 +49,5 @@ deployment:
 
 image:
   pullPolicy: IfNotPresent
-
+  component: web-server
 nameOverride : ''

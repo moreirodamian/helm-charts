@@ -25,3 +25,4 @@ deployment:
   volumes: {}
 image:
   pullPolicy: IfNotPresent
+  component: cli
