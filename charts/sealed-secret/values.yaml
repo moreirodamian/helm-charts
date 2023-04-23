@@ -1,0 +1,4 @@
+name: sealed-secret
+encryptedData:
+  password: encryptedPassword
+  username: encryptedUsername
