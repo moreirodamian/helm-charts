@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra
+  source:
+    repoURL: 'git@bitbucket.org:moreirodamian/kubernetes-deployments.git'
+    path: helm/prometheus
+    targetRevision: HEAD
+    helm:
+      parameters:
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].url"
+          value: {{ .Values.prometheus.remoteWrite.url }}
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].basicAuth.username.name"
+          value: {{ .Values.prometheus.remoteWrite.secret.name }}
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].basicAuth.username.key"
+          value: "username"
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].basicAuth.password.name"
+          value: {{ .Values.prometheus.remoteWrite.secret.name }}
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].basicAuth.password.key"
+          value: "password"
+        - name: "alertmanager.enabled"
+          value: false
+        - name: "grafana.enabled"
+          value: false
+        - name: "sealed-secret.name"
+          value: {{ .Values.prometheus.remoteWrite.secret.name }}
+        - name: "sealed-secret.encryptedData.username"
+          value: {{ .Values.prometheus.remoteWrite.secret.username }}
+        - name: "sealed-secret.encryptedData.password"
+          value:  {{ .Values.prometheus.remoteWrite.secret.password }}
+  destination:
+    namespace: monitoring
+    server: {{ .Values.spec.destination.server }}

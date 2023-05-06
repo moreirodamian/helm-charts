@@ -1,0 +1,14 @@
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  source:
+    targetRevision: HEAD
+ingress:
+  loadbalancerName: do-loadbalacer.com
+prometheus:
+  remoteWrite:
+    url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+    secret:
+      name: prom-secret
+      username: sealedEncryptedUsername
+      password: sealedEncryptedPassword
