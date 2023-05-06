@@ -1,5 +1,16 @@
 apiVersion: v1
 entries:
+  do-boostraping:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2023-05-06T23:22:33.491967862Z"
+    description: Applications
+    digest: 4849205ab59f4bae784bec195d85a3977e06e6818846cb9ca9f3588811b929ec
+    name: do-boostraping
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/do-boostraping-0.0.1/do-boostraping-0.0.1.tgz
+    version: 0.0.1
   laravel:
   - apiVersion: v2
     created: "2023-04-09T18:09:36.651822808Z"
@@ -144,4 +155,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secret-0.1.0/sealed-secret-0.1.0.tgz
     version: 0.1.0
-generated: "2023-04-23T22:42:49.382586139Z"
+generated: "2023-05-06T23:22:33.491985762Z"
