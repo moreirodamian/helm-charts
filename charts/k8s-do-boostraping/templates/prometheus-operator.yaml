@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus
+  name: prometheus2
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: infra
+  project: default
   source:
     repoURL: 'git@bitbucket.org:moreirodamian/kubernetes-deployments.git'
     path: helm/prometheus
