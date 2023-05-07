@@ -35,4 +35,8 @@ spec:
           value:  {{ .Values.prometheus.remoteWrite.secret.password }}
   destination:
     namespace: monitoring
+    {{ if .Values.spec.destination.server }}
     server: {{ .Values.spec.destination.server }}
+    {{ else if  .Values.spec.destination.name}}
+    name: {{ .Values.spec.destination.name }}
+    {{ end }}
