@@ -1,24 +1,24 @@
-{{/*apiVersion: argoproj.io/v1alpha1*/}}
-{{/*kind: Application*/}}
-{{/*metadata:*/}}
-{{/*  name: nginx-ingress2*/}}
-{{/*  namespace: argocd*/}}
-{{/*  finalizers:*/}}
-{{/*    - resources-finalizer.argocd.argoproj.io*/}}
-{{/*spec:*/}}
-{{/*  project: default*/}}
-{{/*  source:*/}}
-{{/*    repoURL: 'git@bitbucket.org:moreirodamian/kubernetes-deployments.git'*/}}
-{{/*    path: helm/nginx-ingress*/}}
-{{/*    targetRevision: HEAD*/}}
-{{/*    helm:*/}}
-{{/*      parameters:*/}}
-{{/*        - name: "ingress-nginx.controller.service.annotations.service.beta.kubernetes.io/do-loadbalancer-name"*/}}
-{{/*          value: {{ .Values.ingress.loadbalancerName }}*/}}
-{{/*        - name: "ingress-nginx.controller.service.annotations.service.beta.kubernetes.io/do-loadbalancer-hostname"*/}}
-{{/*          value: {{ .Values.ingress.loadbalancerName }}*/}}
-{{/*        - name: "service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol"*/}}
-{{/*          value: "true"*/}}
-{{/*  destination:*/}}
-{{/*    namespace: nginx-ingress*/}}
-{{/*    server: {{ .Values.spec.destination.server }}*/}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-ingress2
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'git@bitbucket.org:moreirodamian/kubernetes-deployments.git'
+    path: helm/nginx-ingress
+    targetRevision: HEAD
+    helm:
+      parameters:
+        - name: "ingress-nginx.controller.service.annotations.service.beta.kubernetes.io/do-loadbalancer-name"
+          value: {{ .Values.ingress.loadbalancerName }}
+        - name: "ingress-nginx.controller.service.annotations.service.beta.kubernetes.io/do-loadbalancer-hostname"
+          value: {{ .Values.ingress.loadbalancerName }}
+        - name: "service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol"
+          value: "true"
+  destination:
+    namespace: nginx-ingress
+    name: {{ .Values.apps.destination.name }}

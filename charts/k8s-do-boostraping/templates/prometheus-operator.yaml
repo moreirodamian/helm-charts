@@ -24,9 +24,9 @@ spec:
         - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].basicAuth.password.key"
           value: "password"
         - name: "alertmanager.enabled"
-          value: false
+          value: "false"
         - name: "grafana.enabled"
-          value: false
+          value: "false"
         - name: "sealed-secret.name"
           value: {{ .Values.prometheus.remoteWrite.secret.name }}
         - name: "sealed-secret.encryptedData.username"
@@ -35,8 +35,4 @@ spec:
           value:  {{ .Values.prometheus.remoteWrite.secret.password }}
   destination:
     namespace: monitoring
-{{/*    {{ if .Values.spec.destination.server }}*/}}
-{{/*    server: {{ .Values.spec.destination.server }}*/}}
-{{/*    {{ else if  .Values.spec.destination.name}}*/}}
-    name: do-nyc3-debug
-{{/*    {{ end }}*/}}
+    name: {{ .Values.apps.destination.name }}
