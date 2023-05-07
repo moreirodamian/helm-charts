@@ -13,11 +13,11 @@ spec:
     targetRevision: HEAD
     helm:
       parameters:
-        - name: "ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-name"
+        - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-name
           value: {{ .Values.ingress.loadbalancerName }}
-        - name: "ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-hostname"
+        - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-hostname
           value: {{ .Values.ingress.loadbalancerName }}
-        - name: "ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-enable-proxy-protocol"
+        - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-enable-proxy-protocol
           value: "true"
   destination:
     namespace: nginx-ingress
