@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus2
+  name: prometheus3
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -35,8 +35,8 @@ spec:
           value:  {{ .Values.prometheus.remoteWrite.secret.password }}
   destination:
     namespace: monitoring
-    {{ if .Values.spec.destination.server }}
-    server: {{ .Values.spec.destination.server }}
-    {{ else if  .Values.spec.destination.name}}
-    name: {{ .Values.spec.destination.name }}
-    {{ end }}
+{{/*    {{ if .Values.spec.destination.server }}*/}}
+{{/*    server: {{ .Values.spec.destination.server }}*/}}
+{{/*    {{ else if  .Values.spec.destination.name}}*/}}
+    name: do-nyc3-debug
+{{/*    {{ end }}*/}}
