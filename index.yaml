@@ -3,6 +3,16 @@ entries:
   do-boostraping:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2023-05-15T12:51:38.405028819Z"
+    description: Applications
+    digest: 9223f026da22e6a503eb4c2f90096d39042e30d57a8d6d2a9b72e3c158c47899
+    name: do-boostraping
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/do-boostraping-0.0.2/do-boostraping-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2023-05-06T23:22:33.491967862Z"
     description: Applications
     digest: 4849205ab59f4bae784bec195d85a3977e06e6818846cb9ca9f3588811b929ec
@@ -147,6 +157,16 @@ entries:
   sealed-secret:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-05-15T12:51:38.564672951Z"
+    description: A Helm chart for Sealed Secret
+    digest: 9ed37c3112fbfe33950d91eb70496760ab8e118d7010862d0366dba7f8e23e38
+    name: sealed-secret
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secret-0.1.1/sealed-secret-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-04-23T22:42:49.382571139Z"
     description: A Helm chart for Sealed Secret
     digest: 9301de635097874d093a71934a782d0a96d92cbcd69887bccd33d9251c596d9d
@@ -155,4 +175,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secret-0.1.0/sealed-secret-0.1.0.tgz
     version: 0.1.0
-generated: "2023-05-06T23:22:33.491985762Z"
+generated: "2023-05-15T12:51:38.564696951Z"
