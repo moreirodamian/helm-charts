@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nginx-ingress2
+  name: nginx-ingress
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: infra
   source:
     repoURL: 'git@bitbucket.org:moreirodamian/kubernetes-deployments.git'
     path: helm/nginx-ingress
@@ -19,6 +19,12 @@ spec:
           value: {{ .Values.ingress.loadbalancerName }}
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-enable-proxy-protocol
           value: "true"
+        - name: ingress-nginx.controller.metrics.enabled
+        - value: "true"
+        - name: ingress-nginx.controller.podAnnotations.prometheus\.io/scrape
+          value: "true"
+        - name: ingress-nginx.controller.podAnnotations.prometheus\.io/port
+          value: "10254"
   destination:
     namespace: nginx-ingress
     name: {{ .Values.apps.destination.name }}

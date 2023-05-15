@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: infra
   source:
     repoURL: 'git@bitbucket.org:moreirodamian/kubernetes-deployments.git'
     path: helm/prometheus
