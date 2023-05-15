@@ -3,6 +3,21 @@ entries:
   cert-manager-issuer:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-05-15T13:37:21.638527711Z"
+    dependencies:
+    - condition: digitalocean.dns
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 0.1.2
+    description: A Helm chart for cert-manager-issuer
+    digest: 2e42ccf811bc59a8a678ec3d528852265fca5e1d3228e24bdd01567de53045d4
+    name: cert-manager-issuer
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-issuer-0.0.2/cert-manager-issuer-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-05-15T12:56:12.021942091Z"
     dependencies:
     - condition: digitalocean.dns
@@ -201,4 +216,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secret-0.1.0/sealed-secret-0.1.0.tgz
     version: 0.1.0
-generated: "2023-05-15T13:20:52.967384583Z"
+generated: "2023-05-15T13:37:21.638558911Z"
