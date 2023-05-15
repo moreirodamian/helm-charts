@@ -7,6 +7,6 @@ appVersion: "1.16.0"
 
 dependencies:
   - name: sealed-secret
-    version: 0.1.1
+    version: 0.1.2
     repository: https://moreirodamian.github.io/helm-charts/
     condition: digitalocean.dns

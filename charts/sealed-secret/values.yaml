@@ -1,5 +1,3 @@
 name: sealed-secret
 namespace: default
 encryptedData:
-  password: encryptedPassword
-  username: encryptedUsername
