@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus
+  name: prometheus3
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -24,9 +24,9 @@ spec:
         - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].basicAuth.password.key"
           value: "password"
         - name: "alertmanager.enabled"
-          value: false
+          value: "false"
         - name: "grafana.enabled"
-          value: false
+          value: "false"
         - name: "sealed-secret.name"
           value: {{ .Values.prometheus.remoteWrite.secret.name }}
         - name: "sealed-secret.encryptedData.username"
@@ -35,4 +35,4 @@ spec:
           value:  {{ .Values.prometheus.remoteWrite.secret.password }}
   destination:
     namespace: monitoring
-    server: {{ .Values.spec.destination.server }}
+    name: {{ .Values.apps.destination.name }}

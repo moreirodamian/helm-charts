@@ -17,4 +17,5 @@ spec:
     chart: cert-manager
   destination:
     namespace: cert-manager
-    server: {{ .Values.spec.destination.server }}
+    name: {{ .Values.apps.destination.name }}
+
