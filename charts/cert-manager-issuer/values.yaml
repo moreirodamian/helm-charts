@@ -1,0 +1,8 @@
+email: moreirodamian+letsencrypt@gmail.com
+digitalocean:
+  dns: enabled
+sealed-secret:
+  name: digitalocean-dns
+  namespace: cert-manager
+  encryptedData:
+    access-token: zarazaEncrypted
