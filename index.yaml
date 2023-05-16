@@ -67,6 +67,21 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/do-boostraping-0.0.1/do-boostraping-0.0.1.tgz
     version: 0.0.1
+  ingress-nginx:
+  - apiVersion: v2
+    created: "2023-05-16T03:27:08.965501215Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.6.0
+    description: Ingress controller for Kubernetes using NGINX as a reverse proxy
+      and load balancer
+    digest: e114c8ceb3be2793f77cd743b366bd89d7b35bcc75f8747f15285632f761be12
+    name: ingress-nginx
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/ingress-nginx-4.6.0/ingress-nginx-4.6.0.tgz
+    version: 4.6.0
   laravel:
   - apiVersion: v2
     created: "2023-04-09T18:09:36.651822808Z"
@@ -231,4 +246,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secret-0.1.0/sealed-secret-0.1.0.tgz
     version: 0.1.0
-generated: "2023-05-16T03:23:05.820018131Z"
+generated: "2023-05-16T03:27:08.965536317Z"
