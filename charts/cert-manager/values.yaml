@@ -1,0 +1,10 @@
+cert-manager:
+  installCRDs: true
+cert-manager-issuer:
+  digitalocean:
+    dns: true
+    sealed-secret:
+      name: digitalocean-dns
+      namespace: cert-manager
+      encryptedData:
+        access-token: zarazaEncryptedv2
