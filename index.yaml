@@ -232,6 +232,20 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.0/prometheus-22.0.0.tgz
     version: 22.0.0
+  prometheus-statsd-exporter:
+  - apiVersion: v2
+    created: "2023-05-16T03:30:01.126702906Z"
+    dependencies:
+    - name: prometheus-statsd-exporter
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 0.8.0
+    description: A Helm chart for prometheus stats-exporter
+    digest: be4ebf1221c86704f346d70c3d370383974806d041d6f80d4b737940b9405606
+    name: prometheus-statsd-exporter
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-statsd-exporter-0.8.0/prometheus-statsd-exporter-0.8.0.tgz
+    version: 0.8.0
   sealed-secret:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -263,4 +277,18 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secret-0.1.0/sealed-secret-0.1.0.tgz
     version: 0.1.0
-generated: "2023-05-16T03:29:02.104602966Z"
+  sealed-secrets:
+  - apiVersion: v2
+    created: "2023-05-16T03:30:01.271705732Z"
+    dependencies:
+    - name: sealed-secrets
+      repository: https://bitnami-labs.github.io/sealed-secrets
+      version: 2.8.2
+    description: Helm chart for the sealed-secrets controller.
+    digest: 50b0bb290394ed50836e735af3ab2cf7f7feb5d99fdc384f148351e42d4a7dd5
+    name: sealed-secrets
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
+    version: 2.8.2
+generated: "2023-05-16T03:30:01.271739034Z"
