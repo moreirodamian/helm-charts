@@ -1,21 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
+  name: cert-manager-{{ .Values.apps.suffix }}
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: infra
+  project: infra-{{ .Values.apps.suffix }}
   source:
-    repoURL: 'https://charts.jetstack.io'
-    targetRevision: v1.11.0
+    repoURL: 'https://moreirodamian.github.io/helm-charts/'
+    targetRevision: 1.11.2
     helm:
+      valueFiles:
+        - values.yaml
       parameters:
-        - name: installCRDs
-          value: 'true'
+        - name: cert-manager-issuer.sealed-secret.encryptedData.access-token
+          value: {{ .Values.digitalocean.token }}
     chart: cert-manager
   destination:
     namespace: cert-manager
     name: {{ .Values.apps.destination.name }}
-

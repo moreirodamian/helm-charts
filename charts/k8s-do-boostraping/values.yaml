@@ -1,7 +1,5 @@
 spec:
   destination:
-#    server: https://kubernetes.default.svc
-    name: pepe
   source:
     targetRevision: HEAD
 ingress:
@@ -14,5 +12,8 @@ prometheus:
       username: sealedEncryptedUsername
       password: sealedEncryptedPassword
 apps:
+  suffix: dev
   destination:
     name: test-cluster-name
+digitalocean:
+  token: zaraza

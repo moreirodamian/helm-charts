@@ -1,17 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus3
+  name: prometheus-{{ .Values.apps.suffix }}
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: infra
+  project: infra-{{ .Values.apps.suffix }}
   source:
-    repoURL: 'git@bitbucket.org:moreirodamian/kubernetes-deployments.git'
-    path: helm/prometheus
-    targetRevision: HEAD
+    repoURL: 'https://moreirodamian.github.io/helm-charts/'
+    targetRevision: 22.0.0
+    chart: prometheus
     helm:
+      valueFiles:
+        - values.yaml
       parameters:
         - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].url"
           value: {{ .Values.prometheus.remoteWrite.url }}
