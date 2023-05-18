@@ -20,6 +20,15 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 {{- end }}
 
+{{- define "fpm.fullnameMigrations" -}}
+{{- if .Values.global.name }}
+{{- .Values.global.name | trunc 50 | trimSuffix "-" }}-{{- .Chart.Name | trunc 63 | trimSuffix "-" }}-{{- .Values.global.environment| trunc 63 | trimSuffix "-" }}-migrations-{{ now | unixEpoch }}
+{{- else if .Values.fullnameOverride }}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}-migrations-{{ now | unixEpoch }}
+{{- else }}
+{{- $name := default .Chart.Name .Values.nameOverride }}-migrations-{{ now | unixEpoch }}
+{{- end }}
+{{- end }}
 {{/*
 Create chart name and version as used by the chart label.
 */}}
@@ -64,3 +73,6 @@ Create the name of the service account to use
 "{{ .Values.global.image.repository | default .Values.image.repository }}:{{ .Values.global.appVersion | default .Chart.AppVersion }}-{{ .Values.image.component }}"
 {{- end -}}
 
+{{- define "fpm.imageMigrations" -}}
+"{{ .Values.global.image.repository | default .Values.image.repository }}:{{ .Values.global.appVersion | default .Chart.AppVersion }}-{{ .Values.migrations.image.component | default "cli" }}"
+{{- end -}}

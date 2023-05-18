@@ -27,6 +27,13 @@ Release:
 testConnection:
   enabled: false
 
+migrations:
+  enabled: true
+  command: [ "/bin/sh","-c" ]
+  args: [ (php artisan migrate --force || true) ]
+  image:
+    component: cli
+
 deployment:
   resources: {}
   volumeMounts: {}
