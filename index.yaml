@@ -368,6 +368,16 @@ entries:
   sealed-secret:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-05-18T12:44:45.091391205Z"
+    description: A Helm chart for Sealed Secret
+    digest: 562f360634259cb25999b0f852e15556d4823f8e06cd4f536011d83bd8294b10
+    name: sealed-secret
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secret-0.1.4/sealed-secret-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-05-18T11:22:05.972886164Z"
     description: A Helm chart for Sealed Secret
     digest: 68c0c68802a5d25a75945cc9e1c68b85f1e6731ad010446831bfaab90d3b66af
@@ -420,4 +430,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2023-05-18T11:27:33.521691382Z"
+generated: "2023-05-18T12:44:45.091447307Z"
