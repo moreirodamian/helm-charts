@@ -36,6 +36,21 @@ entries:
   cert-manager-issuer:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-05-18T12:46:47.74381484Z"
+    dependencies:
+    - condition: digitalocean.dns
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 0.1.4
+    description: A Helm chart for cert-manager-issuer
+    digest: a8430153f6178a62b17f742a879921c787c2db77d51a9a0c50fe9fb3ddec25f6
+    name: cert-manager-issuer
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-issuer-0.0.4/cert-manager-issuer-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-05-16T03:23:05.81998833Z"
     dependencies:
     - condition: digitalocean.dns
@@ -136,6 +151,31 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/ingress-nginx-4.6.0/ingress-nginx-4.6.0.tgz
     version: 4.6.0
   laravel:
+  - apiVersion: v2
+    created: "2023-05-18T12:46:47.865732982Z"
+    dependencies:
+    - name: fpm
+      repository: ""
+      version: 0.1.5
+    - name: web-server
+      repository: ""
+      version: 0.1.4
+    - name: cron
+      repository: ""
+      version: 0.1.2
+    - name: queue
+      repository: ""
+      version: 0.1.2
+    - name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 0.1.4
+    description: A Helm chart for Kubernetes
+    digest: dc7619db848b89ff8127a33bcbc8e6d40c633e4aa4436a0b4748d2400402c638
+    name: laravel
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.11/laravel-1.1.11.tgz
+    version: 1.1.11
   - apiVersion: v2
     created: "2023-05-18T11:27:33.521508383Z"
     dependencies:
@@ -320,6 +360,22 @@ entries:
     version: 1.1.3
   prometheus:
   - apiVersion: v2
+    created: "2023-05-18T12:46:48.080051535Z"
+    dependencies:
+    - name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 0.1.4
+    - name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 45.19.0
+    description: Prometheus is a monitoring system and time series database.
+    digest: 29f048b839af81600e10985d947cf657b232298d81962780d0fc7923f53d6569
+    name: prometheus
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.2/prometheus-22.0.2.tgz
+    version: 22.0.2
+  - apiVersion: v2
     created: "2023-05-16T05:25:50.280853483Z"
     dependencies:
     - name: sealed-secret
@@ -430,4 +486,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2023-05-18T12:44:45.091447307Z"
+generated: "2023-05-18T12:46:48.080108336Z"
