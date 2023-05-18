@@ -168,7 +168,7 @@ laravel-web:
     component: web-server
 
 sealed-secret:
-  name: digitalocean-dns
-  namespace: cert-manager
+  name: laravel-secrets
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
   encryptedData:
-    access-token: zarazaEncrypted
