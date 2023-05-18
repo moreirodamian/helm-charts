@@ -2,11 +2,11 @@ apiVersion: v2
 name: cert-manager-issuer
 description: A Helm chart for cert-manager-issuer
 type: application
-version: 0.0.3
+version: 0.0.4
 appVersion: "1.16.0"
 
 dependencies:
   - name: sealed-secret
-    version: 0.1.2
+    version: 0.1.4
     repository: https://moreirodamian.github.io/helm-charts/
     condition: digitalocean.dns
