@@ -4,6 +4,8 @@ spec:
     targetRevision: HEAD
 ingress:
   loadbalancerName: do-loadbalacer.com
+  doProxyProtocol:
+    enabled: false
 prometheus:
   remoteWrite:
     url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push

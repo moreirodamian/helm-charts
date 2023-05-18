@@ -20,3 +20,6 @@ spec:
   destination:
     namespace: cert-manager
     name: {{ .Values.apps.destination.name }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

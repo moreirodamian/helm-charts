@@ -38,3 +38,6 @@ spec:
   destination:
     namespace: monitoring
     name: {{ .Values.apps.destination.name }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

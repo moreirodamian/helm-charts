@@ -17,8 +17,10 @@ spec:
           value: {{ .Values.ingress.loadbalancerName }}
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-hostname
           value: {{ .Values.ingress.loadbalancerName }}
+      {{ if .Values.ingress.doProxyProtocol.enabled }}
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-enable-proxy-protocol
           value: "true"
+      {{ end }}
         - name: ingress-nginx.controller.metrics.enabled
         - value: "true"
         - name: ingress-nginx.controller.podAnnotations.prometheus\.io/scrape
@@ -28,3 +30,6 @@ spec:
   destination:
     namespace: nginx-ingress
     name: {{ .Values.apps.destination.name }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
