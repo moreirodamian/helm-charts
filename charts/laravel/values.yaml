@@ -36,13 +36,89 @@ fpm:
   ingress:
     enabled: false
     className: ""
+    annotations: {}
+
+
+
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+
+  Release:
+    Name: ''
+
+  testConnection:
+    enabled: false
+
+  deployment:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    lifecycle:
+      postStart:
+        exec:
+          command: [ "/bin/sh", "-c", "/app/post-start.sh" ]
+      preStop:
+        exec:
+          command: [ "sleep","90" ]
+    replicaCount: 1
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    envFrom:
+      - configMapRef:
+          name: laravel-config
+      - secretRef:
+          name: laravel-secrets
+  image:
+    pullPolicy: IfNotPresent
+
+web-server:
+  serviceAccount:
+    create: false
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+  podSecurityContext: {}
+
+  securityContext: {}
+
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+
+  ingress:
+    enabled: true
+    className: ""
     annotations:
       kubernetes.io/ingress.class: "nginx"
       cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       nginx.ingress.kubernetes.io/proxy-buffer-size: 16m
       nginx.ingress.kubernetes.io/proxy-body-size: 16m
-
-
+    hosts:
+      - host: dev2.dongestion.com
+        paths:
+          - path: /
+            pathType: Prefix
+      - host: "*.dev2.dongestion.com"
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: don-gestion-dev
+        hosts:
+          - "*.dev2.dongestion.com"
+          - "dev2.dongestion.com"
 
   autoscaling:
     enabled: true
@@ -70,69 +146,23 @@ fpm:
     nodeSelector: {}
     tolerations: []
     affinity: {}
+    env:
+      - name: ENV
+        value: dev
+      - name: FPM_HOST
+        value: dongestion-fpm-dev:9000
 
+  image:
+    pullPolicy: IfNotPresent
 
-laravel-web:
-  nameOverride: "don-gestion-dev-fpm"
-  fullnameOverride: "don-gestion-dev-web-server"
-  namespace: "don-gestion-dev"
-
+cron:
   serviceAccount:
-    # Specifies whether a service account should be created
     create: false
-    # Annotations to add to the service account
-    annotations: { }
-    # The name of the service account to use.
-    # If not set and create is true, a name is generated using the fullname template
-    name: ""
-  podAnnotations: { }
-  podSecurityContext: { }
-  # fsGroup: 2000
-
-  securityContext: { }
-    # capabilities:
-    #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-  service:
-    type: ClusterIP
-    port: 9000
-    targetPort: 9000
-
-  ingress:
-    enabled: true
-    className: ""
-    annotations:
-      kubernetes.io/ingress.class: "nginx"
-      cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-      nginx.ingress.kubernetes.io/proxy-buffer-size: 16m
-      nginx.ingress.kubernetes.io/proxy-body-size: 16m
-    hosts:
-      - host: example.com
-        paths:
-          - path: /
-      - host: "*.example.com"
-        paths:
-          - path: /
-    tls:
-      - secretName: don-gestion-dev
-        hosts:
-          - "*.example.com"
-          - "example.com"
-
-
-
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
   autoscaling:
-    enabled: true
-    minReplicas: 1
-    maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
-
-
+    enabled: false
   Release:
     Name: ''
 
@@ -147,28 +177,72 @@ laravel-web:
       requests:
         cpu: 100m
         memory: 128Mi
-    volumeMounts: { }
-    lifecycle: { }
+    lifecycle:
+      postStart:
+        exec:
+          command: [ "/bin/sh", "-c", "/app/post-start.sh" ]
+      preStop:
+        exec:
+          command: [ "sleep","90" ]
     replicaCount: 1
-    nodeSelector: { }
-    tolerations: [ ]
-    affinity: { }
-    env:
-      - name: ENV
-        value: dev
-      - name: FPM_HOST
-        value: don-gestion-dev-fpm:9000
-    envFrom: { }
-    volumes: { }
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    envFrom:
+      - configMapRef:
+          name: laravel-config
+      - secretRef:
+          name: laravel-secrets
+    volumes: {}
   image:
-    repository: axtersoftware/dongestion-plataformaweb
     pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
-    component: web-server
+    component: cron
+
+queue:
+  serviceAccount:
+    create: false
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
+  autoscaling:
+    enabled: false
+  Release:
+    Name: ''
+
+  testConnection:
+    enabled: false
+
+  deployment:
+    command:
+      - php
+    args:
+      - artisan
+      - queue:work
+      - --queue=default
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    lifecycle: {}
+    replicaCount: 1
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    envFrom:
+      - configMapRef:
+          name: laravel-config
+      - secretRef:
+          name: laravel-secrets
+    volumes: {}
+  image:
+    pullPolicy: IfNotPresent
 
 sealed-secret:
   name: laravel-secrets
+  type: Opaque
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: "true"
   encryptedData:
