@@ -97,6 +97,16 @@ entries:
   do-boostraping:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2023-05-19T00:49:36.853900984Z"
+    description: Applications
+    digest: e873d24f0e4161cc176814b44452a78cdfc8eddcef0a01e4bbafdffdf69f2402
+    name: do-boostraping
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/do-boostraping-0.0.6/do-boostraping-0.0.6.tgz
+    version: 0.0.6
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2023-05-18T23:26:29.60012028Z"
     description: Applications
     digest: b6cac28f637a48c44f438f3ffdfb4013a26712f0f684a740f3ece55bff196ff5
@@ -565,4 +575,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2023-05-19T00:48:35.209100426Z"
+generated: "2023-05-19T00:49:36.854011286Z"
