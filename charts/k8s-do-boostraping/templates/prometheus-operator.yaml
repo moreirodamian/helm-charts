@@ -9,7 +9,7 @@ spec:
   project: infra-{{ .Values.apps.suffix }}
   source:
     repoURL: 'https://moreirodamian.github.io/helm-charts/'
-    targetRevision: 22.0.1
+    targetRevision: 22.0.3
     chart: prometheus
     helm:
       valueFiles:
