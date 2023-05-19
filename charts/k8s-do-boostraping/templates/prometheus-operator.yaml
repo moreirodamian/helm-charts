@@ -9,7 +9,7 @@ spec:
   project: infra-{{ .Values.apps.suffix }}
   source:
     repoURL: 'https://moreirodamian.github.io/helm-charts/'
-    targetRevision: 22.0.3
+    targetRevision: 22.0.7
     chart: prometheus
     helm:
       valueFiles:
@@ -41,3 +41,5 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
