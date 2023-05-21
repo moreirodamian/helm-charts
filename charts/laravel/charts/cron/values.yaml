@@ -1,5 +1,4 @@
-cron:
-  create: true
+create: true
 serviceAccount:
   create: false
   podAnnotations: {}
