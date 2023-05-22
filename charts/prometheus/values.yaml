@@ -29,6 +29,15 @@ kube-prometheus-stack:
 #              regex: "statsd-exporter"
 #              action: "keep"
     additionalServiceMonitors:
+      - name: "statsd-monitor"
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: prometheus-statsd-exporter
+          namespaceSelector:
+            matchNames:
+              - monitoring
+          endpoints:
+            - port: "http"
       - name: "ingress-nginx-monitor"
         selector:
           matchLabels:
