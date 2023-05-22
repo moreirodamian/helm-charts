@@ -44,4 +44,4 @@ sealed-secret:
 
 prometheus-statsd-exporter:
   serviceMonitor:
-    enabled: false
+    enabled: true
