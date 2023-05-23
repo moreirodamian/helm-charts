@@ -1,6 +1,6 @@
 apiVersion: v2
 name: prometheus
-version: 22.0.14
+version: 22.0.15
 description: Prometheus is a monitoring system and time series database.
 type: application
 
@@ -12,5 +12,5 @@ dependencies:
     version: 45.19.0
     repository: https://prometheus-community.github.io/helm-charts
   - name: prometheus-statsd-exporter
-    version: 0.8.0
+    version: 0.8.1
     repository: https://moreirodamian.github.io/helm-charts/
