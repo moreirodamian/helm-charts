@@ -1,6 +1,21 @@
 kube-prometheus-stack:
   prometheus:
     prometheusSpec:
+      additionalScrapeConfigs: [ ]
+        - job_name: ingress-nginx-pods
+          scrape_interval: 15s
+          relabel_configs:
+            - source_labels: [ __meta_kubernetes_pod_container_port_number ]
+              action: keep
+              regex: 10254
+          kubernetes_sd_configs:
+            - role: service
+              namespaces:
+                names:
+                  - ingress-nginx
+              selectors:
+                - role: "service"
+                  label: "prometheus.io/scrape=true"
       remoteWrite:
         - url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
           basicAuth:
@@ -13,7 +28,7 @@ kube-prometheus-stack:
           writeRelabelConfigs:
             - sourceLabels:
                 - "__name__"
-                - "job"
+#                - "job"
               regex: "node_load1|node_disk_info"
 #              regex: "statsd-exporter|up|instance:node_num_cpu:sum|kubernetes_io_hostname|machine_cpu_cores|machine_memory_bytes|container_memory_working_set_bytes|container_cpu_usage_seconds_total|container_fs_usage_bytes|container_fs_limit_bytes|nginx_ingress_controller_requests|nginx_ingress_controller_nginx_process_connections|nginx_ingress_controller_success|nginx_ingress_controller_config_last_reload_successful|nginx_ingress_controller_request_size_sum|nginx_ingress_controller_nginx_process_cpu_seconds_total|nginx_ingress_controller_nginx_process_resident_memory_bytes|nginx_ingress_controller_request_duration_seconds_bucket|nginx_ingress_controller_ssl_expire_time_seconds"
               action: "keep"
@@ -45,3 +60,6 @@ sealed-secret:
 prometheus-statsd-exporter:
   serviceMonitor:
     enabled: true
+
+
+
