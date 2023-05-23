@@ -779,6 +779,27 @@ entries:
   promtail:
   - apiVersion: v2
     appVersion: 2.8.2
+    created: "2023-05-23T18:36:10.426839859Z"
+    dependencies:
+    - name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.11.2
+    description: Promtail is an agent which ships the contents of local logs to a
+      Loki instance
+    digest: c1a9ebd4bd499acc05b32fec01633182460860cfcd3a939f7cd8c6906d120e27
+    home: https://grafana.com/loki
+    icon: https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png
+    name: promtail
+    sources:
+    - https://github.com/grafana/loki
+    - https://grafana.com/oss/loki/
+    - https://grafana.com/docs/loki/latest/
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/promtail-6.11.3/promtail-6.11.3.tgz
+    version: 6.11.3
+  - apiVersion: v2
+    appVersion: 2.8.2
     created: "2023-05-23T18:31:20.659694494Z"
     dependencies:
     - name: promtail
@@ -863,4 +884,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2023-05-23T18:31:20.659790894Z"
+generated: "2023-05-23T18:36:10.427215671Z"
