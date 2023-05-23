@@ -802,6 +802,19 @@ entries:
     version: 22.0.0
   prometheus-statsd-exporter:
   - apiVersion: v2
+    created: "2023-05-23T21:53:50.466473286Z"
+    dependencies:
+    - name: prometheus-statsd-exporter
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 0.8.0
+    description: A Helm chart for prometheus stats-exporter
+    digest: 39443efdeccc0341c28c38248da27475ef3cace18efbc06f23b450f502d7e0ea
+    name: prometheus-statsd-exporter
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-statsd-exporter-0.8.1/prometheus-statsd-exporter-0.8.1.tgz
+    version: 0.8.1
+  - apiVersion: v2
     created: "2023-05-16T03:30:01.126702906Z"
     dependencies:
     - name: prometheus-statsd-exporter
@@ -922,4 +935,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2023-05-23T21:45:02.860243759Z"
+generated: "2023-05-23T21:53:50.466650787Z"
