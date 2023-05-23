@@ -1,7 +1,7 @@
 kube-prometheus-stack:
   prometheus:
     prometheusSpec:
-      additionalScrapeConfigs: [ ]
+      additionalScrapeConfigs:
         - job_name: ingress-nginx-pods
           scrape_interval: 15s
           relabel_configs:
