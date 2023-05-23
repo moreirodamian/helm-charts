@@ -97,6 +97,16 @@ entries:
   do-boostraping:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2023-05-23T18:31:20.523755654Z"
+    description: Applications
+    digest: 01f3e2c345c7ce0ac5c95d28bb1e2f8cd5802ad99e3e82387fe5faed03c835d1
+    name: do-boostraping
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/do-boostraping-0.0.10/do-boostraping-0.0.10.tgz
+    version: 0.0.10
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2023-05-23T04:32:45.888738717Z"
     description: Applications
     digest: 17863ea7835e1c4cba1a1b217c1d1142a91617edff2bbf3a3f640ca89a92bb1e
@@ -766,6 +776,28 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-statsd-exporter-0.8.0/prometheus-statsd-exporter-0.8.0.tgz
     version: 0.8.0
+  promtail:
+  - apiVersion: v2
+    appVersion: 2.8.2
+    created: "2023-05-23T18:31:20.659694494Z"
+    dependencies:
+    - name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.11.2
+    description: Promtail is an agent which ships the contents of local logs to a
+      Loki instance
+    digest: 8324202f21b8b5d381efe928c85a33539c9c9e3c56ebeceec9a05114e4202206
+    home: https://grafana.com/loki
+    icon: https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png
+    name: promtail
+    sources:
+    - https://github.com/grafana/loki
+    - https://grafana.com/oss/loki/
+    - https://grafana.com/docs/loki/latest/
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/promtail-6.11.2/promtail-6.11.2.tgz
+    version: 6.11.2
   sealed-secret:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -831,4 +863,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2023-05-23T04:32:46.058809516Z"
+generated: "2023-05-23T18:31:20.659790894Z"
