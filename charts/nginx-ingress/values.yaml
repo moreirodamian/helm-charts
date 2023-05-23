@@ -1,5 +1,5 @@
 
-ingress-nginx
+ingress-nginx:
   controller:
     metrics:
       enabled: true
