@@ -1,0 +1,11 @@
+promtail:
+  config:
+    clients:
+      - url: logs-prod-us-central1.grafana.net/loki/api/v1/push
+        basicAuth:
+          username:
+            name: grafana-axter
+            key: username
+          password:
+            name: grafana-axter
+            key: password
