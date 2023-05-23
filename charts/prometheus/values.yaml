@@ -12,6 +12,9 @@ kube-prometheus-stack:
             - action: drop
               regex: (kube-system|prom)
               source_labels: [ __meta_kubernetes_namespace ]
+            - action: drop
+              regex: (.*prometheus-node-exporter|.*kube-state-metrics)
+              source_labels: [ __meta_kubernetes_service_name ]
             - action: replace
               regex: (https?)
               source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scheme ]
