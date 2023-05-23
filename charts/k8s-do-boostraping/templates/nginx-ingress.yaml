@@ -9,7 +9,7 @@ spec:
   project: infra-{{ .Values.apps.suffix }}
   source:
     repoURL: 'https://moreirodamian.github.io/helm-charts/'
-    targetRevision: 4.6.1
+    targetRevision: 4.6.2
     chart: ingress-nginx
     helm:
       valueFiles:
