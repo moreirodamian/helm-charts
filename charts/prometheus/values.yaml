@@ -62,22 +62,15 @@ kube-prometheus-stack:
           writeRelabelConfigs:
             - sourceLabels:
                 - "__name__"
-#                - "job"
               regex: "node_load1|node_disk_info"
 #              regex: "statsd-exporter|up|instance:node_num_cpu:sum|kubernetes_io_hostname|machine_cpu_cores|machine_memory_bytes|container_memory_working_set_bytes|container_cpu_usage_seconds_total|container_fs_usage_bytes|container_fs_limit_bytes|nginx_ingress_controller_requests|nginx_ingress_controller_nginx_process_connections|nginx_ingress_controller_success|nginx_ingress_controller_config_last_reload_successful|nginx_ingress_controller_request_size_sum|nginx_ingress_controller_nginx_process_cpu_seconds_total|nginx_ingress_controller_nginx_process_resident_memory_bytes|nginx_ingress_controller_request_duration_seconds_bucket|nginx_ingress_controller_ssl_expire_time_seconds"
               action: "keep"
+            - sourceLabels:
+                - "app_kubernetes_io_name"
+              regex: "prometheus-statsd-exporter"
+              action: "keep"
       replicaExternalLabelName: "__replica__"
-      externalLabels: {cluster: "testdmv3"}
-#    additionalServiceMonitors:
-#      - name: "ingress-nginx-monitor"
-#        selector:
-#          matchLabels:
-#            app.kubernetes.io/name: ingress-nginx
-#        namespaceSelector:
-#          matchNames:
-#            - ingress-nginx
-#        endpoints:
-#          - port: "metrics"
+      externalLabels: {cluster: "testdmv4"}
   alertmanager:
     enabled: false
   grafana:
