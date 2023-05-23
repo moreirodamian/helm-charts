@@ -6,5 +6,5 @@ version: 0.8.2
 
 dependencies:
   - name: prometheus-statsd-exporter
-    version: 0.8.
+    version: 0.8.0
     repository: https://prometheus-community.github.io/helm-charts
