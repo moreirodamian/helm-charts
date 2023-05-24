@@ -60,8 +60,13 @@ kube-prometheus-stack:
               name: grafana-axter
               key: password
           writeRelabelConfigs:
-            - sourceLabels: [__name__, app_kubernetes_io_name]
-              regex: (node_load1|node_disk_info|prometheus-statsd-exporter)
+            - sourceLabels:
+                - __name__
+              regex: (node_load1|node_disk_info)
+              action: "keep"
+            - sourceLabels:
+                - app_kubernetes_io_name
+              regex: prometheus-statsd-exporter
               action: "keep"
       replicaExternalLabelName: "__replica__"
       externalLabels: {cluster: "testdmv4"}
