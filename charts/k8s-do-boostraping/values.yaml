@@ -20,3 +20,5 @@ apps:
     name: test-cluster-name
 digitalocean:
   token: zaraza
+promtail:
+  url: mockurl

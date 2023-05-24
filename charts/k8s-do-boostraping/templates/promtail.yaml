@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-{{ .Values.apps.suffix }}
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra-{{ .Values.apps.suffix }}
+  source:
+    repoURL: 'https://moreirodamian.github.io/helm-charts/'
+    targetRevision: 6.11.2
+    chart: promtail
+    helm:
+      parameters:
+        - name: "promtail.config.clients[0].url"
+          value: {{ .Values.promtail.url }}
+  destination:
+    namespace: monitoring
+    name: {{ .Values.apps.destination.name }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
