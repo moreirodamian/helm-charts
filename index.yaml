@@ -525,6 +525,25 @@ entries:
     version: 1.1.3
   prometheus:
   - apiVersion: v2
+    created: "2023-05-24T00:42:48.904942517Z"
+    dependencies:
+    - name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 0.1.4
+    - name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 46.3.0
+    - name: prometheus-statsd-exporter
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 0.8.2
+    description: Prometheus is a monitoring system and time series database.
+    digest: dffd2ae0fcd922aeb6e71812ac4ee54b727a0a56783fbb828a7f3c1b82dff6f9
+    name: prometheus
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.22/prometheus-22.0.22.tgz
+    version: 22.0.22
+  - apiVersion: v2
     created: "2023-05-23T23:50:13.013368752Z"
     dependencies:
     - name: sealed-secret
@@ -1081,4 +1100,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2023-05-23T23:50:13.013635153Z"
+generated: "2023-05-24T00:42:48.905275218Z"
