@@ -13,6 +13,7 @@ prometheus:
       name: prom-secret
       username: sealedEncryptedUsername
       password: sealedEncryptedPassword
+  clusterName: "TestCluster"
 apps:
   suffix: dev
   destination:

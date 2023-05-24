@@ -9,7 +9,7 @@ spec:
   project: infra-{{ .Values.apps.suffix }}
   source:
     repoURL: 'https://moreirodamian.github.io/helm-charts/'
-    targetRevision: 22.0.12
+    targetRevision: 22.0.29
     chart: prometheus
     helm:
       valueFiles:
@@ -35,6 +35,9 @@ spec:
           value: {{ .Values.prometheus.remoteWrite.secret.username }}
         - name: "sealed-secret.encryptedData.password"
           value:  {{ .Values.prometheus.remoteWrite.secret.password }}
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.externalLabels"
+          value: 'externalLabels: {cluster: "{{ .Values.prometheus.clusterName }}"}'
+
   destination:
     namespace: monitoring
     name: {{ .Values.apps.destination.name }}
