@@ -71,6 +71,11 @@ kube-prometheus-stack:
             - sourceLabels: [metric_enabled]
               regex: "true"
               action: "keep"
+            - sourceLabels: [ __name__ ]
+              regex: (statsd_exporter.*|go_.*)
+              action: "drop"
+            - action: "labeldrop"
+              regex: (endpoint|image|metrics_path|job|instance|app_kubernetes_io_instance|app_kubernetes_io_managed_by|app_kubernetes_io_version|helm_sh_chart|prometheus|kubernetes_name|job)
       replicaExternalLabelName: "__replica__"
       externalLabels: {cluster: "testdmv4"}
   alertmanager:
