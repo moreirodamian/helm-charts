@@ -61,12 +61,12 @@ kube-prometheus-stack:
               key: password
           writeRelabelConfigs:
             - sourceLabels:
-                - __name__
-              regex: (node_load1|node_disk_info)
-              action: "keep"
-            - sourceLabels:
                 - app_kubernetes_io_name
               regex: prometheus-statsd-exporter
+              action: "keep"
+            - sourceLabels:
+                - __name__
+              regex: (node_load1|node_disk_info)
               action: "keep"
       replicaExternalLabelName: "__replica__"
       externalLabels: {cluster: "testdmv4"}
