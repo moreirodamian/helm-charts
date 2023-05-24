@@ -69,7 +69,7 @@ kube-prometheus-stack:
               targetLabel: metric_enabled
               replacement: "true"
             - sourceLabels: [metric_enabled]
-              regex: true
+              regex: "true"
               action: "keep"
       replicaExternalLabelName: "__replica__"
       externalLabels: {cluster: "testdmv4"}
