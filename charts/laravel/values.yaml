@@ -241,6 +241,7 @@ queue:
     pullPolicy: IfNotPresent
 
 sealed-secret:
+  create: true
   name: laravel-secrets
   type: Opaque
   annotations:
