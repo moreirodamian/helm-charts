@@ -18,6 +18,14 @@ apps:
   suffix: dev
   destination:
     name: test-cluster-name
+  ingress:
+    enabled: true
+  certManager:
+    enabled: true
+  prometheus:
+    enabled: true
+  promtail:
+    enabled: true
 digitalocean:
   token: zaraza
 promtail:
