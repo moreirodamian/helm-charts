@@ -7,7 +7,11 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
+  {{ if .Values.apps.project }}
+  project: {{ .Values.apps.project }}
+  {{ else }}
   project: infra-{{ .Values.apps.suffix }}
+  {{ end }}
   source:
     repoURL: 'https://moreirodamian.github.io/helm-charts/'
     targetRevision: 22.0.29
