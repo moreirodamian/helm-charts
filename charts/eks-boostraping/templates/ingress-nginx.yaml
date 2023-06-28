@@ -1,0 +1,29 @@
+{{- if index .Values "ingress-nginx" "version" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.env }}-{{ .Values.region }}-ingress-nginx
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: {{ .Values.project }}
+    app.kubernetes.io/env: {{ .Values.env }}
+spec:
+  project: {{ .Values.project }}
+  destination:
+    name: {{ .Values.clusterName }}
+    namespace: {{ .Values.namespace }}
+  source:
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    chart: ingress-nginx
+    targetRevision: {{ index .Values "ingress-nginx" "version" }}
+    helm:
+      values: |
+        {{- index .Values "ingress-nginx" "values" | toYaml | nindent 8 }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

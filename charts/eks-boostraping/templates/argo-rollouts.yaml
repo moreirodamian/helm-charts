@@ -1,0 +1,29 @@
+{{- if index .Values "argo-rollouts" "version" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.env }}-{{ .Values.region }}-argo-rollouts
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argo-rollouts
+    app.kubernetes.io/part-of: {{ .Values.project }}
+    app.kubernetes.io/env: {{ .Values.env }}
+spec:
+  project: {{ .Values.project }}
+  destination:
+    name: {{ .Values.clusterName }}
+    namespace: argo-rollouts
+  source:
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-rollouts
+    targetRevision: {{ index .Values "argo-rollouts" "version" }}
+    helm:
+      values: |
+        {{- index .Values "argo-rollouts" "values" | toYaml | nindent 8 }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

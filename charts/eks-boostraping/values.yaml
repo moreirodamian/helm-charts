@@ -1,0 +1,36 @@
+env: ~
+region: ~
+clusterName: in-cluster
+project: infra
+namespace: infra
+
+argo-rollouts:
+  version: ~
+  values: ~
+
+argo-rollouts-dashboard:
+  values: ~
+
+cluster-autoscaler:
+  version: ~
+  values: ~
+
+ebs-csi-driver:
+  version: ~
+  values: ~
+
+efs-csi-driver:
+  version: ~
+  values: ~
+
+external-secrets:
+  version: ~
+  values: ~
+
+fluent-bit:
+  version: ~
+  values: ~
+
+metrics-server:
+  version: ~
+  values: ~
