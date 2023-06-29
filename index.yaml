@@ -257,6 +257,14 @@ entries:
     version: 0.0.1
   eks-boostraping:
   - apiVersion: v2
+    created: "2023-06-29T19:35:54.266712002Z"
+    digest: 36b3b38484f1a45378ac90a6a17bf8ef363eaed2640e7d70fac7a1c384538bfc
+    name: eks-boostraping
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/eks-boostraping-0.0.7/eks-boostraping-0.0.7.tgz
+    version: 0.0.7
+  - apiVersion: v2
     created: "2023-06-29T19:32:40.563883108Z"
     digest: c1bc578638ad12fa4a08cd6ffe6d7a9751d2b47ffe916b018edf1400e1457154
     name: eks-boostraping
@@ -1360,4 +1368,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2023-06-29T19:32:40.564041408Z"
+generated: "2023-06-29T19:35:54.267049495Z"
