@@ -4,6 +4,10 @@ clusterName: in-cluster
 project: infra
 namespace: infra
 
+prometheus:
+  remoteWrite:
+    secret:
+      name: prometheus
 argo-rollouts:
   version: ~
   values: ~
