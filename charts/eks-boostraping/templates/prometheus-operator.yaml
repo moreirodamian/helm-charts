@@ -37,7 +37,7 @@ spec:
         - name: "sealed-secret.encryptedData.password"
           value:  {{ .Values.prometheus.remoteWrite.secret.password }}
         - name: "sealed-secret.namespace"
-          value: {{ {{ .Values.namespace }} }}
+          value: {{ .Values.namespace }}
         - name: "kube-prometheus-stack.prometheus.prometheusSpec.externalLabels.cluster"
           value: {{ .Values.prometheus.clusterName }}
 
