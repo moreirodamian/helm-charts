@@ -288,6 +288,16 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/eks-boostraping-0.0.4/eks-boostraping-0.0.4.tgz
     version: 0.0.4
+  generic-app:
+  - apiVersion: v2
+    created: "2023-06-30T13:18:19.894140407Z"
+    description: A Helm chart for Kubernetes
+    digest: c4e09cb5d8d513229febf88b566ba8fadac0add3ddf7a09c6c5ed8f7f7a74eb9
+    name: generic-app
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.0/generic-app-0.0.0.tgz
+    version: 0.0.0
   ingress-nginx:
   - apiVersion: v2
     created: "2023-05-31T15:33:46.931829702Z"
@@ -1368,4 +1378,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2023-06-29T19:35:54.267049495Z"
+generated: "2023-06-30T13:18:19.894343909Z"
