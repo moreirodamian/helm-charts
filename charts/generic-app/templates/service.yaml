@@ -1,0 +1,20 @@
+
+{{- if .Values.service.create }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "name" . }}
+{{/*  namespace: {{ .Release.Namespace }}*/}}
+  labels:
+    {{ include "common-labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    {{ include "common-labels" . | nindent 4 }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+      name: http
+{{- end }}

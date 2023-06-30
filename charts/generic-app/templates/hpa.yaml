@@ -1,0 +1,22 @@
+{{- if .Values.hpa.create -}}
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "name" . }}
+{{/*  namespace: {{ .Release.Namespace }}*/}}
+  labels:
+    {{ include "common-labels" . | nindent 4 }}
+spec:
+  maxReplicas: {{ .Values.hpa.max_replicas }}
+  minReplicas: {{ .Values.hpa.min_replicas }}
+  scaleTargetRef:
+    {{- if .Values.rollout.enabled -}}
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    {{- else }}
+    apiVersion: apps/v1
+    kind: Deployment
+    {{- end }}
+    name: {{ template "name" . }}
+  targetCPUUtilizationPercentage: {{ .Values.hpa.cpu_percentage }}
+{{- end }}

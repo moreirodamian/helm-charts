@@ -1,0 +1,83 @@
+name: example
+deployEnv: dev
+region: us-east-1
+
+serviceAccount:
+  create: true
+  annotations: {}
+
+hpa:
+  create: true
+  min_replicas: 1
+  max_replicas: 5
+  cpu_percentage: 70
+
+revisionHistoryLimit: 10
+rollout:
+  canary:
+    maxUnavailable: 0
+    steps:
+      - setWeight: 10
+      - pause:
+          duration: 10m
+      - setWeight: 50
+      - pause:
+          duration: 10m
+
+app:
+  image:
+    registry: ecr
+    name: ~
+    tag: ~
+  ports:
+    - name: http
+      containerPort: 8080
+      protocol: TCP
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: 8080
+      scheme: HTTP
+    timeoutSeconds: 1
+  readinessProbe:
+    httpGet:
+      path: /ping
+      port: 8080
+      scheme: HTTP
+    timeoutSeconds: 1
+  startupProbe:
+    httpGet:
+      path: /ping
+      port: 8080
+      scheme: HTTP
+    failureThreshold: 60
+    periodSeconds: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 100M
+    limits:
+      cpu: 200m
+      memory: 200M
+  env: {}
+  secrets: {}
+
+service:
+  create: true
+  grpc: false
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+ingress:
+  create: true
+  grpc: false
+  annotations: []
+  hosts: []
+  tls: []
+
+sealedSecrets:
+  enabled: true
+  encryptedData: {}
+  annotations: {}
+  type: {}
