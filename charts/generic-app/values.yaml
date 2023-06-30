@@ -14,6 +14,7 @@ hpa:
 
 revisionHistoryLimit: 10
 rollout:
+  enabled: true
   canary:
     maxUnavailable: 0
     steps:
@@ -79,5 +80,6 @@ ingress:
 sealedSecrets:
   enabled: true
   encryptedData: {}
-  annotations: {}
+  annotations:
+    "helm.sh/hook-weight": "-5"
   type: {}

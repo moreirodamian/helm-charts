@@ -8,7 +8,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: {{ template "name" . }}
-{{/*  namespace: {{ .Release.Namespace }}*/}}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{ include "common-labels" . | nindent 4 }}
 spec:
@@ -53,10 +53,22 @@ spec:
                   name: {{ template "name" $ }}
                   key: {{ $k }}
             {{- end }}
-          {{- with .Values.deployment.envFrom }}
+          {{ if .Values.app.envFrom }}
+          {{- with .Values.app.envFrom }}
           envFrom:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{ if .Values.sealedSecrets.enabled }}
+            - secretRef:
+                name: {{ template "name" . }}
+
+          {{ end }}
+          {{ else if .Values.sealedSecrets.enabled }}
+          envFrom:
+            - secretRef:
+                name: {{ template "name" . }}
+          {{ end }}
+
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
