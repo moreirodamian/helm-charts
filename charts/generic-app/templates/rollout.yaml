@@ -1,6 +1,6 @@
 {{- $imageRegistry := .Values.app.image.registry | required "Image registry is required. (.Values.app.image.registry)" -}}
 {{- $imageName := .Values.app.image.name | default .Values.name | default "dummy" -}}
-{{- $imageTag := .Values.app.image.tag | default "latest" -}}
+{{- $imageTag := .Values.app.image.tag | toString | default "latest" -}}
 
 {{- if .Values.rollout.enabled -}}
 ---

@@ -17,3 +17,7 @@ app.kubernetes.io/name: {{ include "name" . }}
 app.kubernetes.io/instance: {{ include "instance" . }}
 {{/*app.kubernetes.io/part-of: project*/}}
 {{- end -}}
+
+{{- define "magda.var_dump" -}}
+{{- . | mustToPrettyJson | printf "\nThe JSON output of the dumped var is: \n%s" | fail }}
+{{- end -}}
