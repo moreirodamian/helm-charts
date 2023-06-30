@@ -34,12 +34,12 @@ spec:
               {{ include "common-labels" . | nindent 14 }}
       containers:
         - name: {{ template "name" . }}
-          image:
-            {{- if hasPrefix "sha:" $imageTag }}
-              {{- printf " %s/%s@%s" $imageRegistry $imageName $imageTag }}
-            {{- else }}
+          image: {{- printf " %s/%s:%s" $imageRegistry $imageName $imageTag }}
+{{/*            {{- if hasPrefix "sha:" $imageTag }}*/}}
+{{/*              {{- printf " %s/%s@%s" $imageRegistry $imageName $imageTag }}*/}}
+{{/*            {{- else }}*/}}
               {{- printf " %s/%s:%s" $imageRegistry $imageName $imageTag }}
-            {{- end }}
+{{/*            {{- end }}*/}}
           imagePullPolicy: IfNotPresent
           env:
             {{- range $k, $v := .Values.app.env }}
