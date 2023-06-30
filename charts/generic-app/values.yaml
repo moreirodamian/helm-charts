@@ -36,20 +36,20 @@ app:
       protocol: TCP
   livenessProbe:
     httpGet:
-      path: /ping
-      port: 8080
+      path: /pin
+      port: 3000
       scheme: HTTP
     timeoutSeconds: 1
   readinessProbe:
     httpGet:
-      path: /ping
-      port: 8080
+      path: /pin
+      port: 3000
       scheme: HTTP
     timeoutSeconds: 1
   startupProbe:
     httpGet:
-      path: /ping
-      port: 8080
+      path: /pin
+      port: 3000
       scheme: HTTP
     failureThreshold: 60
     periodSeconds: 1

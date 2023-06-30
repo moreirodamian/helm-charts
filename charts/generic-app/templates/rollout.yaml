@@ -34,7 +34,7 @@ spec:
               {{ include "common-labels" . | nindent 14 }}
       containers:
         - name: {{ template "name" . }}
-          image: {{- printf " %s/%s:%s" $imageRegistry $imageName $imageTag }}
+          image:
             {{- if hasPrefix "sha:" $imageTag }}
               {{- printf " %s/%s@%s" $imageRegistry $imageName $imageTag }}
             {{- else }}
