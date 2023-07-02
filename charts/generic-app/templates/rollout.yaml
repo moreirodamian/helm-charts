@@ -2,7 +2,7 @@
 {{- $imageName := .Values.app.image.name | default .Values.name | default "dummy" -}}
 {{- $imageTag := .Values.app.image.tag | toString | default "latest" -}}
 
-{{- if .Values.rollout.enabled -}}
+{{- if .Values.rollout -}}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout

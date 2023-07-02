@@ -14,7 +14,6 @@ hpa:
 
 revisionHistoryLimit: 10
 rollout:
-  enabled: true
   canary:
     maxUnavailable: 0
     steps:
