@@ -246,4 +246,5 @@ sealed-secret:
   type: Opaque
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: "true"
+    "helm.sh/hook-weight": "-5"
   encryptedData:
