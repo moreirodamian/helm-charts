@@ -81,4 +81,8 @@ spec:
             {{- .Values.app.startupProbe | toYaml | nindent 12 }}
           resources:
             {{- .Values.app.resources | toYaml | nindent 12 }}
+      {{ if .Values.dockerSecret.name }}
+      imagePullSecrets:
+        - {{ .Values.dockerSecret.name }}
+      {{ end }}
 {{- end }}

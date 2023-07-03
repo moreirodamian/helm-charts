@@ -82,3 +82,5 @@ sealedSecrets:
   annotations:
     "helm.sh/hook-weight": "-5"
   type: {}
+
+dockerSecret: {}
