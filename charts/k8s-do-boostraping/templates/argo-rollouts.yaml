@@ -1,0 +1,29 @@
+{{ if .Values.apps.rollout.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rollout-{{ .Values.apps.suffix }}
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  {{ if .Values.apps.project }}
+  project: {{ .Values.apps.project }}
+  {{ else }}
+  project: infra-{{ .Values.apps.suffix }}
+  {{ end }}
+  source:
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-rollouts
+    targetRevision: 2.28.0
+    helm:
+  destination:
+    namespace: infra
+    name: {{ .Values.apps.destination.name }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

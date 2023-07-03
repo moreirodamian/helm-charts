@@ -26,6 +26,8 @@ apps:
     enabled: true
   promtail:
     enabled: true
+  rollout:
+    enabled: true
 digitalocean:
   token: zaraza
 promtail:
