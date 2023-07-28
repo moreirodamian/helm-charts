@@ -86,6 +86,6 @@ spec:
             {{- .Values.app.resources | toYaml | nindent 12 }}
       {{ if .Values.dockerSecret.name }}
       imagePullSecrets:
-        - {{ .Values.dockerSecret.name }}
+        - name: {{ .Values.dockerSecret.name }}
       {{ end }}
 {{- end }}
