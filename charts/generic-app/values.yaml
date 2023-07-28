@@ -73,6 +73,7 @@ service:
 ingress:
   create: true
   grpc: false
+  letsencrypt: false
   annotations: []
   hosts: []
   tls: []
