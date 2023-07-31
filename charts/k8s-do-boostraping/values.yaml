@@ -28,6 +28,8 @@ apps:
     enabled: true
   rollout:
     enabled: true
+  metricsServer:
+    version: 0.6.4
 digitalocean:
   token: zaraza
 promtail:
