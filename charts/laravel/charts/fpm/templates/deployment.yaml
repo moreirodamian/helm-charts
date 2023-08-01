@@ -6,6 +6,7 @@ metadata:
   labels:
     {{- include "fpm.labels" . | nindent 4 }}
 spec:
+  revisionHistoryLimit: 2
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.deployment.replicaCount }}
   {{- end }}

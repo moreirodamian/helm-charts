@@ -13,11 +13,12 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     "helm.sh/hook-weight": "-1"
 spec:
+  ttlSecondsAfterFinished: 30
   template:
     metadata:
       name: {{ include "fpm.fullnameMigrations" . }}
       labels:
-      {{- include "fpm.labels" . | nindent 8 }}
+      {{- include "fpm.Jobslabels" . | nindent 8 }}
     spec:
       restartPolicy: Never
       {{- with .Values.global.imagePullSecrets }}

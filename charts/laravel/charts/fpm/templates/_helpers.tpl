@@ -48,6 +48,14 @@ app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.global.appVersio
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
+{{- define "fpm.Jobslabels" -}}
+helm.sh/chart: {{ include "fpm.chart" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.global.appVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
 {{/*
 Selector labels
 */}}
