@@ -511,6 +511,34 @@ entries:
     version: 4.6.0
   laravel:
   - apiVersion: v2
+    created: "2023-08-01T02:33:17.363015825Z"
+    dependencies:
+    - name: fpm
+      repository: ""
+      version: 0.1.*
+    - name: web-server
+      repository: ""
+      version: 0.1.*
+    - condition: cron.create
+      name: cron
+      repository: ""
+      version: 0.1.*
+    - condition: queue.create
+      name: queue
+      repository: ""
+      version: 0.1.*
+    - condition: sealed-secret.create
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 0.1.*
+    description: A Helm chart for Kubernetes
+    digest: c98b08bf415246d4668a4ab52f9c9f2d4a35020c5d806580a87890338e7d89a1
+    name: laravel
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.20/laravel-1.1.20.tgz
+    version: 1.1.20
+  - apiVersion: v2
     created: "2023-08-01T02:19:54.948364389Z"
     dependencies:
     - name: fpm
@@ -1588,4 +1616,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2023-08-01T02:19:54.948806814Z"
+generated: "2023-08-01T02:33:17.363259026Z"
