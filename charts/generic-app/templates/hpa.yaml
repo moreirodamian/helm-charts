@@ -7,8 +7,8 @@ metadata:
   labels:
     {{ include "common-labels" . | nindent 4 }}
 spec:
-  maxReplicas: {{ .Values.hpa.max_replicas }}
-  minReplicas: {{ .Values.hpa.min_replicas }}
+  maxReplicas: {{ .Values.hpa.maxReplicas }}
+  minReplicas: {{ .Values.hpa.minReplicas }}
   scaleTargetRef:
     {{ if .Values.rollout }}
     apiVersion: argoproj.io/v1alpha1
@@ -19,20 +19,20 @@ spec:
     {{ end }}
     name: {{ template "name" . }}
   metrics:
-      {{- if .Values.hpa.cpu_percentage }}
+      {{- if .Values.hpa.cpuPercentage }}
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{ .Values.hpa.cpu_percentage }}
+          averageUtilization: {{ .Values.hpa.cpuPercentage }}
       {{- end }}
-      {{- if .Values.hpa.memory_percentage }}
+      {{- if .Values.hpa.memoryPercentage }}
     - type: Resource
       resource:
         name: memory
         target:
           type: Utilization
-          averageUtilization: {{ .Values.hpa.memory_percentage }}
+          averageUtilization: {{ .Values.hpa.memoryPercentage }}
       {{- end }}
 {{- end }}

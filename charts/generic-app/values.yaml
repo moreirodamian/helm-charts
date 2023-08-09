@@ -8,9 +8,9 @@ serviceAccount:
 
 hpa:
   create: true
-  min_replicas: 1
-  max_replicas: 5
-  cpu_percentage: 70
+  minReplicas: 1
+  maxReplicas: 5
+  cpuPercentage: 70
 
 revisionHistoryLimit: 10
 rollout:
