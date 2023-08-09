@@ -10,13 +10,13 @@ spec:
   maxReplicas: {{ .Values.hpa.max_replicas }}
   minReplicas: {{ .Values.hpa.min_replicas }}
   scaleTargetRef:
-    {{- if .Values.rollout -}}
+    {{ if .Values.rollout }}
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
-    {{- else }}
+    {{ else }}
     apiVersion: apps/v1
     kind: Deployment
-    {{- end }}
+    {{ end }}
     name: {{ template "name" . }}
   metrics:
       {{- if .Values.hpa.cpu_percentage }}
