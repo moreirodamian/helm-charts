@@ -20,7 +20,6 @@ metadata:
     {{ $k }}: {{ $v | quote }}
     {{- end }}
 spec:
-  ingressClassName: nginx
   {{- if .Values.ingress.tls }}
   tls:
     {{- range .Values.ingress.tls }}
