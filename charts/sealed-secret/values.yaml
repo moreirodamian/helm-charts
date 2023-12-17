@@ -1,5 +1,6 @@
 name: sealed-secret
 namespace: default
+labels: {}
 annotations:
   sealedsecrets.bitnami.com/cluster-wide: "true"
 encryptedData:
