@@ -1,0 +1,47 @@
+{{ if .Values.migrations.enabled }}
+
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "common-labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "helm.sh/hook-weight": "-1"
+spec:
+  ttlSecondsAfterFinished: 30
+  template:
+    metadata:
+      name: {{ template "name" . }}
+      labels:
+      {{- include "fpm.Jobslabels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+          {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: laravel-migrate
+          image: {{ include "fpm.imageMigrations" .}}
+          {{- with .Values.migrations.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.migrations.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.deployment.envFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.deployment.env }}
+          env:
+          {{- toYaml . | nindent 12 }}
+        {{- end }}
+{{ end }}

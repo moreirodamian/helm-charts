@@ -84,8 +84,8 @@ spec:
             {{- .Values.app.startupProbe | toYaml | nindent 12 }}
           resources:
             {{- .Values.app.resources | toYaml | nindent 12 }}
-      {{ if .Values.dockerSecret.name }}
+      {{ if .Values.dockerSecret.encryptedData }}
       imagePullSecrets:
-        - name: {{ .Values.dockerSecret.name }}
+        - name: docker-{{ template "name" . }}
       {{ end }}
 {{- end }}

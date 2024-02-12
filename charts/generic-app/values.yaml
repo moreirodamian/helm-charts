@@ -33,32 +33,10 @@ app:
     - name: http
       containerPort: 8080
       protocol: TCP
-  livenessProbe:
-    httpGet:
-      path: /pin
-      port: 3000
-      scheme: HTTP
-    timeoutSeconds: 1
-  readinessProbe:
-    httpGet:
-      path: /pin
-      port: 3000
-      scheme: HTTP
-    timeoutSeconds: 1
-  startupProbe:
-    httpGet:
-      path: /pin
-      port: 3000
-      scheme: HTTP
-    failureThreshold: 60
-    periodSeconds: 1
-  resources:
-    requests:
-      cpu: 100m
-      memory: 100M
-    limits:
-      cpu: 200m
-      memory: 200M
+  livenessProbe: {}
+  readinessProbe: {}
+  startupProbe: {}
+  resources: {}
   env: {}
   secrets: {}
 
@@ -86,3 +64,6 @@ sealedSecrets:
   type: {}
 
 dockerSecret: {}
+
+migrations:
+    enabled: false
