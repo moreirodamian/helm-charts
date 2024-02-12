@@ -76,14 +76,22 @@ spec:
             {{- with .Values.service.additionalPorts }}
             {{- toYaml . | replace "target" "container"| nindent 12 }}
             {{- end }}
+          {{ if .Values.app.livenessProbe }}
           livenessProbe:
             {{- .Values.app.livenessProbe | toYaml | nindent 12 }}
+          {{ end }}
+          {{ if .Values.app.readinessProbe }}
           readinessProbe:
             {{- .Values.app.readinessProbe | toYaml | nindent 12 }}
+          {{ end }}
+          {{ if .Values.app.startupProbe }}
           startupProbe:
             {{- .Values.app.startupProbe | toYaml | nindent 12 }}
+          {{ end }}
+          {{ if .Values.app.resources  }}
           resources:
             {{- .Values.app.resources | toYaml | nindent 12 }}
+          {{ end }}
       {{ if .Values.dockerSecret.encryptedData }}
       imagePullSecrets:
         - name: docker-{{ template "name" . }}
