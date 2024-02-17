@@ -67,3 +67,5 @@ dockerSecret: {}
 
 migrations:
     enabled: false
+cron:
+  enabled: false

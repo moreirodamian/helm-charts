@@ -21,3 +21,18 @@ app.kubernetes.io/instance: {{ include "instance" . }}
 {{- define "magda.var_dump" -}}
 {{- . | mustToPrettyJson | printf "\nThe JSON output of the dumped var is: \n%s" | fail }}
 {{- end -}}
+
+
+{{- define "cron.image" -}}
+
+{{- $imageRegistry := .Values.cron.image.registry  -}}
+{{- $imageName := .Values.cron.image.name | default .Values.name | default "dummy" -}}
+{{- $imageTag := .Values.cron.image.tag | toString | default "latest" -}}
+{{- $imageTemp := printf "%s/%s:%s" $imageRegistry $imageName $imageTag }}
+{{- if hasPrefix "sha:" $imageTag }}
+  {{- $imageTemp = printf "%s/%s@%s" $imageRegistry $imageName $imageTag }}
+{{- end }}
+{{- $image := $imageTemp | replace "registry.hub.docker.com/" "" -}}
+{{- printf "%s" $image -}}
+
+{{- end -}}
