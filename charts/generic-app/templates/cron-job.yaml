@@ -8,7 +8,7 @@ metadata:
   labels:
     {{ include "common-labels" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.cron.schedule }}
+  schedule: {{ quote .Values.cron.schedule }}
   jobTemplate:
     spec:
       template:
