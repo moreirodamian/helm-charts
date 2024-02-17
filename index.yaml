@@ -328,6 +328,15 @@ entries:
     version: 0.0.4
   generic-app:
   - apiVersion: v2
+    created: "2024-02-17T16:30:39.487851496Z"
+    description: A Helm chart for Kubernetes
+    digest: 6eb01dca87c53821137192b10fab55cc7fd1a55e39c64b04ee7612b9df197254
+    name: generic-app
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.21/generic-app-0.0.21.tgz
+    version: 0.0.21
+  - apiVersion: v2
     created: "2024-02-12T15:13:02.792332692Z"
     description: A Helm chart for Kubernetes
     digest: c7a72d29932308b88625dcca01d6dcbd546120ecde736e420cd20cde62e6c492
@@ -1690,4 +1699,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2024-02-12T15:13:02.792685978Z"
+generated: "2024-02-17T16:30:39.48823166Z"
