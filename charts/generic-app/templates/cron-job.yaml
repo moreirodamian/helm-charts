@@ -3,14 +3,18 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ template "name" . }}
+  name: {{ template "name" . }}-cron
   namespace: {{ .Release.Namespace }}
   labels:
     {{ include "common-labels" . | nindent 4 }}
 spec:
   schedule: {{ quote .Values.cron.schedule }}
+  failedJobsHistoryLimit: {{ .Values.cron.failedJobsHistoryLimit }}
+  concurrencyPolicy: {{ .Values.cron.concurrencyPolicy }}
+  successfulJobsHistoryLimit: {{ .Values.cron.successfulJobsHistoryLimit }}
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: {{ .Values.cron.ttlSecondsAfterFinished }}
       template:
         spec:
           restartPolicy: Never

@@ -69,3 +69,7 @@ migrations:
     enabled: false
 cron:
   enabled: false
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
+  concurrencyPolicy: Allow
+  ttlSecondsAfterFinished: 60
