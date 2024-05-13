@@ -39,6 +39,8 @@ app:
   resources: {}
   env: {}
   secrets: {}
+  migrations:
+    enabled: false
 
 service:
   create: true
