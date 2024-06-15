@@ -42,7 +42,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ $svcName }}
+                name: {{ .service | default $svcName }}
                 port:
                   number: {{ .port | default $svcPort }}
           {{- end }}
