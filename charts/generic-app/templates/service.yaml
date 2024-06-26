@@ -22,14 +22,4 @@ spec:
     {{- end }}
 {{- end }}
 
-{{- if .Values.ingress.externalUrl }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "name" . }}-external
-spec:
-  type: ExternalName
-  externalName: {{ .Values.ingress.externalUrl }}
-{{- end }}
 
