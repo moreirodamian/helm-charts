@@ -1,0 +1,39 @@
+{{- range $svc := .Values.customServices }}
+{{- with $ }}
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "name" . }}-{{ $svc.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "common-labels" . | nindent 4 }}
+{{- if $svc.externalUrl }}
+spec:
+  type: ExternalName
+  externalName: {{ $svc.externalUrl }}
+{{ else }}
+spec:
+  type: ClusterIP
+  selector:
+    {{ include "common-labels" . | nindent 4 }}
+  ports:
+    - port: {{ $svc.port }}
+      targetPort: {{ $svc.targetPort }}
+      protocol: TCP
+      name: http
+    {{- with $svc.additionalPorts }}
+    {{- toYaml . | nindent 4 }}
+
+{{ end }}
+    {{- end }}
+{{- end }}
+
+
+
+
+
+
+
+{{- end }}
