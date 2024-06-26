@@ -29,7 +29,7 @@ spec:
         - {{ . | quote }}
         {{- end }}
     {{- if $letsencrypt }}
-      secretName: {{ $ingress.serviceName }}
+      secretName: {{ template "name" . }}-{{ $ingress.name }}
     {{- end }}
     {{- end }}
   {{- end }}
