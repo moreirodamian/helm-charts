@@ -1,0 +1,99 @@
+kube-prometheus-stack:
+  prometheus:
+    prometheusSpec:
+      additionalScrapeConfigs:
+        - job_name: kubernetes-service-endpoints
+          kubernetes_sd_configs:
+              - {role: service}
+          relabel_configs:
+            - action: keep
+              regex: true
+              source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scrape ]
+            - action: drop
+              regex: (kube-system|prom)
+              source_labels: [ __meta_kubernetes_namespace ]
+            - action: drop
+              regex: (.*prometheus-node-exporter|.*kube-state-metrics)
+              source_labels: [ __meta_kubernetes_service_name ]
+            - action: replace
+              regex: (https?)
+              source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scheme ]
+              target_label: __scheme__
+            - action: replace
+              regex: (.+)
+              source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_path ]
+              target_label: __metrics_path__
+            - action: replace
+              regex: ([^:]+)(?::\d+)?;(\d+)
+              replacement: $1:$2
+              source_labels: [ __address__, __meta_kubernetes_service_annotation_prometheus_io_port ]
+              target_label: __address__
+            - { action: labelmap, regex: __meta_kubernetes_service_label_(.+) }
+            - action: replace
+              source_labels: [ __meta_kubernetes_namespace ]
+              target_label: kubernetes_namespace
+            - action: replace
+              source_labels: [ __meta_kubernetes_service_name ]
+              target_label: kubernetes_name
+
+        - job_name: ingress-nginx-pods
+          scrape_interval: 15s
+          relabel_configs:
+            - source_labels: [ __meta_kubernetes_pod_container_port_number ]
+              action: keep
+              regex: 10254
+          kubernetes_sd_configs:
+            - role: service
+              namespaces:
+                names:
+                  - ingress-nginx
+              selectors:
+                - role: "service"
+                  label: "prometheus.io/scrape=true"
+      remoteWrite:
+        - url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+          basicAuth:
+            username:
+              name: grafana-axter
+              key: username
+            password:
+              name: grafana-axter
+              key: password
+          writeRelabelConfigs:
+            - sourceLabels: [app_kubernetes_io_name]
+              regex: prometheus-statsd-exporter
+              targetLabel: metric_enabled
+              replacement: "true"
+            - sourceLabels: [__name__]
+              regex: (up|instance:node_num_cpu:sum|kubernetes_io_hostname|machine_cpu_cores|machine_memory_bytes|container_memory_working_set_bytes|container_cpu_usage_seconds_total|container_fs_usage_bytes|container_fs_limit_bytes|nginx_ingress_controller_requests|nginx_ingress_controller_nginx_process_connections|nginx_ingress_controller_success|nginx_ingress_controller_config_last_reload_successful|nginx_ingress_controller_request_size_sum|nginx_ingress_controller_nginx_process_cpu_seconds_total|nginx_ingress_controller_nginx_process_resident_memory_bytes|nginx_ingress_controller_request_duration_seconds_bucket|nginx_ingress_controller_ssl_expire_time_seconds)
+              targetLabel: metric_enabled
+              replacement: "true"
+            - sourceLabels: [metric_enabled]
+              regex: "true"
+              action: "keep"
+            - sourceLabels: [ __name__ ]
+              regex: (statsd_exporter.*|go_.*)
+              action: "drop"
+            - action: "labeldrop"
+              regex: (endpoint|image|metrics_path|job|instance|app_kubernetes_io_instance|app_kubernetes_io_managed_by|app_kubernetes_io_version|helm_sh_chart|prometheus|kubernetes_name|job)
+      replicaExternalLabelName: "__replica__"
+      externalLabels: {cluster: "testdmv4"}
+  alertmanager:
+    enabled: false
+  grafana:
+    enabled: false
+
+sealed-secret:
+  name: grafana-axter
+  namespace: monitoring
+  type: Opaque
+  encryptedData:
+    username: AgChSAEsGmO4/CrWzU1Lg3B3CXDi6KTQjWUuzhzk0xvXE86DrBkypTAA7Kubf2mddYGldk+YTMqUe5kuzt4jm4NAVD7zXosROVxH3h2VTDgTdSBjNdgDUx/xMLcRbMefE6t0ti37RcHDbFE9mGoe/uhXW+WPHrehWKoOLcM00WEH4JcEM9DGQ6JhPJk76Us7dMMgWphaKBeHii+jcIDEAHbDvm/tb/PNcrgTp2lmCWbPkDUqVPLjAvT+PJdNUb8wHWfIJ/9ocBR+nrnrTkk+jLFHj/kGOc7ENi6mCVBK1Roazx1pHttPwVmXqpZfWkwM9GPB3RT1cjZTFeol+YTd7NUb1mtCBz3V7W9abJLPGMzflotKYvlCwHPXXulHSGRZBoBLS7ocr6jg6/dIziPI2kwAA/ArlJcFybi9BDyplqrkyst7j0ac0Q1dBTecASL835aWVZAsTGNW5nva+tXp06NPOdImb9bGkbEuczSHxWgPUQtxCo66EpHJaZP6AnvIaQBWYtpNCH8IMknnp8Vq7s/Cj8TNXAVmxUf2ZdyEMhgp7BJc4NRVSaTnX2JjlxAhgfNwgafNRlyZjdbCXSBa4kY6oPHR/Xa4+2Opj8JXhT7Jy32vP+TrndQKB+Mt0P6XbPuV2gyQQbA/biEtgwgsCi/XqXOFh4mH0VIszd0/8bqroqHzNJZ63ia3mqWek0BDJzYJUP2+2WU=
+    password: AgByH01PMmN6KsUVMgteTuaz83Tni3LNlmDjr9Nxjd57L2kXmPwJlUSHdzoVmIWptoG/HxOJxm2XXg9HuHDJufWXvW1kM3ZXBKg5YnbMJT0M7eUEbN6cufacB73Q7zGcxzEL10rBmS31fFkWPzcJ8RnxqsCie9CjnPZJnqiHp6FaOYncrY3f2CI82IjnbbvabULeND+fmuvSMEMcT1G+nViiuWia2QCSvfJ1T1bXYQqJO+wqt2N4NlyCCWPnCK28i/PmloJa5htmA9JYodk+KNJOBrmnW35GOfea2DWVWrWsClQ0sNXazC8h1hOQ7Ri72MwrYaB6dNR5qWzCX3/QaJAOpeeI1mivFyDQKdcvanzxoRsVrxa0LPIrHGEQ5cas4FmYGigHDe9FA8S/j+iZtaDMrHbHsNvQdgRSNhGBPBHl6zznlkUitY4xT7IiPh4IxVDFiBnk8vlt1CIe9GuBGkX4O+Cs09xnSkpGZtLN5BF2Jt/QDBrNDaahG0Lbd4OMqeeYGF7EtP4QPvl7T1ODnlpwKHS7ueOrt/2xL2Kyuldi7K8pmeKqlcY7VEKm5FlCsJtsWNnzGkhuMj1VPnuOzzdhrNEFGKQtuVjjHoEpsXDH2Mt2P269hOfo0pqrXI0GQhVBmVbt0tsWDPk2FoM58OiYNW56Drhlku8Q4qfNUl/O4rLRbbI161g8cWmCj3+IwYJn++MHTtGEHHmNYc3CfFWdlTLYx1kI+58e87mXrPFg8D0INfj03awqwwIa6KpznA9NLhYZAi+0Zr9mYQFxMaKJscpGUmYKd+sGlXBhnV992Aoq3/JB52GB3SbTbbUweXg=
+
+#prometheus-statsd-exporter:
+#  serviceMonitor:
+#    enabled: true
+
+
+

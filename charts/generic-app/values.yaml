@@ -1,0 +1,77 @@
+name: example
+deployEnv: dev
+region: us-east-1
+
+serviceAccount:
+  create: true
+  annotations: {}
+
+hpa:
+  create: true
+  minReplicas: 1
+  maxReplicas: 5
+  cpuPercentage: 70
+
+revisionHistoryLimit: 10
+rollout:
+  canary:
+    maxUnavailable: 0
+    steps:
+      - setWeight: 10
+      - pause:
+          duration: 10m
+      - setWeight: 50
+      - pause:
+          duration: 10m
+
+app:
+  image:
+    registry: ecr
+    name: ~
+    tag: ~
+  ports:
+    - name: http
+      containerPort: 8080
+      protocol: TCP
+  livenessProbe: {}
+  readinessProbe: {}
+  startupProbe: {}
+  resources: {}
+  env: {}
+  secrets: {}
+  migrations:
+    enabled: false
+
+service:
+  create: true
+  grpc: false
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+  additionalPorts: {}
+
+ingress:
+  create: true
+  grpc: false
+  letsencrypt: false
+  annotations: []
+  hosts: []
+  tls: []
+
+sealedSecrets:
+  enabled: true
+  encryptedData: {}
+  annotations:
+    "helm.sh/hook-weight": "-5"
+  type: {}
+
+dockerSecret: {}
+
+migrations:
+    enabled: false
+cron:
+  enabled: false
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
+  concurrencyPolicy: Allow
+  ttlSecondsAfterFinished: 60

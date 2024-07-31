@@ -1,0 +1,29 @@
+{{/*{{- if index .Values "argo-rollouts-dashboard" "values" }}*/}}
+{{/*apiVersion: argoproj.io/v1alpha1*/}}
+{{/*kind: Application*/}}
+{{/*metadata:*/}}
+{{/*  name: {{ .Values.env }}-{{ .Values.region }}-argo-rollouts-dashboard*/}}
+{{/*  namespace: argocd*/}}
+{{/*  labels:*/}}
+{{/*    app.kubernetes.io/name: argo-rollouts-dashboard*/}}
+{{/*    app.kubernetes.io/part-of: infra*/}}
+{{/*    app.kubernetes.io/env: {{ .Values.env }}*/}}
+{{/*spec:*/}}
+{{/*  project: infra*/}}
+{{/*  destination:*/}}
+{{/*    name: {{ .Values.clusterName }}*/}}
+{{/*    namespace: infra*/}}
+{{/*  source:*/}}
+{{/*    repoURL: https://git-codecommit.us-west-2.amazonaws.com/v1/repos/RingLinksHelmCharts*/}}
+{{/*    path: configuration/charts/argo-rollouts-dashboard*/}}
+{{/*    targetRevision: HEAD*/}}
+{{/*    helm:*/}}
+{{/*      values: |*/}}
+{{/*        {{- index .Values "argo-rollouts-dashboard" "values" | toYaml | nindent 8 }}*/}}
+{{/*  syncPolicy:*/}}
+{{/*    syncOptions:*/}}
+{{/*      - CreateNamespace=true*/}}
+{{/*    automated:*/}}
+{{/*      prune: true*/}}
+{{/*      selfHeal: true*/}}
+{{/*{{- end }}*/}}

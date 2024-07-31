@@ -1,0 +1,10 @@
+prometheus-statsd-exporter:
+  service:
+    type: ClusterIP
+    # The address on which to expose the web interface and generated Prometheus metrics.
+    port: 9102
+    # Path under which to expose metrics.
+    path: /metrics
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "9102"

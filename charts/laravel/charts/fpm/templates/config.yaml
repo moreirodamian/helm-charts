@@ -1,0 +1,15 @@
+{{- if .Values.config -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: laravel-config
+  labels:
+    name: laravel-config
+  namespace: {{ .Values.global.namespace | default .Values.namespace}}
+  annotations:
+    "helm.sh/hook-weight": "-5"
+{{- with .Values.config }}
+data:
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- end }}

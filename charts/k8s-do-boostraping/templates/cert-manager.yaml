@@ -1,0 +1,32 @@
+{{ if .Values.apps.certManager.enabled }}
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-{{ .Values.apps.suffix }}
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  {{ if .Values.apps.project }}
+  project: {{ .Values.apps.project }}
+  {{ else }}
+  project: infra-{{ .Values.apps.suffix }}
+  {{ end }}
+  source:
+    repoURL: 'https://moreirodamian.github.io/helm-charts/'
+    targetRevision: 1.11.2
+    helm:
+      valueFiles:
+        - values.yaml
+      parameters:
+        - name: cert-manager-issuer.sealed-secret.encryptedData.access-token
+          value: {{ .Values.digitalocean.token }}
+    chart: cert-manager
+  destination:
+    namespace: cert-manager
+    name: {{ .Values.apps.destination.name }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+{{ end }}

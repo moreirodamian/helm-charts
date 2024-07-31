@@ -1,0 +1,29 @@
+{{- if index .Values "promtail" "version" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.env }}-{{ .Values.region }}-promtail
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    app.kubernetes.io/name: promtail
+    app.kubernetes.io/part-of: {{ .Values.project }}
+    app.kubernetes.io/env: {{ .Values.env }}
+spec:
+  project: {{ .Values.project }}
+  source:
+    repoURL: 'https://moreirodamian.github.io/helm-charts/'
+    targetRevision: {{ index .Values "promtail" "version" }}
+    chart: promtail
+    helm:
+      parameters:
+        - name: "promtail.config.clients[0].url"
+          value: {{ .Values.promtail.url }}
+  destination:
+    name: {{ .Values.clusterName }}
+    namespace: {{ .Values.namespace }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+{{- end }}

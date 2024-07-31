@@ -1,0 +1,29 @@
+{{- if index .Values "efs-csi-driver" "version" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.env }}-{{ .Values.region }}-efs-csi-driver
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: efs-csi-driver
+    app.kubernetes.io/part-of: {{ .Values.project }}
+    app.kubernetes.io/env: {{ .Values.env }}
+spec:
+  project: {{ .Values.project }}
+  destination:
+    name: {{ .Values.clusterName }}
+    namespace: {{ .Values.namespace }}
+  source:
+    repoURL: https://kubernetes-sigs.github.io/aws-efs-csi-driver
+    chart: aws-efs-csi-driver
+    targetRevision: {{ index .Values "efs-csi-driver" "version" }}
+    helm:
+      values: |
+        {{- index .Values "efs-csi-driver" "values" | toYaml | nindent 8 }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

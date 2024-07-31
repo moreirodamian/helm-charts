@@ -1,0 +1,27 @@
+create: true
+serviceAccount:
+  create: false
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
+autoscaling:
+  enabled: false
+
+Release:
+  Name: ''
+
+testConnection:
+  enabled: false
+
+deployment:
+  resources: {}
+  lifecycle: {}
+  replicaCount: 1
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  envFrom: {}
+  volumes: {}
+image:
+  pullPolicy: IfNotPresent
+  component: cli

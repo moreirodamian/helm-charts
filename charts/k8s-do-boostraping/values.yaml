@@ -1,0 +1,36 @@
+spec:
+  destination:
+  source:
+    targetRevision: HEAD
+ingress:
+  loadbalancerName: do-loadbalacer.com
+  doProxyProtocol:
+    enabled: false
+prometheus:
+  remoteWrite:
+    url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+    secret:
+      name: prom-secret
+      username: sealedEncryptedUsername
+      password: sealedEncryptedPassword
+  clusterName: "TestCluster"
+apps:
+  suffix: dev
+  destination:
+    name: test-cluster-name
+  ingress:
+    enabled: true
+  certManager:
+    enabled: true
+  prometheus:
+    enabled: true
+  promtail:
+    enabled: true
+  rollout:
+    enabled: true
+  metricsServer:
+    version: 3.11.0
+digitalocean:
+  token: zaraza
+promtail:
+  url: mockurl

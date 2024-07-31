@@ -1,0 +1,63 @@
+{{ if .Values.cron.enabled }}
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ template "name" . }}-cron
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "common-labels" . | nindent 4 }}
+spec:
+  schedule: {{ quote .Values.cron.schedule }}
+  failedJobsHistoryLimit: {{ .Values.cron.failedJobsHistoryLimit }}
+  concurrencyPolicy: {{ .Values.cron.concurrencyPolicy }}
+  successfulJobsHistoryLimit: {{ .Values.cron.successfulJobsHistoryLimit }}
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: {{ .Values.cron.ttlSecondsAfterFinished }}
+      template:
+        spec:
+          restartPolicy: Never
+          {{ if .Values.dockerSecret.encryptedData }}
+          imagePullSecrets:
+            - name: docker-{{ template "name" . }}
+          {{ end }}
+          containers:
+            - name: hello
+              image: {{ include "cron.image" .}}
+             {{- with .Values.cron.command }}
+              command:
+               {{- toYaml . | nindent 16 }}
+             {{- end }}
+             {{- with .Values.cron.args }}
+              args:
+               {{- toYaml . | nindent 16 }}
+             {{- end }}
+              env:
+                {{- range $k, $v := .Values.cron.env }}
+                - name: {{ $k }}
+                  value: {{ $v | quote }}
+                {{- end }}
+                {{- range $k, $v := .Values.app.secrets }}
+                - name: {{ $k }}
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ template "name" $ }}
+                      key: {{ $k }}
+                        {{- end }}
+          {{ if .Values.cron.envFrom }}
+              {{- with .Values.cron.envFrom }}
+              envFrom:
+                {{- toYaml . | nindent 12 }}
+              {{- end }}
+          {{ if .Values.sealedSecrets.enabled }}
+                - secretRef:
+                    name: {{ template "name" . }}
+
+          {{ end }}
+          {{ else if .Values.sealedSecrets.enabled }}
+              envFrom:
+                - secretRef:
+                    name: {{ template "name" . }}
+                    {{ end }}
+{{ end }}

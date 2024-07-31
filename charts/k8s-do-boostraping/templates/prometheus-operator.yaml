@@ -1,0 +1,54 @@
+{{ if .Values.apps.prometheus.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-{{ .Values.apps.suffix }}
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  {{ if .Values.apps.project }}
+  project: {{ .Values.apps.project }}
+  {{ else }}
+  project: infra-{{ .Values.apps.suffix }}
+  {{ end }}
+  source:
+    repoURL: 'https://moreirodamian.github.io/helm-charts/'
+    targetRevision: 22.0.29
+    chart: prometheus
+    helm:
+      valueFiles:
+        - values.yaml
+      parameters:
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].url"
+          value: {{ .Values.prometheus.remoteWrite.url }}
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].basicAuth.username.name"
+          value: {{ .Values.prometheus.remoteWrite.secret.name }}
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].basicAuth.username.key"
+          value: "username"
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].basicAuth.password.name"
+          value: {{ .Values.prometheus.remoteWrite.secret.name }}
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.remoteWrite[0].basicAuth.password.key"
+          value: "password"
+        - name: "alertmanager.enabled"
+          value: "false"
+        - name: "grafana.enabled"
+          value: "false"
+        - name: "sealed-secret.name"
+          value: {{ .Values.prometheus.remoteWrite.secret.name }}
+        - name: "sealed-secret.encryptedData.username"
+          value: {{ .Values.prometheus.remoteWrite.secret.username }}
+        - name: "sealed-secret.encryptedData.password"
+          value:  {{ .Values.prometheus.remoteWrite.secret.password }}
+        - name: "kube-prometheus-stack.prometheus.prometheusSpec.externalLabels.cluster"
+          value: {{ .Values.prometheus.clusterName }}
+
+  destination:
+    namespace: monitoring
+    name: {{ .Values.apps.destination.name }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
+{{ end }}

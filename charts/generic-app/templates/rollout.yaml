@@ -1,0 +1,99 @@
+{{- $imageRegistry := .Values.app.image.registry | required "Image registry is required. (.Values.app.image.registry)" -}}
+{{- $imageName := .Values.app.image.name | default .Values.name | default "dummy" -}}
+{{- $imageTag := .Values.app.image.tag | toString | default "latest" -}}
+{{- $imageTemp := printf "%s/%s:%s" $imageRegistry $imageName $imageTag }}
+{{- if hasPrefix "sha:" $imageTag }}
+  {{- $imageTemp = printf "%s/%s@%s" $imageRegistry $imageName $imageTag }}
+{{- end }}
+{{- $image := $imageTemp | replace "registry.hub.docker.com/" "" -}}
+
+{{- if .Values.rollout -}}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ template "name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "common-labels" . | nindent 4 }}
+spec:
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  strategy:
+    {{- .Values.rollout | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      {{ include "common-labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{ include "common-labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ template "name" . }}
+      terminationGracePeriodSeconds: 75
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              {{ include "common-labels" . | nindent 14 }}
+      containers:
+        - name: {{ template "name" . }}
+          image: {{ $image }}
+          imagePullPolicy: IfNotPresent
+          env:
+            {{- range $k, $v := .Values.app.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+            {{- range $k, $v := .Values.app.secrets }}
+            - name: {{ $k }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" $ }}
+                  key: {{ $k }}
+            {{- end }}
+          {{ if .Values.app.envFrom }}
+          {{- with .Values.app.envFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{ if .Values.sealedSecrets.enabled }}
+            - secretRef:
+                name: {{ template "name" . }}
+
+          {{ end }}
+          {{ else if .Values.sealedSecrets.enabled }}
+          envFrom:
+            - secretRef:
+                name: {{ template "name" . }}
+          {{ end }}
+
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+            {{- with .Values.service.additionalPorts }}
+            {{- toYaml . | replace "target" "container"| nindent 12 }}
+            {{- end }}
+          {{ if .Values.app.livenessProbe }}
+          livenessProbe:
+            {{- .Values.app.livenessProbe | toYaml | nindent 12 }}
+          {{ end }}
+          {{ if .Values.app.readinessProbe }}
+          readinessProbe:
+            {{- .Values.app.readinessProbe | toYaml | nindent 12 }}
+          {{ end }}
+          {{ if .Values.app.startupProbe }}
+          startupProbe:
+            {{- .Values.app.startupProbe | toYaml | nindent 12 }}
+          {{ end }}
+          {{ if .Values.app.resources  }}
+          resources:
+            {{- .Values.app.resources | toYaml | nindent 12 }}
+          {{ end }}
+      {{ if .Values.dockerSecret.encryptedData }}
+      imagePullSecrets:
+        - name: docker-{{ template "name" . }}
+      {{ end }}
+{{- end }}
