@@ -1,0 +1,20 @@
+{{ if .Values.cloudflare.dns }}
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: cloudflare-dns
+spec:
+  acme:
+    email: {{ .Values.email }}
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: cluster-issuer-account-key
+    solvers:
+    - dns01:
+        cloudflare:
+          email: software-register@kodear.net
+          apiTokenSecretRef:
+            name: cloudflare-dns
+            key: api-token
+{{ end }}

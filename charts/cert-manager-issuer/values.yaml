@@ -1,8 +1,15 @@
 email: moreirodamian+letsencrypt@gmail.com
 digitalocean:
   dns: enabled
+  cloudflare:
+    dns: true
 sealed-secret:
   name: digitalocean-dns
   namespace: cert-manager
   encryptedData:
     access-token: zarazaEncrypted
+cloudflare-secret:
+  name: cloudflare-dns
+  namespace: cert-manager
+  encryptedData:
+    api-token: zarazaEncrypted
