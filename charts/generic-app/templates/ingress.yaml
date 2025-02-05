@@ -1,5 +1,6 @@
 {{- if .Values.ingress.create }}
 {{- $svcName := .Values.name -}}
+{{- $tlsSecretName := printf "%s-tls" $svcName -}}
 {{- $svcPort := .Values.service.port -}}
 {{- $letsencrypt := .Values.ingress.letsencrypt | default false -}}
 {{- $additionalPorts := .Values.service.additionalPorts -}}
@@ -28,7 +29,7 @@ spec:
         - {{ . | quote }}
         {{- end }}
     {{- if $letsencrypt }}
-      secretName: {{ $svcName }}-tls
+      secretName: {{ $tlsSecretName }}
     {{- end }}
     {{- end }}
   {{- end }}
