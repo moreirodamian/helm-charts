@@ -28,7 +28,7 @@ spec:
         - {{ . | quote }}
         {{- end }}
     {{- if $letsencrypt }}
-      secretName: {{ $svcName }}
+      secretName: {{ $svcName }}-tls
     {{- end }}
     {{- end }}
   {{- end }}

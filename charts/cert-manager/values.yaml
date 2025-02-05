@@ -3,6 +3,8 @@ cert-manager:
 cert-manager-issuer:
   digitalocean:
     dns: true
+  cloudflare:
+    dns: true
   sealed-secret:
     name: digitalocean-dns
     namespace: cert-manager
