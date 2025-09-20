@@ -1,8 +1,8 @@
 email: moreirodamian+letsencrypt@gmail.com
 digitalocean:
   dns: enabled
-  cloudflare:
-    dns: true
+cloudflare:
+  dns: true
 sealed-secret:
   name: digitalocean-dns
   namespace: cert-manager
