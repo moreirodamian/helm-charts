@@ -15,13 +15,25 @@ spec:
   {{ end }}
   source:
     repoURL: 'https://moreirodamian.github.io/helm-charts/'
-    targetRevision: 1.11.2
+    targetRevision: 1.11.5
     helm:
       valueFiles:
         - values.yaml
       parameters:
+
+      {{ if .Values.cloudflare.enabled }}
+        - name: cert-manager-issuer.cloudflare.dns
+          value: true
+        - name: cert-manager-issuer.cloudflare-secret.encryptedData.api-token
+          value: {{ .Values.cloudflare.token }}
+      {{ else }}
+        - name: cert-manager-issuer.cloudflare.dns
+          value: false
+      {{ end }}
+      {{ if .Values.digitalocean.token }}
         - name: cert-manager-issuer.sealed-secret.encryptedData.access-token
           value: {{ .Values.digitalocean.token }}
+      {{ end }}
     chart: cert-manager
   destination:
     namespace: cert-manager
