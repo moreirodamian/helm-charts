@@ -21,20 +21,20 @@ spec:
         - values.yaml
       parameters:
 
-      {{ if .Values.cloudflare.enabled }}
+      {{ if .Values.apps.certManager.cloudflare.dns }}
         - name: cert-manager-issuer.cloudflare.dns
           value: true
         - name: cert-manager-issuer.cloudflare-secret.encryptedData.api-token
-          value: {{ .Values.cloudflare.token }}
+          value: {{ .Values.apps.certManager.cloudflare.token }}
       {{ else }}
         - name: cert-manager-issuer.cloudflare.dns
           value: false
       {{ end }}
-      {{ if .Values.digitalocean.token }}
+      {{ if .Values.apps.certManager.digitalocean.dns }}
         - name: cert-manager-issuer.digitalocean.dns
           value: true
         - name: cert-manager-issuer.sealed-secret.encryptedData.access-token
-          value: {{ .Values.digitalocean.token }}
+          value: {{ .Values.apps.certManager.digitaloceann.token }}
       {{ else }}
         - name: cert-manager-issuer.digitalocean.dns
           value: false

@@ -22,6 +22,10 @@ apps:
     enabled: true
   certManager:
     enabled: true
+    digitalocean:
+      dns: false
+    cloudflare:
+      dns: false
   prometheus:
     enabled: true
   promtail:
@@ -30,7 +34,5 @@ apps:
     enabled: true
   metricsServer:
     version: 3.11.0
-digitalocean:
-  token: zaraza
 promtail:
   url: mockurl
