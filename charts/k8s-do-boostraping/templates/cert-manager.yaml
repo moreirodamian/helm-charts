@@ -31,8 +31,13 @@ spec:
           value: false
       {{ end }}
       {{ if .Values.digitalocean.token }}
+        - name: cert-manager-issuer.digitalocean.dns
+          value: true
         - name: cert-manager-issuer.sealed-secret.encryptedData.access-token
           value: {{ .Values.digitalocean.token }}
+      {{ else }}
+        - name: cert-manager-issuer.digitalocean.dns
+          value: false
       {{ end }}
     chart: cert-manager
   destination:
