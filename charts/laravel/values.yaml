@@ -78,6 +78,13 @@ fpm:
           name: laravel-config
       - secretRef:
           name: laravel-secrets
+    persistentVolumeClaim:
+      enabled: false
+      storageClassName: "nfs"
+      accessModes:
+        - ReadWriteMany
+      size: "100Mi"
+      mountPath: "/var/www/html/storage"
   image:
     pullPolicy: IfNotPresent
 

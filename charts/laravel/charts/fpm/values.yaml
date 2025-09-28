@@ -44,6 +44,13 @@ deployment:
   affinity: {}
   envFrom: {}
   volumes: {}
+  persistentVolumeClaim:
+    enabled: false
+    storageClassName: "nfs"
+    accessModes:
+      - ReadWriteMany
+    size: "100Mi"
+    mountPath: "/var/www/html/storage"
 image:
   pullPolicy: IfNotPresent
   component: fpm

@@ -49,6 +49,11 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- if .Values.deployment.persistentVolumeClaim.enabled }}
+          volumeMounts:
+            - name: {{ include "fpm.fullname" . }}-storage
+              mountPath: {{ .Values.deployment.persistentVolumeClaim.mountPath | default "/var/www/html/storage" }}
+          {{- end }}
           {{- with .Values.deployment.lifecycle }}
           lifecycle:
             {{- toYaml . | nindent 12 }}
@@ -64,6 +69,12 @@ spec:
       {{- with .Values.deployment.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment.persistentVolumeClaim.enabled }}
+      volumes:
+        - name: {{ include "fpm.fullname" . }}-storage
+          persistentVolumeClaim:
+            claimName: {{ include "fpm.fullname" . }}-pvc
       {{- end }}
       {{- with .Values.deployment.nodeSelector }}
       nodeSelector:
