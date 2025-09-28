@@ -39,6 +39,24 @@ app:
   resources: {}
   env: {}
   secrets: {}
+  # Example volumes configuration:
+  # volumes:
+  #   - name: config-volume
+  #     configMap:
+  #       name: app-config
+  #   - name: storage-volume
+  #     persistentVolumeClaim:
+  #       claimName: app-storage
+  volumes: []
+  
+  # Example volumeMounts configuration:
+  # volumeMounts:
+  #   - name: config-volume
+  #     mountPath: /app/config
+  #     readOnly: true
+  #   - name: storage-volume
+  #     mountPath: /app/data
+  volumeMounts: []
   migrations:
     enabled: false
 

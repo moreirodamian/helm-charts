@@ -92,6 +92,14 @@ spec:
           resources:
             {{- .Values.app.resources | toYaml | nindent 12 }}
           {{ end }}
+          {{ if .Values.app.volumeMounts }}
+          volumeMounts:
+            {{- .Values.app.volumeMounts | toYaml | nindent 12 }}
+          {{ end }}
+      {{ if .Values.app.volumes }}
+      volumes:
+        {{- .Values.app.volumes | toYaml | nindent 8 }}
+      {{ end }}
       {{ if .Values.dockerSecret.encryptedData }}
       imagePullSecrets:
         - name: docker-{{ template "name" . }}

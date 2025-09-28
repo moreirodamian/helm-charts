@@ -2,3 +2,7 @@
 /**/Chart.lock
 *.tgz
 /temp.yaml
+
+# IDE and editor files
+.idea/
+.history/
