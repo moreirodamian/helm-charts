@@ -43,3 +43,28 @@ app.kubernetes.io/instance: {{ include "instance" . }}
 {{- printf "%s" $image -}}
 
 {{- end -}}
+
+{{- define "migrations.image" -}}
+{{- /* Use migrations.image if fully defined, otherwise fallback to app.image (retrocompatible) */ -}}
+{{- if and .Values.migrations.image .Values.migrations.image.registry .Values.migrations.image.name }}
+  {{- $imageRegistry := .Values.migrations.image.registry -}}
+  {{- $imageName := .Values.migrations.image.name -}}
+  {{- $imageTag := .Values.migrations.image.tag | toString | default "latest" -}}
+  {{- $imageTemp := printf "%s/%s:%s" $imageRegistry $imageName $imageTag -}}
+  {{- if hasPrefix "sha:" $imageTag }}
+    {{- $imageTemp = printf "%s/%s@%s" $imageRegistry $imageName $imageTag -}}
+  {{- end }}
+  {{- $image := $imageTemp | replace "registry.hub.docker.com/" "" -}}
+  {{- printf "%s" $image -}}
+{{- else }}
+  {{- $imageRegistry := .Values.app.image.registry | required "Image registry is required. (.Values.app.image.registry)" -}}
+  {{- $imageName := .Values.app.image.name | default .Values.name | default "dummy" -}}
+  {{- $imageTag := .Values.app.image.tag | toString | default "latest" -}}
+  {{- $imageTemp := printf "%s/%s:%s" $imageRegistry $imageName $imageTag -}}
+  {{- if hasPrefix "sha:" $imageTag }}
+    {{- $imageTemp = printf "%s/%s@%s" $imageRegistry $imageName $imageTag -}}
+  {{- end }}
+  {{- $image := $imageTemp | replace "registry.hub.docker.com/" "" -}}
+  {{- printf "%s" $image -}}
+{{- end }}
+{{- end -}}

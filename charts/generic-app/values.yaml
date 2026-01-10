@@ -86,7 +86,13 @@ sealedSecrets:
 dockerSecret: {}
 
 migrations:
-    enabled: false
+  enabled: false
+  # Optional: Use a different image for migrations (with dev dependencies)
+  # If not specified, will use app.image (retrocompatible)
+  # image:
+  #   registry: ecr
+  #   name: myapp-migrations
+  #   tag: latest
 cron:
   enabled: false
   successfulJobsHistoryLimit: 1

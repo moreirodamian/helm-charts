@@ -1,11 +1,4 @@
-{{- $imageRegistry := .Values.app.image.registry | required "Image registry is required. (.Values.app.image.registry)" -}}
-{{- $imageName := .Values.app.image.name | default .Values.name | default "dummy" -}}
-{{- $imageTag := .Values.app.image.tag | toString | default "latest" -}}
-{{- $imageTemp := printf "%s/%s:%s" $imageRegistry $imageName $imageTag }}
-{{- if hasPrefix "sha:" $imageTag }}
-  {{- $imageTemp = printf "%s/%s@%s" $imageRegistry $imageName $imageTag }}
-{{- end }}
-{{- $image := $imageTemp | replace "registry.hub.docker.com/" "" -}}
+{{- $image := include "migrations.image" . -}}
 
 
 {{ if .Values.migrations.enabled }}
