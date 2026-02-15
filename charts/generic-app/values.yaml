@@ -12,7 +12,7 @@ hpa:
   create: true
   minReplicas: 1
   maxReplicas: 5
-  cpuPercentage: 80
+  cpuPercentage: 75
 
 pdb:
   enabled: false

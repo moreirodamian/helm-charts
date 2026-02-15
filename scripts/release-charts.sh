@@ -267,8 +267,8 @@ topological_sort() {
 
 # ─── Phase 5: Ordered Packaging ──────────────────────────────────────────────
 add_helm_repos() {
-    local -A seen_repos
     local counter=0
+    local added_repos=""
 
     for name in "${SORTED_RELEASES[@]}"; do
         local dir="${CHART_DIRS[$name]}"
@@ -280,18 +280,18 @@ add_helm_repos() {
             local repo_url
             repo_url=$(yq ".dependencies[$i].repository // \"\"" "$chart_yaml")
 
-            if [[ -n "$repo_url" ]] && [[ -z "${seen_repos[$repo_url]+x}" ]]; then
+            if [[ -n "$repo_url" ]] && [[ ! " $added_repos " =~ " $repo_url " ]]; then
                 local alias="repo-${counter}"
                 info "Adding repo $alias -> $repo_url"
                 helm repo add "$alias" "$repo_url" --force-update
                 REPO_NAMES[$repo_url]="$alias"
-                seen_repos[$repo_url]=1
+                added_repos="$added_repos $repo_url"
                 counter=$((counter + 1))
             fi
         done
     done
 
-    if [[ ${#seen_repos[@]} -gt 0 ]]; then
+    if [[ $counter -gt 0 ]]; then
         helm repo update
     fi
 }
