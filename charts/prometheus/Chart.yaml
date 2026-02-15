@@ -1,6 +1,6 @@
 apiVersion: v2
 name: prometheus
-version: 83.0.1
+version: 83.0.2
 description: Prometheus is a monitoring system and time series database.
 type: application
 
