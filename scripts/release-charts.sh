@@ -379,16 +379,45 @@ upload_and_index() {
         --token "$CR_TOKEN" \
         --package-path "$PACKAGES_DIR"
 
-    # Clean stale worktree left by cr upload before indexing
-    rm -rf .cr-index
+    update_index
+}
 
-    cr index \
-        -o "$CR_OWNER" \
-        -r "$CR_GIT_REPO" \
-        --token "$CR_TOKEN" \
-        --package-path "$PACKAGES_DIR" \
-        --index-path ".cr-index/index.yaml" \
-        --push
+update_index() {
+    log "Updating repository index..."
+
+    # Build directory structure matching GitHub Release URL format
+    # so helm repo index generates the correct download URLs:
+    #   https://github.com/{owner}/{repo}/releases/download/{name}-{ver}/{name}-{ver}.tgz
+    local tmp_packages
+    tmp_packages=$(mktemp -d)
+    for pkg in "$PACKAGES_DIR"/*.tgz; do
+        local base name_ver
+        base=$(basename "$pkg")
+        name_ver="${base%.tgz}"
+        mkdir -p "$tmp_packages/$name_ver"
+        cp "$pkg" "$tmp_packages/$name_ver/"
+    done
+
+    # Checkout gh-pages into a worktree to get existing index
+    rm -rf .cr-index
+    git worktree prune
+    git worktree add .cr-index gh-pages
+
+    # Merge new package entries into the existing index
+    helm repo index "$tmp_packages" \
+        --url "https://github.com/$CR_OWNER/$CR_GIT_REPO/releases/download" \
+        --merge .cr-index/index.yaml
+
+    cp "$tmp_packages/index.yaml" .cr-index/index.yaml
+
+    # Commit and push updated index to gh-pages
+    git -C .cr-index add index.yaml
+    git -C .cr-index commit -m "Update index.yaml"
+    git -C .cr-index push origin gh-pages
+
+    # Cleanup
+    git worktree remove .cr-index
+    rm -rf "$tmp_packages"
 }
 
 # ─── Phase 7: Auto-Bump Commit ───────────────────────────────────────────────
