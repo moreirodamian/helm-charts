@@ -1,4 +1,5 @@
 name: Release Charts
+# Ordered release pipeline: publishes charts in dependency order
 
 on:
   push:
