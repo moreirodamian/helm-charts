@@ -346,7 +346,7 @@ package_charts() {
         log "  Packaging $name (${CHART_VERSIONS[$name]})..."
 
         resolve_dependencies "$name" "$dir"
-        cr package "$CHARTS_DIR/$dir" --package-path "$PACKAGES_DIR"
+        helm package "$CHARTS_DIR/$dir" -d "$PACKAGES_DIR"
 
         # Clean up downloaded .tgz so they are not committed
         rm -f "$CHARTS_DIR/$dir/charts/"*.tgz 2>/dev/null || true
