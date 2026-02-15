@@ -92,6 +92,7 @@ discover_charts() {
 detect_changes() {
     log "Phase 2: Detecting unreleased charts..."
 
+    local changed=0
     for name in "${ALL_CHARTS[@]}"; do
         local version="${CHART_VERSIONS[$name]}"
         local tag="${name}-${version}"
@@ -101,15 +102,16 @@ detect_changes() {
         else
             info "$name ($version): NEW - no tag found"
             RELEASE_SET[$name]="direct"
+            changed=$((changed + 1))
         fi
     done
 
-    if [[ ${#RELEASE_SET[@]} -eq 0 ]]; then
+    if [[ $changed -eq 0 ]]; then
         log "No charts to release. Done."
         exit 0
     fi
 
-    log "Directly changed: ${!RELEASE_SET[*]}"
+    log "Directly changed ($changed): ${!RELEASE_SET[*]}"
 }
 
 # ─── Phase 3: Auto-Propagation ───────────────────────────────────────────────

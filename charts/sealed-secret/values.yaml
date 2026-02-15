@@ -1,5 +1,6 @@
 name: sealed-secret
 namespace: default
+type: Opaque
 labels: {}
 annotations:
   sealedsecrets.bitnami.com/cluster-wide: "true"
