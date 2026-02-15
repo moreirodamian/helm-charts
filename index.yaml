@@ -2,7 +2,39 @@ apiVersion: v1
 entries:
   cert-manager:
   - apiVersion: v2
-    created: "2025-09-20T13:56:21.895614285Z"
+    created: "2026-02-15T20:03:49.402854-03:00"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: v1.19.3
+    - name: cert-manager-issuer
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    description: A Helm chart for cert-manager
+    digest: 5bace67cea3a812648622d93956b821167d29c64869da1c198f8bc10a8d5002a
+    name: cert-manager
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-1.20.2/cert-manager-1.20.2.tgz
+    version: 1.20.2
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.387605-03:00"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: v1.19.3
+    - name: cert-manager-issuer
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    description: A Helm chart for cert-manager
+    digest: 3e87fd5c3c2b79062543631482d21dfb4acd9ac270e1a66f10d3877dc959445b
+    name: cert-manager
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-1.20.1/cert-manager-1.20.1.tgz
+    version: 1.20.1
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.376978-03:00"
     dependencies:
     - name: cert-manager
       repository: https://charts.jetstack.io
@@ -18,7 +50,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-1.11.5/cert-manager-1.11.5.tgz
     version: 1.11.5
   - apiVersion: v2
-    created: "2025-02-05T02:02:53.509020506Z"
+    created: "2026-02-15T20:03:49.374413-03:00"
     dependencies:
     - name: cert-manager
       repository: https://charts.jetstack.io
@@ -34,7 +66,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-1.11.4/cert-manager-1.11.4.tgz
     version: 1.11.4
   - apiVersion: v2
-    created: "2023-05-16T04:02:24.989320555Z"
+    created: "2026-02-15T20:03:49.371306-03:00"
     dependencies:
     - name: cert-manager
       repository: https://charts.jetstack.io
@@ -50,7 +82,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-1.11.3/cert-manager-1.11.3.tgz
     version: 1.11.3
   - apiVersion: v2
-    created: "2023-05-16T03:32:16.212884033Z"
+    created: "2026-02-15T20:03:49.368769-03:00"
     dependencies:
     - name: cert-manager
       repository: https://charts.jetstack.io
@@ -67,8 +99,48 @@ entries:
     version: 1.11.2
   cert-manager-issuer:
   - apiVersion: v2
+    appVersion: 1.19.3
+    created: "2026-02-15T20:03:49.406769-03:00"
+    dependencies:
+    - condition: digitalocean.dns
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    - alias: cloudflare-secret
+      condition: cloudflare.dns
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    description: A Helm chart for cert-manager-issuer
+    digest: 5e6e78ab7bca18e0b54899c8e95999c0923f82ce6e16e64cbfbbb96f5031a431
+    name: cert-manager-issuer
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-issuer-1.0.2/cert-manager-issuer-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 1.19.3
+    created: "2026-02-15T20:03:49.406316-03:00"
+    dependencies:
+    - condition: digitalocean.dns
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    - alias: cloudflare-secret
+      condition: cloudflare.dns
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    description: A Helm chart for cert-manager-issuer
+    digest: a40a01cf088cb1cd057b8cf5ad9e052428e8bd37a28c93568a213ee5a5111d17
+    name: cert-manager-issuer
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-issuer-1.0.1/cert-manager-issuer-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
     appVersion: 1.16.0
-    created: "2025-09-20T13:55:07.070943256Z"
+    created: "2026-02-15T20:03:49.405862-03:00"
     dependencies:
     - condition: digitalocean.dns
       name: sealed-secret
@@ -88,7 +160,7 @@ entries:
     version: 0.0.7
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2025-01-10T12:36:49.482455464Z"
+    created: "2026-02-15T20:03:49.405458-03:00"
     dependencies:
     - condition: digitalocean.dns
       name: sealed-secret
@@ -108,7 +180,7 @@ entries:
     version: 0.0.5
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-18T12:46:47.74381484Z"
+    created: "2026-02-15T20:03:49.405008-03:00"
     dependencies:
     - condition: digitalocean.dns
       name: sealed-secret
@@ -123,7 +195,7 @@ entries:
     version: 0.0.4
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-16T03:23:05.81998833Z"
+    created: "2026-02-15T20:03:49.404485-03:00"
     dependencies:
     - condition: digitalocean.dns
       name: sealed-secret
@@ -138,7 +210,7 @@ entries:
     version: 0.0.3
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-15T13:37:21.638527711Z"
+    created: "2026-02-15T20:03:49.40398-03:00"
     dependencies:
     - condition: digitalocean.dns
       name: sealed-secret
@@ -153,7 +225,7 @@ entries:
     version: 0.0.2
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-15T12:56:12.021942091Z"
+    created: "2026-02-15T20:03:49.403411-03:00"
     dependencies:
     - condition: digitalocean.dns
       name: sealed-secret
@@ -169,7 +241,7 @@ entries:
   do-boostraping:
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2026-02-15T22:50:41.317431822Z"
+    created: "2026-02-15T20:03:49.416944-03:00"
     description: Applications
     digest: 1db0c08a2067896940f0a4617d08d8817dc919679b7669db47ef6c4816c16db6
     name: do-boostraping
@@ -179,7 +251,7 @@ entries:
     version: 1.0.4
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2026-02-15T22:45:21.896364473Z"
+    created: "2026-02-15T20:03:49.416628-03:00"
     description: Applications
     digest: b23d4eef112a994aea78b554dc7f0bcee6b4d0f81dfe13e7407c5d8ff9df81c2
     name: do-boostraping
@@ -189,7 +261,27 @@ entries:
     version: 1.0.3
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-09-20T14:13:46.425749761Z"
+    created: "2026-02-15T20:03:49.416379-03:00"
+    description: Applications
+    digest: d3a488ca64aec6e8e7d127ed22e8f597b3096dbcbddaa4b3b530d632d44d4f28
+    name: do-boostraping
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/do-boostraping-1.0.1/do-boostraping-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2026-02-15T20:03:49.415154-03:00"
+    description: Applications
+    digest: 896906dba03acd70fd6f54cd3b9e2766ceff125e2ab8c8055c325f24011cfa57
+    name: do-boostraping
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/do-boostraping-1.0.0/do-boostraping-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2026-02-15T20:03:49.413233-03:00"
     description: Applications
     digest: 4cf085dd4c0f24e8b2bfe95c26ee111a37fb6d2128cb15fd8a45e984d204d217
     name: do-boostraping
@@ -199,7 +291,7 @@ entries:
     version: 0.0.23
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-09-20T14:09:48.290401736Z"
+    created: "2026-02-15T20:03:49.41302-03:00"
     description: Applications
     digest: e2670b0145881f7c5110ab0a416c4e23874414f0a58124c39160eaf14a9c6799
     name: do-boostraping
@@ -209,7 +301,7 @@ entries:
     version: 0.0.22
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-09-20T14:02:09.857064956Z"
+    created: "2026-02-15T20:03:49.412735-03:00"
     description: Applications
     digest: a182fe23e586259919b375a9a6ff53a1f5df6293ea539d03c47545bf96363f28
     name: do-boostraping
@@ -219,7 +311,7 @@ entries:
     version: 0.0.21
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-09-20T13:57:23.860080043Z"
+    created: "2026-02-15T20:03:49.412446-03:00"
     description: Applications
     digest: 4473693347690a18676679de7cb24903a8a49cff7a7a5ebf101b7e4ca0668769
     name: do-boostraping
@@ -229,7 +321,7 @@ entries:
     version: 0.0.20
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-08-04T02:01:41.912097006Z"
+    created: "2026-02-15T20:03:49.411954-03:00"
     description: Applications
     digest: b555cbb33155d684007a03d7bd6029e56f1bcdc59e998aa715fc7db98eba7a2f
     name: do-boostraping
@@ -239,7 +331,7 @@ entries:
     version: 0.0.19
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-07-31T20:34:14.995009072Z"
+    created: "2026-02-15T20:03:49.411622-03:00"
     description: Applications
     digest: 4e6896e77165950ca43781d858e602823c4b6c2ef4e86e7437be493b9502428f
     name: do-boostraping
@@ -249,7 +341,7 @@ entries:
     version: 0.0.18
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-07-03T14:45:42.092006384Z"
+    created: "2026-02-15T20:03:49.411326-03:00"
     description: Applications
     digest: 746c67b85cca8b055c8d054e29477fe8ce03cd784af7febe3953599763890f4c
     name: do-boostraping
@@ -259,7 +351,7 @@ entries:
     version: 0.0.17
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-06-27T18:10:37.274915045Z"
+    created: "2026-02-15T20:03:49.411003-03:00"
     description: Applications
     digest: 20e1d95bf6d424bb92cf488193a4c66c25297bbbe79a2f9251332f031ac0f763
     name: do-boostraping
@@ -269,7 +361,7 @@ entries:
     version: 0.0.16
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-06-27T17:59:07.391600659Z"
+    created: "2026-02-15T20:03:49.41071-03:00"
     description: Applications
     digest: b6a870283bfb4384a3ca4aa6c979bb7c9e84426f1892ed1ab2493979907e593b
     name: do-boostraping
@@ -279,7 +371,7 @@ entries:
     version: 0.0.15
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-31T15:35:45.381542839Z"
+    created: "2026-02-15T20:03:49.410263-03:00"
     description: Applications
     digest: 87a34e1981c045fdc9ae9fdd322671240b7b86bf090d1a7adfdc5d24b74423ba
     name: do-boostraping
@@ -289,7 +381,7 @@ entries:
     version: 0.0.14
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-24T02:17:35.669831382Z"
+    created: "2026-02-15T20:03:49.409923-03:00"
     description: Applications
     digest: ff95a243132dfac08d6d7009e5fb54a07cf145c041180a900df4288389591628
     name: do-boostraping
@@ -299,7 +391,7 @@ entries:
     version: 0.0.13
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-24T02:15:06.273678015Z"
+    created: "2026-02-15T20:03:49.409469-03:00"
     description: Applications
     digest: be7aa2cb2e50ffb21888dc8ec3e9ff30bc148dba215d2616c55a5b1d12b3196c
     name: do-boostraping
@@ -309,7 +401,7 @@ entries:
     version: 0.0.12
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-24T02:06:42.250570056Z"
+    created: "2026-02-15T20:03:49.409113-03:00"
     description: Applications
     digest: 81deb498c56828ae5a353650ec36e1152138f068be3ff5cda437fe3f99b31f9c
     name: do-boostraping
@@ -319,7 +411,7 @@ entries:
     version: 0.0.11
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-23T18:31:20.523755654Z"
+    created: "2026-02-15T20:03:49.408537-03:00"
     description: Applications
     digest: 01f3e2c345c7ce0ac5c95d28bb1e2f8cd5802ad99e3e82387fe5faed03c835d1
     name: do-boostraping
@@ -329,7 +421,7 @@ entries:
     version: 0.0.10
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-23T04:32:45.888738717Z"
+    created: "2026-02-15T20:03:49.41473-03:00"
     description: Applications
     digest: 17863ea7835e1c4cba1a1b217c1d1142a91617edff2bbf3a3f640ca89a92bb1e
     name: do-boostraping
@@ -339,7 +431,7 @@ entries:
     version: 0.0.9
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-22T22:32:11.748734608Z"
+    created: "2026-02-15T20:03:49.414539-03:00"
     description: Applications
     digest: 993f5d4ecd59c8ae35caa9e88071fcb1aff6dbf83359e31036e4860eb27c41c7
     name: do-boostraping
@@ -349,7 +441,7 @@ entries:
     version: 0.0.8
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-19T12:35:24.670353671Z"
+    created: "2026-02-15T20:03:49.414373-03:00"
     description: Applications
     digest: 773f38cadce45d388f5639e0cfa449a38d5067d83e2d96406622eccdf17acdde
     name: do-boostraping
@@ -359,7 +451,7 @@ entries:
     version: 0.0.7
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-19T00:49:36.853900984Z"
+    created: "2026-02-15T20:03:49.41415-03:00"
     description: Applications
     digest: e873d24f0e4161cc176814b44452a78cdfc8eddcef0a01e4bbafdffdf69f2402
     name: do-boostraping
@@ -369,7 +461,7 @@ entries:
     version: 0.0.6
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-18T23:26:29.60012028Z"
+    created: "2026-02-15T20:03:49.413923-03:00"
     description: Applications
     digest: b6cac28f637a48c44f438f3ffdfb4013a26712f0f684a740f3ece55bff196ff5
     name: do-boostraping
@@ -379,7 +471,7 @@ entries:
     version: 0.0.5
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-16T05:26:47.920081637Z"
+    created: "2026-02-15T20:03:49.413709-03:00"
     description: Applications
     digest: 44633c8ec7ea2527c918673ca8f57051adfdaf5c5a466d17435f91e3cc248506
     name: do-boostraping
@@ -389,7 +481,7 @@ entries:
     version: 0.0.4
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-16T04:24:51.948468053Z"
+    created: "2026-02-15T20:03:49.41348-03:00"
     description: Applications
     digest: 18335a90ce9068275c658d63110eb81704489f83451c3a85038c2410e1c4e2b9
     name: do-boostraping
@@ -399,7 +491,7 @@ entries:
     version: 0.0.3
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-15T12:51:38.405028819Z"
+    created: "2026-02-15T20:03:49.41221-03:00"
     description: Applications
     digest: 9223f026da22e6a503eb4c2f90096d39042e30d57a8d6d2a9b72e3c158c47899
     name: do-boostraping
@@ -409,7 +501,7 @@ entries:
     version: 0.0.2
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2023-05-06T23:22:33.491967862Z"
+    created: "2026-02-15T20:03:49.40779-03:00"
     description: Applications
     digest: 4849205ab59f4bae784bec195d85a3977e06e6818846cb9ca9f3588811b929ec
     name: do-boostraping
@@ -417,9 +509,25 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/do-boostraping-0.0.1/do-boostraping-0.0.1.tgz
     version: 0.0.1
+  eks-booostraping:
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.41718-03:00"
+    digest: 63158594b5290832835684346bb3e57cb727f362ba4d57bfd84bdae5db525e51
+    name: eks-booostraping
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/eks-booostraping-0.0.0/eks-booostraping-0.0.0.tgz
+    version: 0.0.0
   eks-boostraping:
   - apiVersion: v2
-    created: "2023-06-30T18:39:52.161867685Z"
+    created: "2026-02-15T20:03:49.419292-03:00"
+    digest: daa8eae51c01608c3ed2bb46f7eca212ca70cfa1071b27f26e35b65fd7371f42
+    name: eks-boostraping
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/eks-boostraping-1.0.0/eks-boostraping-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.419012-03:00"
     digest: cf5912d9a6d639ad8fd5d33c5fad3e44705c624485b27480ae93df41180401c0
     name: eks-boostraping
     type: application
@@ -427,7 +535,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/eks-boostraping-0.0.8/eks-boostraping-0.0.8.tgz
     version: 0.0.8
   - apiVersion: v2
-    created: "2023-06-29T19:35:54.266712002Z"
+    created: "2026-02-15T20:03:49.418814-03:00"
     digest: 36b3b38484f1a45378ac90a6a17bf8ef363eaed2640e7d70fac7a1c384538bfc
     name: eks-boostraping
     type: application
@@ -435,7 +543,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/eks-boostraping-0.0.7/eks-boostraping-0.0.7.tgz
     version: 0.0.7
   - apiVersion: v2
-    created: "2023-06-29T19:32:40.563883108Z"
+    created: "2026-02-15T20:03:49.418547-03:00"
     digest: c1bc578638ad12fa4a08cd6ffe6d7a9751d2b47ffe916b018edf1400e1457154
     name: eks-boostraping
     type: application
@@ -443,7 +551,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/eks-boostraping-0.0.6/eks-boostraping-0.0.6.tgz
     version: 0.0.6
   - apiVersion: v2
-    created: "2023-06-29T12:42:36.359821365Z"
+    created: "2026-02-15T20:03:49.41833-03:00"
     digest: 8896f4f8c7e74bade66a4243b8d3f2f5ee69da3cdd44985832cf63f737253a7d
     name: eks-boostraping
     type: application
@@ -451,16 +559,38 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/eks-boostraping-0.0.5/eks-boostraping-0.0.5.tgz
     version: 0.0.5
   - apiVersion: v2
-    created: "2023-06-29T01:24:04.391500731Z"
+    created: "2026-02-15T20:03:49.418102-03:00"
     digest: e01e327451f7a4df4fccb19afb50d64bcc0dfe947f37fad67c1c12074ac0fc65
     name: eks-boostraping
     type: application
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/eks-boostraping-0.0.4/eks-boostraping-0.0.4.tgz
     version: 0.0.4
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.417882-03:00"
+    digest: b4f6f184a49a8c63585654535f551cbff450f3d598eed4c96228067e4f3c106f
+    name: eks-boostraping
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/eks-boostraping-0.0.3/eks-boostraping-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.417648-03:00"
+    digest: 1feab7da3ff21567902e1faccc6b1651567bfe906c7ea3893782010b68cef1c6
+    name: eks-boostraping
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/eks-boostraping-0.0.2/eks-boostraping-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.417412-03:00"
+    digest: afc092a2170a7f0a8ee4423717b31dbd50e4103331b66441a1f937b759f01d7f
+    name: eks-boostraping
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/eks-boostraping-0.0.1/eks-boostraping-0.0.1.tgz
+    version: 0.0.1
   generic-app:
   - apiVersion: v2
-    created: "2026-02-15T22:50:41.318081044Z"
+    created: "2026-02-15T20:03:49.439543-03:00"
     description: A versatile Helm chart for deploying applications on Kubernetes with
       support for Argo Rollouts, standard Deployments, CronJobs, and migrations.
     digest: 101ae11e9287c316ab97c7f48ecc5190f9a3feaeb11b3bd72b1fcd7bef1614e8
@@ -470,7 +600,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-2.0.4/generic-app-2.0.4.tgz
     version: 2.0.4
   - apiVersion: v2
-    created: "2026-02-15T22:45:21.8970009Z"
+    created: "2026-02-15T20:03:49.438964-03:00"
     description: A versatile Helm chart for deploying applications on Kubernetes with
       support for Argo Rollouts, standard Deployments, CronJobs, and migrations.
     digest: fbcb623a37167527e9e6aa6b14db16c48ecf94d20180d4b21f447761526ee2e8
@@ -480,7 +610,27 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-2.0.3/generic-app-2.0.3.tgz
     version: 2.0.3
   - apiVersion: v2
-    created: "2026-01-10T13:30:18.727573157Z"
+    created: "2026-02-15T20:03:49.438423-03:00"
+    description: A versatile Helm chart for deploying applications on Kubernetes with
+      support for Argo Rollouts, standard Deployments, CronJobs, and migrations.
+    digest: 86ada3aa61558b17ba4e8a37daa327a36c6a2e317d2282b696dc6506b09c9d71
+    name: generic-app
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-2.0.1/generic-app-2.0.1.tgz
+    version: 2.0.1
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.437992-03:00"
+    description: A versatile Helm chart for deploying applications on Kubernetes with
+      support for Argo Rollouts, standard Deployments, CronJobs, and migrations.
+    digest: 6dd9a14d02487ce9441eacc03944395ccdb950b9772e59d095f40688abbeffee
+    name: generic-app
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-2.0.0/generic-app-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.434507-03:00"
     description: A Helm chart for Kubernetes
     digest: 44435f93a418b7dc67f4b59ae6667336e03b6b8dc6eccb4144be88e050e8990b
     name: generic-app
@@ -489,7 +639,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.33/generic-app-0.0.33.tgz
     version: 0.0.33
   - apiVersion: v2
-    created: "2025-09-28T21:56:38.279455925Z"
+    created: "2026-02-15T20:03:49.433862-03:00"
     description: A Helm chart for Kubernetes
     digest: c3cfad3f0c3cb0cbaaefe7e3a6a0e8908a6fcdfc001b93f43c650ad21a44896d
     name: generic-app
@@ -498,7 +648,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.32/generic-app-0.0.32.tgz
     version: 0.0.32
   - apiVersion: v2
-    created: "2025-02-05T02:02:53.627995088Z"
+    created: "2026-02-15T20:03:49.43327-03:00"
     description: A Helm chart for Kubernetes
     digest: 23d2ac1e4614bce7835f3abd579554f1fa7c264bfcba83e2f0d8fa87a660e4bd
     name: generic-app
@@ -507,7 +657,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.31/generic-app-0.0.31.tgz
     version: 0.0.31
   - apiVersion: v2
-    created: "2024-06-26T20:48:14.295148922Z"
+    created: "2026-02-15T20:03:49.431503-03:00"
     description: A Helm chart for Kubernetes
     digest: 8ecebdc13197f42819754a45097806d8a5a6b12a8d5bbc2b03e96cbce72214b6
     name: generic-app
@@ -516,7 +666,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.29/generic-app-0.0.29.tgz
     version: 0.0.29
   - apiVersion: v2
-    created: "2024-06-26T20:42:05.439994483Z"
+    created: "2026-02-15T20:03:49.431042-03:00"
     description: A Helm chart for Kubernetes
     digest: 887562086f4481b8a5cd9994f7d5a991677cf0675f0b3d701dd48ed6be25531b
     name: generic-app
@@ -525,7 +675,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.28/generic-app-0.0.28.tgz
     version: 0.0.28
   - apiVersion: v2
-    created: "2024-06-26T20:24:36.953388204Z"
+    created: "2026-02-15T20:03:49.430578-03:00"
     description: A Helm chart for Kubernetes
     digest: 3495dd9d51189508cfd2180bfb084ae46c2549f3d6b44d99bb55ce1f82981ecf
     name: generic-app
@@ -534,7 +684,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.27/generic-app-0.0.27.tgz
     version: 0.0.27
   - apiVersion: v2
-    created: "2024-06-26T20:08:05.141789319Z"
+    created: "2026-02-15T20:03:49.430223-03:00"
     description: A Helm chart for Kubernetes
     digest: f99ddc753586adf4bc2a6e8edf58d2acde989e3339dcf687dedfb80670e05380
     name: generic-app
@@ -543,7 +693,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.26/generic-app-0.0.26.tgz
     version: 0.0.26
   - apiVersion: v2
-    created: "2024-06-16T00:08:34.478375338Z"
+    created: "2026-02-15T20:03:49.429454-03:00"
     description: A Helm chart for Kubernetes
     digest: acbcdcb59cbf404bb72a91da30c38ed1134cf75cb576964d1a988c77123d6b49
     name: generic-app
@@ -552,7 +702,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.25/generic-app-0.0.25.tgz
     version: 0.0.25
   - apiVersion: v2
-    created: "2024-05-13T10:28:08.584440763Z"
+    created: "2026-02-15T20:03:49.428931-03:00"
     description: A Helm chart for Kubernetes
     digest: e26190588b52c159a78aa942d736ce6911440d2f5864809083e6d80dfa657d7c
     name: generic-app
@@ -561,7 +711,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.24/generic-app-0.0.24.tgz
     version: 0.0.24
   - apiVersion: v2
-    created: "2024-02-18T23:38:24.907907763Z"
+    created: "2026-02-15T20:03:49.428444-03:00"
     description: A Helm chart for Kubernetes
     digest: 89ccdc4cb2fe037da70d985464b471c23c116fc385c11ceeb808846a68efcc21
     name: generic-app
@@ -570,7 +720,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.23/generic-app-0.0.23.tgz
     version: 0.0.23
   - apiVersion: v2
-    created: "2024-02-17T16:42:17.168828699Z"
+    created: "2026-02-15T20:03:49.428077-03:00"
     description: A Helm chart for Kubernetes
     digest: e08e94d2756ee485658bdca1f9577849aa86cb1124bebd4b02f49d02cf7dea55
     name: generic-app
@@ -579,7 +729,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.22/generic-app-0.0.22.tgz
     version: 0.0.22
   - apiVersion: v2
-    created: "2024-02-17T16:30:39.487851496Z"
+    created: "2026-02-15T20:03:49.427095-03:00"
     description: A Helm chart for Kubernetes
     digest: 6eb01dca87c53821137192b10fab55cc7fd1a55e39c64b04ee7612b9df197254
     name: generic-app
@@ -588,7 +738,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.21/generic-app-0.0.21.tgz
     version: 0.0.21
   - apiVersion: v2
-    created: "2024-02-12T15:13:02.792332692Z"
+    created: "2026-02-15T20:03:49.426623-03:00"
     description: A Helm chart for Kubernetes
     digest: c7a72d29932308b88625dcca01d6dcbd546120ecde736e420cd20cde62e6c492
     name: generic-app
@@ -597,7 +747,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.20/generic-app-0.0.20.tgz
     version: 0.0.20
   - apiVersion: v2
-    created: "2024-02-12T14:59:55.281364653Z"
+    created: "2026-02-15T20:03:49.425829-03:00"
     description: A Helm chart for Kubernetes
     digest: c1a9a998d0a93cd770d3369c805c7e3e9ecb2de2e9119c8bdb5e7145904c1917
     name: generic-app
@@ -606,7 +756,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.19/generic-app-0.0.19.tgz
     version: 0.0.19
   - apiVersion: v2
-    created: "2023-09-16T18:58:41.304275189Z"
+    created: "2026-02-15T20:03:49.425372-03:00"
     description: A Helm chart for Kubernetes
     digest: b41647170d2e0fb678185f1e650063236f499d0eded1509e9efebec37c955f19
     name: generic-app
@@ -615,7 +765,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.18/generic-app-0.0.18.tgz
     version: 0.0.18
   - apiVersion: v2
-    created: "2023-08-09T17:09:46.709170401Z"
+    created: "2026-02-15T20:03:49.425042-03:00"
     description: A Helm chart for Kubernetes
     digest: f5627e3b44cb95c678c59623d0ac032e6fc460f2a3b19913cde2e3ce3f538f46
     name: generic-app
@@ -624,7 +774,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.17/generic-app-0.0.17.tgz
     version: 0.0.17
   - apiVersion: v2
-    created: "2023-08-09T17:03:44.904745201Z"
+    created: "2026-02-15T20:03:49.424674-03:00"
     description: A Helm chart for Kubernetes
     digest: 1cb7272674dee0408ab9a7266629a9dc016cc59c41eca90f8bef35078814849b
     name: generic-app
@@ -633,7 +783,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.16/generic-app-0.0.16.tgz
     version: 0.0.16
   - apiVersion: v2
-    created: "2023-08-05T20:47:57.444410088Z"
+    created: "2026-02-15T20:03:49.423056-03:00"
     description: A Helm chart for Kubernetes
     digest: e28836bedf19fb72f9096576a95b5b46c52e03ddc95ba5ceba4129c8f4575896
     name: generic-app
@@ -642,7 +792,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.15/generic-app-0.0.15.tgz
     version: 0.0.15
   - apiVersion: v2
-    created: "2023-07-28T21:05:29.013299694Z"
+    created: "2026-02-15T20:03:49.422578-03:00"
     description: A Helm chart for Kubernetes
     digest: ad5339300f6d487bf6d7950d4060b17c66d04ac279f31dbb1c365d1fa719f22c
     name: generic-app
@@ -651,7 +801,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.14/generic-app-0.0.14.tgz
     version: 0.0.14
   - apiVersion: v2
-    created: "2023-07-28T20:53:37.011425562Z"
+    created: "2026-02-15T20:03:49.422126-03:00"
     description: A Helm chart for Kubernetes
     digest: e91c7af2d0bdde595abd0a9a1d599a7f95db69d2d4f79d9a645c69e93a40a729
     name: generic-app
@@ -660,7 +810,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.13/generic-app-0.0.13.tgz
     version: 0.0.13
   - apiVersion: v2
-    created: "2023-07-28T19:01:56.713404659Z"
+    created: "2026-02-15T20:03:49.421773-03:00"
     description: A Helm chart for Kubernetes
     digest: 8ad37267fa4f44a3c78d8da2da5d1fcedf274e9c1c68120bb9c12be97612f882
     name: generic-app
@@ -669,7 +819,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.12/generic-app-0.0.12.tgz
     version: 0.0.12
   - apiVersion: v2
-    created: "2023-07-28T18:32:52.345204083Z"
+    created: "2026-02-15T20:03:49.420891-03:00"
     description: A Helm chart for Kubernetes
     digest: 493876e33944ac4f32ffcf4b2969adc89c645177b22d42adc95afb8551155358
     name: generic-app
@@ -678,7 +828,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.11/generic-app-0.0.11.tgz
     version: 0.0.11
   - apiVersion: v2
-    created: "2023-07-28T05:09:45.186209368Z"
+    created: "2026-02-15T20:03:49.420408-03:00"
     description: A Helm chart for Kubernetes
     digest: 83db8fea7bebe1fb13d2d7d41b8fbfacfc0aa9c3d6469da0f66797940620e93f
     name: generic-app
@@ -687,7 +837,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.10/generic-app-0.0.10.tgz
     version: 0.0.10
   - apiVersion: v2
-    created: "2023-07-28T04:56:33.465052195Z"
+    created: "2026-02-15T20:03:49.437563-03:00"
     description: A Helm chart for Kubernetes
     digest: 5c80f65563c34b8aa5f6e10b8bb8a44004ca67a2c55eac709658325091549644
     name: generic-app
@@ -696,7 +846,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.9/generic-app-0.0.9.tgz
     version: 0.0.9
   - apiVersion: v2
-    created: "2023-07-28T03:38:32.375930963Z"
+    created: "2026-02-15T20:03:49.437106-03:00"
     description: A Helm chart for Kubernetes
     digest: 8354771bacfccd3536f48f1cc1a450e52c46198fa149d4aea65f13c7ca644c2e
     name: generic-app
@@ -705,7 +855,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.8/generic-app-0.0.8.tgz
     version: 0.0.8
   - apiVersion: v2
-    created: "2023-07-03T13:51:51.277778284Z"
+    created: "2026-02-15T20:03:49.436744-03:00"
     description: A Helm chart for Kubernetes
     digest: 99b5f6083d3096e2450229caad514c469baf1ccfeef4b2bb02e915c1b01410ec
     name: generic-app
@@ -714,7 +864,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.7/generic-app-0.0.7.tgz
     version: 0.0.7
   - apiVersion: v2
-    created: "2023-07-02T14:22:14.74539802Z"
+    created: "2026-02-15T20:03:49.435886-03:00"
     description: A Helm chart for Kubernetes
     digest: 04c9519192fb740c43e8ad6fcb29fce558bdd27e932860c9f28b98658b93bd0f
     name: generic-app
@@ -723,7 +873,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.6/generic-app-0.0.6.tgz
     version: 0.0.6
   - apiVersion: v2
-    created: "2023-06-30T22:22:32.067053893Z"
+    created: "2026-02-15T20:03:49.435425-03:00"
     description: A Helm chart for Kubernetes
     digest: a41f5ade59b4382f1f45fcd929041b410f7f271f8ce6eeee7a58120b64f64892
     name: generic-app
@@ -732,7 +882,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.5/generic-app-0.0.5.tgz
     version: 0.0.5
   - apiVersion: v2
-    created: "2023-06-30T22:03:53.898282253Z"
+    created: "2026-02-15T20:03:49.434978-03:00"
     description: A Helm chart for Kubernetes
     digest: e4a4e59e3837f71e8aa9bc62f3435d29822d1df987d69ca9cbadc20ff3d2507c
     name: generic-app
@@ -741,7 +891,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.4/generic-app-0.0.4.tgz
     version: 0.0.4
   - apiVersion: v2
-    created: "2023-06-30T19:51:02.095413719Z"
+    created: "2026-02-15T20:03:49.432084-03:00"
     description: A Helm chart for Kubernetes
     digest: 22966d1fb5bdb8a366485bae15aab3757d3fd13e18ff1fa83da74d11ec91237a
     name: generic-app
@@ -750,7 +900,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.3/generic-app-0.0.3.tgz
     version: 0.0.3
   - apiVersion: v2
-    created: "2023-06-30T19:43:26.666533671Z"
+    created: "2026-02-15T20:03:49.426183-03:00"
     description: A Helm chart for Kubernetes
     digest: 22d8090dd5c7d1e7ca86a58b86623dca88b07ac29e4f73069e35104c7ab66437
     name: generic-app
@@ -759,7 +909,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.2/generic-app-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v2
-    created: "2023-06-30T18:39:52.335518843Z"
+    created: "2026-02-15T20:03:49.419994-03:00"
     description: A Helm chart for Kubernetes
     digest: 916667b1114647cf83878b1dda2c3bc9865d9ea64f2233c81ea0e2250f08fd20
     name: generic-app
@@ -768,7 +918,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-0.0.1/generic-app-0.0.1.tgz
     version: 0.0.1
   - apiVersion: v2
-    created: "2023-06-30T13:18:19.894140407Z"
+    created: "2026-02-15T20:03:49.419678-03:00"
     description: A Helm chart for Kubernetes
     digest: c4e09cb5d8d513229febf88b566ba8fadac0add3ddf7a09c6c5ed8f7f7a74eb9
     name: generic-app
@@ -778,7 +928,21 @@ entries:
     version: 0.0.0
   ingress-nginx:
   - apiVersion: v2
-    created: "2023-05-31T15:33:46.931829702Z"
+    created: "2026-02-15T20:03:49.453967-03:00"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.14.3
+    description: Ingress controller for Kubernetes using NGINX as a reverse proxy
+      and load balancer
+    digest: 8caf2f368c5ce30f3ca179df9b8a704f5d41729361a0597b5a31a1126d2328db
+    name: ingress-nginx
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/ingress-nginx-5.0.0/ingress-nginx-5.0.0.tgz
+    version: 5.0.0
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.450644-03:00"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
@@ -792,7 +956,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/ingress-nginx-4.6.3/ingress-nginx-4.6.3.tgz
     version: 4.6.3
   - apiVersion: v2
-    created: "2023-05-23T04:32:46.058687714Z"
+    created: "2026-02-15T20:03:49.447641-03:00"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
@@ -806,7 +970,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/ingress-nginx-4.6.2/ingress-nginx-4.6.2.tgz
     version: 4.6.2
   - apiVersion: v2
-    created: "2023-05-22T22:27:50.639190445Z"
+    created: "2026-02-15T20:03:49.44513-03:00"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
@@ -820,7 +984,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/ingress-nginx-4.6.1/ingress-nginx-4.6.1.tgz
     version: 4.6.1
   - apiVersion: v2
-    created: "2023-05-16T03:27:08.965501215Z"
+    created: "2026-02-15T20:03:49.442616-03:00"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
@@ -835,7 +999,63 @@ entries:
     version: 4.6.0
   laravel:
   - apiVersion: v2
-    created: "2025-09-28T22:24:30.345168622Z"
+    created: "2026-02-15T20:03:49.481505-03:00"
+    dependencies:
+    - name: fpm
+      repository: ""
+      version: 0.1.*
+    - name: web-server
+      repository: ""
+      version: 0.1.*
+    - condition: cron.create
+      name: cron
+      repository: ""
+      version: 0.1.*
+    - condition: queue.create
+      name: queue
+      repository: ""
+      version: 0.1.*
+    - condition: sealed-secret.create
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    description: A Helm chart for Kubernetes
+    digest: 77cf31bb8d2add52d9d301fa713452a915ec0890a67a08e8bbb1d907782b5970
+    name: laravel
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/laravel-2.0.2/laravel-2.0.2.tgz
+    version: 2.0.2
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.480174-03:00"
+    dependencies:
+    - name: fpm
+      repository: ""
+      version: 0.1.*
+    - name: web-server
+      repository: ""
+      version: 0.1.*
+    - condition: cron.create
+      name: cron
+      repository: ""
+      version: 0.1.*
+    - condition: queue.create
+      name: queue
+      repository: ""
+      version: 0.1.*
+    - condition: sealed-secret.create
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    description: A Helm chart for Kubernetes
+    digest: e4a06a2f989949c983532fd47d5ace320f477f9f9a88787ea177dc686078730b
+    name: laravel
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/laravel-2.0.1/laravel-2.0.1.tgz
+    version: 2.0.1
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.470332-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -863,7 +1083,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.21/laravel-1.1.21.tgz
     version: 1.1.21
   - apiVersion: v2
-    created: "2023-08-01T02:33:17.363015825Z"
+    created: "2026-02-15T20:03:49.46897-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -891,7 +1111,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.20/laravel-1.1.20.tgz
     version: 1.1.20
   - apiVersion: v2
-    created: "2023-08-01T02:19:54.948364389Z"
+    created: "2026-02-15T20:03:49.466719-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -919,7 +1139,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.19/laravel-1.1.19.tgz
     version: 1.1.19
   - apiVersion: v2
-    created: "2023-07-02T21:35:38.978379677Z"
+    created: "2026-02-15T20:03:49.465526-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -947,7 +1167,35 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.18/laravel-1.1.18.tgz
     version: 1.1.18
   - apiVersion: v2
-    created: "2023-05-31T17:54:31.932634594Z"
+    created: "2026-02-15T20:03:49.463949-03:00"
+    dependencies:
+    - name: fpm
+      repository: ""
+      version: 0.1.6
+    - name: web-server
+      repository: ""
+      version: 0.1.4
+    - condition: cron.create
+      name: cron
+      repository: ""
+      version: 0.1.3
+    - condition: queue.create
+      name: queue
+      repository: ""
+      version: 0.1.3
+    - condition: sealed-secret.create
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 0.1.4
+    description: A Helm chart for Kubernetes
+    digest: 674062f767fa844e3cd5fe43dd850be542405f3d16aaf3487f968f9ebeb95080
+    name: laravel
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.17/laravel-1.1.17.tgz
+    version: 1.1.17
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.462763-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -975,7 +1223,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.15/laravel-1.1.15.tgz
     version: 1.1.15
   - apiVersion: v2
-    created: "2023-05-22T15:55:33.141967571Z"
+    created: "2026-02-15T20:03:49.46151-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1002,7 +1250,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.14/laravel-1.1.14.tgz
     version: 1.1.14
   - apiVersion: v2
-    created: "2023-05-18T23:14:02.378179107Z"
+    created: "2026-02-15T20:03:49.460195-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1027,7 +1275,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.13/laravel-1.1.13.tgz
     version: 1.1.13
   - apiVersion: v2
-    created: "2023-05-18T20:49:15.029972694Z"
+    created: "2026-02-15T20:03:49.458838-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1052,7 +1300,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.12/laravel-1.1.12.tgz
     version: 1.1.12
   - apiVersion: v2
-    created: "2023-05-18T12:46:47.865732982Z"
+    created: "2026-02-15T20:03:49.457148-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1077,7 +1325,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.11/laravel-1.1.11.tgz
     version: 1.1.11
   - apiVersion: v2
-    created: "2023-05-18T11:27:33.521508383Z"
+    created: "2026-02-15T20:03:49.456016-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1102,7 +1350,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.10/laravel-1.1.10.tgz
     version: 1.1.10
   - apiVersion: v2
-    created: "2023-05-16T13:59:49.193170001Z"
+    created: "2026-02-15T20:03:49.478731-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1127,7 +1375,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.9/laravel-1.1.9.tgz
     version: 1.1.9
   - apiVersion: v2
-    created: "2023-04-09T18:09:36.651822808Z"
+    created: "2026-02-15T20:03:49.477181-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1149,7 +1397,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.8/laravel-1.1.8.tgz
     version: 1.1.8
   - apiVersion: v2
-    created: "2023-04-09T17:46:00.556169793Z"
+    created: "2026-02-15T20:03:49.476166-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1171,7 +1419,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.7/laravel-1.1.7.tgz
     version: 1.1.7
   - apiVersion: v2
-    created: "2023-04-09T17:08:17.181992515Z"
+    created: "2026-02-15T20:03:49.475011-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1193,7 +1441,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.6/laravel-1.1.6.tgz
     version: 1.1.6
   - apiVersion: v2
-    created: "2023-04-09T17:04:08.881796421Z"
+    created: "2026-02-15T20:03:49.473879-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1215,7 +1463,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.5/laravel-1.1.5.tgz
     version: 1.1.5
   - apiVersion: v2
-    created: "2023-04-09T16:55:43.828065838Z"
+    created: "2026-02-15T20:03:49.472948-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1237,7 +1485,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.4/laravel-1.1.4.tgz
     version: 1.1.4
   - apiVersion: v2
-    created: "2023-04-09T16:40:59.981251899Z"
+    created: "2026-02-15T20:03:49.47187-03:00"
     dependencies:
     - name: fpm
       repository: ""
@@ -1258,9 +1506,91 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.3/laravel-1.1.3.tgz
     version: 1.1.3
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.46776-03:00"
+    dependencies:
+    - name: fpm
+      repository: ""
+      version: 0.1.0
+    - name: web-server
+      repository: ""
+      version: 0.1.0
+    - name: cron
+      repository: ""
+      version: 0.1.0
+    - name: queue
+      repository: ""
+      version: 0.1.0
+    description: A Helm chart for Kubernetes
+    digest: 8e06b484847313f4956e070926236e23da077549b2f91ce059ceb973bb905628
+    name: laravel
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.2/laravel-1.1.2.tgz
+    version: 1.1.2
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.45499-03:00"
+    dependencies:
+    - name: fpm
+      repository: ""
+      version: 0.1.0
+    - name: web-server
+      repository: ""
+      version: 0.1.0
+    - name: cron
+      repository: ""
+      version: 0.1.0
+    - name: queue
+      repository: ""
+      version: 0.1.0
+    description: A Helm chart for Kubernetes
+    digest: 8dcab3633748a5b69c991b07312006a0ef8f100c1d1f422fa7de8fbec1e51b88
+    name: laravel
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/laravel-1.1.1/laravel-1.1.1.tgz
+    version: 1.1.1
   prometheus:
   - apiVersion: v2
-    created: "2023-05-24T01:52:14.014186718Z"
+    created: "2026-02-15T20:03:49.979963-03:00"
+    dependencies:
+    - name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    - name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 82.0.0
+    - name: prometheus-statsd-exporter
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    description: Prometheus is a monitoring system and time series database.
+    digest: 8e2e3eec7faddbea7fef97e2d7e56e08742ac7c31c3bffd159c090db2ae5b52f
+    name: prometheus
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-83.0.2/prometheus-83.0.2.tgz
+    version: 83.0.2
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.958029-03:00"
+    dependencies:
+    - name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    - name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 82.0.0
+    - name: prometheus-statsd-exporter
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    description: Prometheus is a monitoring system and time series database.
+    digest: be4427a6da7925f72d38035572a84356a97bb702d804027d7ed8eb43bffb69f6
+    name: prometheus
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-83.0.1/prometheus-83.0.1.tgz
+    version: 83.0.1
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.828056-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1279,7 +1609,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.29/prometheus-22.0.29.tgz
     version: 22.0.29
   - apiVersion: v2
-    created: "2023-05-24T01:31:01.182739429Z"
+    created: "2026-02-15T20:03:49.812826-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1298,7 +1628,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.28/prometheus-22.0.28.tgz
     version: 22.0.28
   - apiVersion: v2
-    created: "2023-05-24T01:15:31.159616829Z"
+    created: "2026-02-15T20:03:49.797244-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1317,7 +1647,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.27/prometheus-22.0.27.tgz
     version: 22.0.27
   - apiVersion: v2
-    created: "2023-05-24T01:12:46.639375351Z"
+    created: "2026-02-15T20:03:49.782681-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1336,7 +1666,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.26/prometheus-22.0.26.tgz
     version: 22.0.26
   - apiVersion: v2
-    created: "2023-05-24T01:01:09.779666611Z"
+    created: "2026-02-15T20:03:49.767507-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1355,7 +1685,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.25/prometheus-22.0.25.tgz
     version: 22.0.25
   - apiVersion: v2
-    created: "2023-05-24T01:01:03.288766852Z"
+    created: "2026-02-15T20:03:49.751901-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1374,7 +1704,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.24/prometheus-22.0.24.tgz
     version: 22.0.24
   - apiVersion: v2
-    created: "2023-05-24T00:48:23.632302825Z"
+    created: "2026-02-15T20:03:49.73667-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1393,7 +1723,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.23/prometheus-22.0.23.tgz
     version: 22.0.23
   - apiVersion: v2
-    created: "2023-05-24T00:42:48.904942517Z"
+    created: "2026-02-15T20:03:49.720953-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1412,7 +1742,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.22/prometheus-22.0.22.tgz
     version: 22.0.22
   - apiVersion: v2
-    created: "2023-05-23T23:50:13.013368752Z"
+    created: "2026-02-15T20:03:49.705244-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1431,7 +1761,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.21/prometheus-22.0.21.tgz
     version: 22.0.21
   - apiVersion: v2
-    created: "2023-05-23T23:45:19.680315507Z"
+    created: "2026-02-15T20:03:49.691276-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1450,7 +1780,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.20/prometheus-22.0.20.tgz
     version: 22.0.20
   - apiVersion: v2
-    created: "2023-05-23T23:31:19.944275501Z"
+    created: "2026-02-15T20:03:49.661257-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1469,7 +1799,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.19/prometheus-22.0.19.tgz
     version: 22.0.19
   - apiVersion: v2
-    created: "2023-05-23T22:31:42.59239595Z"
+    created: "2026-02-15T20:03:49.645591-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1488,7 +1818,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.18/prometheus-22.0.18.tgz
     version: 22.0.18
   - apiVersion: v2
-    created: "2023-05-23T22:24:32.808372841Z"
+    created: "2026-02-15T20:03:49.630693-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1507,7 +1837,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.17/prometheus-22.0.17.tgz
     version: 22.0.17
   - apiVersion: v2
-    created: "2023-05-23T22:17:08.863280242Z"
+    created: "2026-02-15T20:03:49.61561-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1526,7 +1856,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.16/prometheus-22.0.16.tgz
     version: 22.0.16
   - apiVersion: v2
-    created: "2023-05-23T21:55:11.919739065Z"
+    created: "2026-02-15T20:03:49.601329-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1545,7 +1875,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.15/prometheus-22.0.15.tgz
     version: 22.0.15
   - apiVersion: v2
-    created: "2023-05-23T21:45:02.860080857Z"
+    created: "2026-02-15T20:03:49.58651-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1564,7 +1894,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.14/prometheus-22.0.14.tgz
     version: 22.0.14
   - apiVersion: v2
-    created: "2023-05-23T21:35:41.41816538Z"
+    created: "2026-02-15T20:03:49.57189-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1583,7 +1913,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.13/prometheus-22.0.13.tgz
     version: 22.0.13
   - apiVersion: v2
-    created: "2023-05-22T22:30:50.813956064Z"
+    created: "2026-02-15T20:03:49.556271-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1602,7 +1932,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.12/prometheus-22.0.12.tgz
     version: 22.0.12
   - apiVersion: v2
-    created: "2023-05-22T22:04:40.714207636Z"
+    created: "2026-02-15T20:03:49.541453-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1621,7 +1951,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.11/prometheus-22.0.11.tgz
     version: 22.0.11
   - apiVersion: v2
-    created: "2023-05-22T20:23:55.134976683Z"
+    created: "2026-02-15T20:03:49.526538-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1640,7 +1970,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.10/prometheus-22.0.10.tgz
     version: 22.0.10
   - apiVersion: v2
-    created: "2023-05-22T20:11:39.055742067Z"
+    created: "2026-02-15T20:03:49.934111-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1659,7 +1989,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.9/prometheus-22.0.9.tgz
     version: 22.0.9
   - apiVersion: v2
-    created: "2023-05-22T19:49:01.081937576Z"
+    created: "2026-02-15T20:03:49.919281-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1678,7 +2008,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.8/prometheus-22.0.8.tgz
     version: 22.0.8
   - apiVersion: v2
-    created: "2023-05-19T12:33:05.056421774Z"
+    created: "2026-02-15T20:03:49.903794-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1697,7 +2027,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.7/prometheus-22.0.7.tgz
     version: 22.0.7
   - apiVersion: v2
-    created: "2023-05-19T02:19:50.536861892Z"
+    created: "2026-02-15T20:03:49.888288-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1716,7 +2046,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.6/prometheus-22.0.6.tgz
     version: 22.0.6
   - apiVersion: v2
-    created: "2023-05-19T02:02:03.729055691Z"
+    created: "2026-02-15T20:03:49.87334-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1735,7 +2065,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.5/prometheus-22.0.5.tgz
     version: 22.0.5
   - apiVersion: v2
-    created: "2023-05-19T01:49:42.794857783Z"
+    created: "2026-02-15T20:03:49.857555-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1754,7 +2084,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.4/prometheus-22.0.4.tgz
     version: 22.0.4
   - apiVersion: v2
-    created: "2023-05-19T00:48:35.209050425Z"
+    created: "2026-02-15T20:03:49.843398-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1773,7 +2103,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.3/prometheus-22.0.3.tgz
     version: 22.0.3
   - apiVersion: v2
-    created: "2023-05-18T12:46:48.080051535Z"
+    created: "2026-02-15T20:03:49.6758-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1789,7 +2119,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.2/prometheus-22.0.2.tgz
     version: 22.0.2
   - apiVersion: v2
-    created: "2023-05-16T05:25:50.280853483Z"
+    created: "2026-02-15T20:03:49.511264-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1805,7 +2135,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-22.0.1/prometheus-22.0.1.tgz
     version: 22.0.1
   - apiVersion: v2
-    created: "2023-05-16T03:29:02.104578266Z"
+    created: "2026-02-15T20:03:49.49663-03:00"
     dependencies:
     - name: sealed-secret
       repository: https://moreirodamian.github.io/helm-charts/
@@ -1822,7 +2152,20 @@ entries:
     version: 22.0.0
   prometheus-statsd-exporter:
   - apiVersion: v2
-    created: "2023-05-23T22:15:26.710377264Z"
+    created: "2026-02-15T20:03:49.983288-03:00"
+    dependencies:
+    - name: prometheus-statsd-exporter
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 1.0.0
+    description: A Helm chart for prometheus stats-exporter
+    digest: 64d8d57bf880076a57bbaef214e0ed91fa5866a4a67a155a24472bed53ff3402
+    name: prometheus-statsd-exporter
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-statsd-exporter-1.0.1/prometheus-statsd-exporter-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.982557-03:00"
     dependencies:
     - name: prometheus-statsd-exporter
       repository: https://prometheus-community.github.io/helm-charts
@@ -1835,7 +2178,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-statsd-exporter-0.8.2/prometheus-statsd-exporter-0.8.2.tgz
     version: 0.8.2
   - apiVersion: v2
-    created: "2023-05-23T21:53:50.466473286Z"
+    created: "2026-02-15T20:03:49.981384-03:00"
     dependencies:
     - name: prometheus-statsd-exporter
       repository: https://prometheus-community.github.io/helm-charts
@@ -1848,7 +2191,7 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/prometheus-statsd-exporter-0.8.1/prometheus-statsd-exporter-0.8.1.tgz
     version: 0.8.1
   - apiVersion: v2
-    created: "2023-05-16T03:30:01.126702906Z"
+    created: "2026-02-15T20:03:49.980648-03:00"
     dependencies:
     - name: prometheus-statsd-exporter
       repository: https://prometheus-community.github.io/helm-charts
@@ -1862,8 +2205,29 @@ entries:
     version: 0.8.0
   promtail:
   - apiVersion: v2
+    appVersion: 3.5.1
+    created: "2026-02-15T20:03:49.987196-03:00"
+    dependencies:
+    - name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.17.1
+    description: Promtail is an agent which ships the contents of local logs to a
+      Loki instance
+    digest: 42df644997c5e6aa6948318b9224e32be7faed0b77cbec6ef14eb8af38ef5ed6
+    home: https://grafana.com/loki
+    icon: https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png
+    name: promtail
+    sources:
+    - https://github.com/grafana/loki
+    - https://grafana.com/oss/loki/
+    - https://grafana.com/docs/loki/latest/
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/promtail-6.17.2/promtail-6.17.2.tgz
+    version: 6.17.2
+  - apiVersion: v2
     appVersion: 2.8.2
-    created: "2023-05-23T18:36:10.426839859Z"
+    created: "2026-02-15T20:03:49.985758-03:00"
     dependencies:
     - name: promtail
       repository: https://grafana.github.io/helm-charts
@@ -1884,7 +2248,7 @@ entries:
     version: 6.11.3
   - apiVersion: v2
     appVersion: 2.8.2
-    created: "2023-05-23T18:31:20.659694494Z"
+    created: "2026-02-15T20:03:49.984578-03:00"
     dependencies:
     - name: promtail
       repository: https://grafana.github.io/helm-charts
@@ -1906,7 +2270,27 @@ entries:
   sealed-secret:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-12-17T16:06:00.67953376Z"
+    created: "2026-02-15T20:03:49.989278-03:00"
+    description: A Helm chart for Sealed Secret
+    digest: b281ee79d44256562f649a691043b5e3dd954de70b7d6e638214eda8dd79fb55
+    name: sealed-secret
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secret-1.0.1/sealed-secret-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-02-15T20:03:49.988848-03:00"
+    description: A Helm chart for Sealed Secret
+    digest: 825f7d25959894c079ad7e7f2f6967a15a98e15449e722eef30328fdcda37738
+    name: sealed-secret
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secret-1.0.0/sealed-secret-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-02-15T20:03:49.988603-03:00"
     description: A Helm chart for Sealed Secret
     digest: 807d0717aff2b8fea3975c98797219bbbd6a1d9809157eac52f5fd298c71c911
     name: sealed-secret
@@ -1916,7 +2300,7 @@ entries:
     version: 0.1.5
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-18T12:44:45.091391205Z"
+    created: "2026-02-15T20:03:49.9884-03:00"
     description: A Helm chart for Sealed Secret
     digest: 562f360634259cb25999b0f852e15556d4823f8e06cd4f536011d83bd8294b10
     name: sealed-secret
@@ -1926,7 +2310,7 @@ entries:
     version: 0.1.4
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-18T11:22:05.972886164Z"
+    created: "2026-02-15T20:03:49.988162-03:00"
     description: A Helm chart for Sealed Secret
     digest: 68c0c68802a5d25a75945cc9e1c68b85f1e6731ad010446831bfaab90d3b66af
     name: sealed-secret
@@ -1936,7 +2320,7 @@ entries:
     version: 0.1.3
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-15T13:20:52.967347883Z"
+    created: "2026-02-15T20:03:49.987933-03:00"
     description: A Helm chart for Sealed Secret
     digest: 45f42d412098d9d7df72c2580cd3f04c9dae4582ec7d3e4a3a309e33ca86392e
     name: sealed-secret
@@ -1946,7 +2330,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-15T12:51:38.564672951Z"
+    created: "2026-02-15T20:03:49.987709-03:00"
     description: A Helm chart for Sealed Secret
     digest: 9ed37c3112fbfe33950d91eb70496760ab8e118d7010862d0366dba7f8e23e38
     name: sealed-secret
@@ -1956,7 +2340,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-04-23T22:42:49.382571139Z"
+    created: "2026-02-15T20:03:49.987475-03:00"
     description: A Helm chart for Sealed Secret
     digest: 9301de635097874d093a71934a782d0a96d92cbcd69887bccd33d9251c596d9d
     name: sealed-secret
@@ -1966,7 +2350,20 @@ entries:
     version: 0.1.0
   sealed-secrets:
   - apiVersion: v2
-    created: "2023-05-16T03:30:01.271705732Z"
+    created: "2026-02-15T20:03:49.991039-03:00"
+    dependencies:
+    - name: sealed-secrets
+      repository: https://bitnami-labs.github.io/sealed-secrets
+      version: 2.18.1
+    description: Helm chart for the sealed-secrets controller.
+    digest: 7142b782b88bc3c8a6238b1917783b01fe2a809c91e007a577bbe81dcd54784a
+    name: sealed-secrets
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.18.2/sealed-secrets-2.18.2.tgz
+    version: 2.18.2
+  - apiVersion: v2
+    created: "2026-02-15T20:03:49.992393-03:00"
     dependencies:
     - name: sealed-secrets
       repository: https://bitnami-labs.github.io/sealed-secrets
@@ -1978,4 +2375,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2026-02-15T22:50:41.316976285Z"
+generated: "2026-02-15T20:03:49.364355-03:00"
