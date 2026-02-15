@@ -6,7 +6,7 @@ serviceAccount:
   create: true
   annotations: {}
 
-terminationGracePeriodSeconds: 75
+terminationGracePeriodSeconds: 30
 
 hpa:
   create: true

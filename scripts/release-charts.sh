@@ -329,7 +329,21 @@ resolve_dependencies() {
             continue
         fi
 
-        # External dependency or unchanged internal dependency – helm pull
+        # Internal dependency not being released – download from GitHub Release
+        # (bypasses repo index which may be stale from a previous failed cr index)
+        if [[ "$dep_repo" == "$REPO_URL" ]]; then
+            local resolved
+            resolved=$(git tag -l "${dep_name}-${dep_version}" | sed "s/^${dep_name}-//" | sort -V | tail -1)
+            if [[ -z "$resolved" ]]; then
+                die "No git tag matches ${dep_name} (${dep_version})"
+            fi
+            local url="https://github.com/$CR_OWNER/$CR_GIT_REPO/releases/download/${dep_name}-${resolved}/${dep_name}-${resolved}.tgz"
+            info "  $dep_name: download release ($resolved)"
+            curl -sSL -o "$CHARTS_DIR/$chart_dir/charts/${dep_name}-${resolved}.tgz" "$url"
+            continue
+        fi
+
+        # External dependency – helm pull
         local repo_alias="${REPO_NAMES[$dep_repo]}"
         info "  $dep_name: pull $repo_alias/$dep_name ($dep_version)"
         helm pull "$repo_alias/$dep_name" --version "$dep_version" \

@@ -3,7 +3,7 @@ spec:
   source:
     targetRevision: HEAD
 ingress:
-  loadbalancerName: do-loadbalacer.com
+  loadbalancerName: do-loadbalancer.com
   doProxyProtocol:
     enabled: false
 prometheus:

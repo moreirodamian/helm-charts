@@ -2,4 +2,4 @@ apiVersion: v2
 name: generic-app
 description: A versatile Helm chart for deploying applications on Kubernetes with support for Argo Rollouts, standard Deployments, CronJobs, and migrations.
 type: application
-version: 2.0.0
+version: 2.0.1
