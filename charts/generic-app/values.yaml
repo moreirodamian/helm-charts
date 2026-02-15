@@ -6,13 +6,28 @@ serviceAccount:
   create: true
   annotations: {}
 
+terminationGracePeriodSeconds: 75
+
 hpa:
   create: true
   minReplicas: 1
   maxReplicas: 5
   cpuPercentage: 70
 
+pdb:
+  enabled: false
+  minAvailable: 1
+  # maxUnavailable: 1  # Use either minAvailable OR maxUnavailable, not both
+
+networkPolicy:
+  enabled: false
+  ingress: []
+  egress: []
+
 revisionHistoryLimit: 10
+
+# Set rollout to configure Argo Rollouts (canary/bluegreen).
+# Set to null (~) to use a standard Deployment instead.
 rollout:
   canary:
     maxUnavailable: 0
@@ -23,6 +38,10 @@ rollout:
       - setWeight: 50
       - pause:
           duration: 10m
+
+# Only used when rollout is null
+deployment:
+  replicaCount: 2
 
 app:
   image:
@@ -39,26 +58,9 @@ app:
   resources: {}
   env: {}
   secrets: {}
-  # Example volumes configuration:
-  # volumes:
-  #   - name: config-volume
-  #     configMap:
-  #       name: app-config
-  #   - name: storage-volume
-  #     persistentVolumeClaim:
-  #       claimName: app-storage
+  envFrom: []
   volumes: []
-  
-  # Example volumeMounts configuration:
-  # volumeMounts:
-  #   - name: config-volume
-  #     mountPath: /app/config
-  #     readOnly: true
-  #   - name: storage-volume
-  #     mountPath: /app/data
   volumeMounts: []
-  migrations:
-    enabled: false
 
 service:
   create: true
@@ -71,10 +73,15 @@ service:
 ingress:
   create: true
   grpc: false
+  className: nginx
   letsencrypt: false
+  clusterIssuer: letsencrypt-prod
   annotations: []
   hosts: []
   tls: []
+
+customServices: []
+customIngress: []
 
 sealedSecrets:
   enabled: true
@@ -87,15 +94,21 @@ dockerSecret: {}
 
 migrations:
   enabled: false
+  backoffLimit: 1
+  activeDeadlineSeconds: 300
   # Optional: Use a different image for migrations (with dev dependencies)
   # If not specified, will use app.image (retrocompatible)
   # image:
   #   registry: ecr
   #   name: myapp-migrations
   #   tag: latest
+
 cron:
   enabled: false
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 2
-  concurrencyPolicy: Allow
+  concurrencyPolicy: Forbid
   ttlSecondsAfterFinished: 60
+
+testConnection:
+  enabled: true

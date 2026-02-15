@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# Auto-bump chart versions for modified charts
+"$REPO_ROOT/scripts/bump-chart-version.sh"

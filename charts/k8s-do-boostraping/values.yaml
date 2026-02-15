@@ -8,12 +8,14 @@ ingress:
     enabled: false
 prometheus:
   remoteWrite:
-    url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+    url: ~
     secret:
       name: prom-secret
-      username: sealedEncryptedUsername
-      password: sealedEncryptedPassword
-  clusterName: "TestCluster"
+      username: ~
+      password: ~
+  clusterName: ~
+promtail:
+  url: ~
 apps:
   suffix: dev
   destination:
@@ -24,15 +26,17 @@ apps:
     enabled: true
     digitalocean:
       dns: false
+      token: ~
     cloudflare:
       dns: false
+      token: ~
   prometheus:
     enabled: true
   promtail:
     enabled: true
   rollout:
     enabled: true
+  sealedSecrets:
+    enabled: false
   metricsServer:
-    version: 3.11.0
-promtail:
-  url: mockurl
+    version: 3.13.0

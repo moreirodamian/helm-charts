@@ -1,4 +1,4 @@
-{{ if .Values.apps.certManager.enabled }}
+{{- if .Values.apps.certManager.enabled }}
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -15,30 +15,29 @@ spec:
   {{ end }}
   source:
     repoURL: 'https://moreirodamian.github.io/helm-charts/'
-    targetRevision: 1.11.5
+    targetRevision: 1.19.3
     helm:
       valueFiles:
         - values.yaml
       parameters:
-
-      {{ if .Values.apps.certManager.cloudflare.dns }}
+      {{- if and .Values.apps.certManager.cloudflare .Values.apps.certManager.cloudflare.dns .Values.apps.certManager.cloudflare.token }}
         - name: cert-manager-issuer.cloudflare.dns
           value: "true"
         - name: cert-manager-issuer.cloudflare-secret.encryptedData.api-token
           value: {{ .Values.apps.certManager.cloudflare.token }}
-      {{ else }}
+      {{- else }}
         - name: cert-manager-issuer.cloudflare.dns
           value: "false"
-      {{ end }}
-      {{ if .Values.apps.certManager.digitalocean.dns }}
+      {{- end }}
+      {{- if and .Values.apps.certManager.digitalocean .Values.apps.certManager.digitalocean.dns .Values.apps.certManager.digitalocean.token }}
         - name: cert-manager-issuer.digitalocean.dns
           value: "true"
         - name: cert-manager-issuer.sealed-secret.encryptedData.access-token
-          value: {{ .Values.apps.certManager.digitaloceann.token }}
-      {{ else }}
+          value: {{ .Values.apps.certManager.digitalocean.token }}
+      {{- else }}
         - name: cert-manager-issuer.digitalocean.dns
           value: "false"
-      {{ end }}
+      {{- end }}
     chart: cert-manager
   destination:
     namespace: cert-manager
@@ -46,4 +45,4 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
-{{ end }}
+{{- end }}

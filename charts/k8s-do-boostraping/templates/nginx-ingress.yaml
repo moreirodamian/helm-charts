@@ -15,12 +15,14 @@ spec:
   {{ end }}
   source:
     repoURL: 'https://moreirodamian.github.io/helm-charts/'
-    targetRevision: 4.6.3
+    targetRevision: 4.14.3
     chart: ingress-nginx
     helm:
       valueFiles:
         - values.yaml
       parameters:
+        - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-type
+          value: "REGIONAL"
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-name
           value: {{ .Values.ingress.loadbalancerName }}
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-hostname

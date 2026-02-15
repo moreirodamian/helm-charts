@@ -5,14 +5,21 @@ project: infra
 namespace: infra
 
 prometheus:
+  version: ~
   remoteWrite:
+    url: ~
     secret:
       name: prometheus
+      username: ~
+      password: ~
+  clusterName: ~
+
+promtail:
+  version: ~
+  url: ~
+
 argo-rollouts:
   version: ~
-  values: ~
-
-argo-rollouts-dashboard:
   values: ~
 
 cluster-autoscaler:
@@ -27,11 +34,7 @@ efs-csi-driver:
   version: ~
   values: ~
 
-external-secrets:
-  version: ~
-  values: ~
-
-fluent-bit:
+ingress-nginx:
   version: ~
   values: ~
 

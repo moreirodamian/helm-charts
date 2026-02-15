@@ -13,7 +13,7 @@ spec:
     solvers:
     - dns01:
         cloudflare:
-          email: software-register@kodear.net
+          email: {{ .Values.email }}
           apiTokenSecretRef:
             name: cloudflare-dns
             key: api-token

@@ -1,4 +1,4 @@
 apiVersion: v2
 name: eks-boostraping
-version: 0.0.8
+version: 1.0.0
 type: application

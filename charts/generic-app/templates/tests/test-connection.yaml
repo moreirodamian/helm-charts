@@ -1,17 +1,19 @@
-{{/*{{- if .Values.testConnection.enabled }}*/}}
-{{/*apiVersion: v1*/}}
-{{/*kind: Pod*/}}
-{{/*metadata:*/}}
-{{/*  name: "{{ include "generic-app.fullname" . }}-test-connection"*/}}
-{{/*  labels:*/}}
-{{/*    {{- include "generic-app.labels" . | nindent 4 }}*/}}
-{{/*  annotations:*/}}
-{{/*    "helm.sh/hook": test*/}}
-{{/*spec:*/}}
-{{/*  containers:*/}}
-{{/*    - name: wget*/}}
-{{/*      image: busybox*/}}
-{{/*      command: ['wget']*/}}
-{{/*      args: ['{{ include "generic-app.fullname" . }}:{{ .Values.service.port }}']*/}}
-{{/*  restartPolicy: Never*/}}
-{{/*{{- end }}*/}}
+{{- if .Values.testConnection.enabled }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "name" . }}-test-connection"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "common-labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  containers:
+    - name: wget
+      image: busybox:1.36
+      command: ['wget']
+      args: ['{{ include "name" . }}:{{ .Values.service.port }}', '--timeout=5', '-O', '/dev/null']
+  restartPolicy: Never
+{{- end }}

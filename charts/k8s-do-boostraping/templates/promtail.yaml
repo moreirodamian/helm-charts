@@ -1,4 +1,4 @@
-{{ if .Values.apps.promtail.enabled }}
+{{- if and .Values.apps.promtail.enabled .Values.promtail.url }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -14,7 +14,7 @@ spec:
   {{ end }}
   source:
     repoURL: 'https://moreirodamian.github.io/helm-charts/'
-    targetRevision: 6.11.2
+    targetRevision: 6.17.1
     chart: promtail
     helm:
       parameters:
@@ -26,4 +26,4 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
-{{ end }}
+{{- end }}

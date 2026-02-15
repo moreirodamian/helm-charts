@@ -1,4 +1,3 @@
-
 {{- if .Values.service.create }}
 ---
 apiVersion: v1
@@ -9,9 +8,9 @@ metadata:
   labels:
     {{ include "common-labels" . | nindent 4 }}
 spec:
-  type: ClusterIP
+  type: {{ .Values.service.type | default "ClusterIP" }}
   selector:
-    {{ include "common-labels" . | nindent 4 }}
+    {{ include "selector-labels" . | nindent 4 }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
@@ -21,5 +20,3 @@ spec:
     {{- toYaml . | nindent 4 }}
     {{- end }}
 {{- end }}
-
-

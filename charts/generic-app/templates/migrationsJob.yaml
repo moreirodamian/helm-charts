@@ -1,11 +1,9 @@
+{{- if .Values.migrations.enabled }}
 {{- $image := include "migrations.image" . -}}
-
-
-{{ if .Values.migrations.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "name" . }}
+  name: {{ template "name" . }}-migrations
   namespace: {{ .Release.Namespace }}
   labels:
     {{ include "migrations-labels" . | nindent 4 }}
@@ -14,20 +12,22 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     "helm.sh/hook-weight": "-1"
 spec:
+  backoffLimit: {{ .Values.migrations.backoffLimit | default 1 }}
+  activeDeadlineSeconds: {{ .Values.migrations.activeDeadlineSeconds | default 300 }}
   ttlSecondsAfterFinished: 30
   template:
     metadata:
-      name: {{ template "name" . }}
+      name: {{ template "name" . }}-migrations
       labels:
-      {{- include "migrations-labels" . | nindent 8 }}
+        {{ include "migrations-labels" . | nindent 8 }}
     spec:
       restartPolicy: Never
-      {{ if .Values.dockerSecret.encryptedData }}
+      {{- if .Values.dockerSecret.encryptedData }}
       imagePullSecrets:
         - name: docker-{{ template "name" . }}
-      {{ end }}
+      {{- end }}
       containers:
-        - name: job-migrations
+        - name: migrations
           image: {{ $image }}
           {{- with .Values.migrations.command }}
           command:
@@ -49,18 +49,18 @@ spec:
                   name: {{ template "name" $ }}
                   key: {{ $k }}
             {{- end }}
-          {{ if .Values.app.envFrom }}
-          {{- with .Values.app.envFrom }}
+          {{- if or .Values.app.envFrom .Values.sealedSecrets.enabled }}
           envFrom:
+            {{- with .Values.app.envFrom }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            {{- if .Values.sealedSecrets.enabled }}
+            - secretRef:
+                name: {{ template "name" . }}
+            {{- end }}
+          {{- end }}
+          {{- with .Values.migrations.resources }}
+          resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{ if .Values.sealedSecrets.enabled }}
-            - secretRef:
-                name: {{ template "name" . }}
-          {{ end }}
-          {{ else if .Values.sealedSecrets.enabled }}
-          envFrom:
-            - secretRef:
-                name: {{ template "name" . }}
-          {{ end }}
-{{ end }}
+{{- end }}

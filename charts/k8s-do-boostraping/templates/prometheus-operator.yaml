@@ -1,4 +1,4 @@
-{{ if .Values.apps.prometheus.enabled }}
+{{- if and .Values.apps.prometheus.enabled .Values.prometheus.remoteWrite.url }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -14,7 +14,7 @@ spec:
   {{ end }}
   source:
     repoURL: 'https://moreirodamian.github.io/helm-charts/'
-    targetRevision: 22.0.29
+    targetRevision: 82.0.0
     chart: prometheus
     helm:
       valueFiles:
@@ -36,10 +36,14 @@ spec:
           value: "false"
         - name: "sealed-secret.name"
           value: {{ .Values.prometheus.remoteWrite.secret.name }}
+        {{- if .Values.prometheus.remoteWrite.secret.username }}
         - name: "sealed-secret.encryptedData.username"
           value: {{ .Values.prometheus.remoteWrite.secret.username }}
+        {{- end }}
+        {{- if .Values.prometheus.remoteWrite.secret.password }}
         - name: "sealed-secret.encryptedData.password"
-          value:  {{ .Values.prometheus.remoteWrite.secret.password }}
+          value: {{ .Values.prometheus.remoteWrite.secret.password }}
+        {{- end }}
         - name: "kube-prometheus-stack.prometheus.prometheusSpec.externalLabels.cluster"
           value: {{ .Values.prometheus.clusterName }}
 
@@ -51,4 +55,4 @@ spec:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
       - ServerSideApply=true
-{{ end }}
+{{- end }}

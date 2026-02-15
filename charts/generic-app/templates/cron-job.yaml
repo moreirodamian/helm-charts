@@ -1,5 +1,4 @@
-{{ if .Values.cron.enabled }}
-
+{{- if .Values.cron.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -18,21 +17,21 @@ spec:
       template:
         spec:
           restartPolicy: Never
-          {{ if .Values.dockerSecret.encryptedData }}
+          {{- if .Values.dockerSecret.encryptedData }}
           imagePullSecrets:
             - name: docker-{{ template "name" . }}
-          {{ end }}
+          {{- end }}
           containers:
-            - name: hello
-              image: {{ include "cron.image" .}}
-             {{- with .Values.cron.command }}
+            - name: {{ template "name" . }}-cron
+              image: {{ include "cron.image" . }}
+              {{- with .Values.cron.command }}
               command:
-               {{- toYaml . | nindent 16 }}
-             {{- end }}
-             {{- with .Values.cron.args }}
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              {{- with .Values.cron.args }}
               args:
-               {{- toYaml . | nindent 16 }}
-             {{- end }}
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
               env:
                 {{- range $k, $v := .Values.cron.env }}
                 - name: {{ $k }}
@@ -44,20 +43,19 @@ spec:
                     secretKeyRef:
                       name: {{ template "name" $ }}
                       key: {{ $k }}
-                        {{- end }}
-          {{ if .Values.cron.envFrom }}
-              {{- with .Values.cron.envFrom }}
+                {{- end }}
+              {{- if or .Values.cron.envFrom .Values.sealedSecrets.enabled }}
               envFrom:
-                {{- toYaml . | nindent 12 }}
+                {{- with .Values.cron.envFrom }}
+                {{- toYaml . | nindent 16 }}
+                {{- end }}
+                {{- if .Values.sealedSecrets.enabled }}
+                - secretRef:
+                    name: {{ template "name" . }}
+                {{- end }}
               {{- end }}
-          {{ if .Values.sealedSecrets.enabled }}
-                - secretRef:
-                    name: {{ template "name" . }}
-
-          {{ end }}
-          {{ else if .Values.sealedSecrets.enabled }}
-              envFrom:
-                - secretRef:
-                    name: {{ template "name" . }}
-                    {{ end }}
-{{ end }}
+              {{- with .Values.cron.resources }}
+              resources:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+{{- end }}
