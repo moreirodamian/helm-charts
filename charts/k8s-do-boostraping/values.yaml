@@ -5,7 +5,7 @@ spec:
 ingress:
   loadbalancerName: do-loadbalancer.com
   doProxyProtocol:
-    enabled: false
+    enabled: true
 prometheus:
   remoteWrite:
     url: ~
