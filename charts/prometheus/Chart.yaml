@@ -1,12 +1,12 @@
 apiVersion: v2
 name: prometheus
-version: 83.0.0
+version: 83.0.1
 description: Prometheus is a monitoring system and time series database.
 type: application
 
 dependencies:
   - name: sealed-secret
-    version: 0.1.*
+    version: 1.0.*
     repository: https://moreirodamian.github.io/helm-charts/
   - name: kube-prometheus-stack
     version: 82.0.0
