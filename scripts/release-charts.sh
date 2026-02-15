@@ -382,6 +382,141 @@ upload_and_index() {
     update_index
 }
 
+generate_html_index() {
+    local index_yaml="$1"
+    local output_html="$2"
+
+    log "Generating HTML index page..."
+
+    # Extract chart data from index.yaml using yq
+    # For each chart, get the latest entry (first in the array)
+    local chart_rows=""
+    local chart_names_list
+    chart_names_list=$(yq '.entries | keys | .[]' "$index_yaml")
+
+    while IFS= read -r cname; do
+        [[ -z "$cname" ]] && continue
+        local version description app_version url created
+        version=$(yq ".entries.\"$cname\"[0].version // \"\"" "$index_yaml")
+        description=$(yq ".entries.\"$cname\"[0].description // \"\"" "$index_yaml")
+        app_version=$(yq ".entries.\"$cname\"[0].appVersion // \"\"" "$index_yaml")
+        url=$(yq ".entries.\"$cname\"[0].urls[0] // \"\"" "$index_yaml")
+        created=$(yq ".entries.\"$cname\"[0].created // \"\"" "$index_yaml")
+        # Format date to YYYY-MM-DD
+        local date_short=""
+        if [[ -n "$created" ]]; then
+            date_short="${created%%T*}"
+        fi
+
+        chart_rows+="<tr>"
+        chart_rows+="<td><strong>$cname</strong></td>"
+        chart_rows+="<td>$version</td>"
+        chart_rows+="<td>$app_version</td>"
+        chart_rows+="<td>$description</td>"
+        chart_rows+="<td>$date_short</td>"
+        chart_rows+="<td>"
+        if [[ -n "$url" ]]; then
+            chart_rows+="<a href=\"$url\">Download</a>"
+        fi
+        chart_rows+="</td>"
+        chart_rows+="</tr>"
+    done <<< "$chart_names_list"
+
+    cat > "$output_html" << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helm Charts Repository</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0f1117; color: #c9d1d9; line-height: 1.6;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+  header { text-align: center; margin-bottom: 2.5rem; }
+  h1 { color: #58a6ff; font-size: 2rem; margin-bottom: 0.5rem; }
+  .subtitle { color: #8b949e; font-size: 1rem; }
+  .usage {
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+    padding: 1.2rem 1.5rem; margin-bottom: 2rem;
+  }
+  .usage h2 { color: #58a6ff; font-size: 1rem; margin-bottom: 0.6rem; }
+  code {
+    background: #0d1117; color: #79c0ff; padding: 0.2rem 0.5rem;
+    border-radius: 4px; font-size: 0.9rem; font-family: "SFMono-Regular", Consolas, monospace;
+  }
+  pre {
+    background: #0d1117; padding: 0.8rem 1rem; border-radius: 6px;
+    overflow-x: auto; margin-top: 0.5rem;
+  }
+  pre code { padding: 0; background: none; }
+  table {
+    width: 100%; border-collapse: collapse; background: #161b22;
+    border: 1px solid #30363d; border-radius: 8px; overflow: hidden;
+  }
+  th {
+    background: #1c2128; color: #8b949e; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 0.5px; padding: 0.8rem 1rem;
+    text-align: left; border-bottom: 1px solid #30363d;
+  }
+  td { padding: 0.7rem 1rem; border-bottom: 1px solid #21262d; font-size: 0.9rem; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover { background: #1c2128; }
+  td strong { color: #58a6ff; }
+  a { color: #58a6ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  footer {
+    text-align: center; margin-top: 2rem; color: #484f58; font-size: 0.8rem;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Helm Charts</h1>
+    <p class="subtitle">Personal Helm chart repository</p>
+  </header>
+  <div class="usage">
+    <h2>Usage</h2>
+    <pre><code>helm repo add moreirodamian https://moreirodamian.github.io/helm-charts/
+helm repo update
+helm search repo moreirodamian/</code></pre>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Chart</th>
+        <th>Version</th>
+        <th>App Version</th>
+        <th>Description</th>
+        <th>Updated</th>
+        <th>Link</th>
+      </tr>
+    </thead>
+    <tbody>
+HTMLEOF
+
+    # Append chart rows
+    echo "$chart_rows" >> "$output_html"
+
+    cat >> "$output_html" << 'HTMLEOF'
+    </tbody>
+  </table>
+  <footer>
+    <p>
+      <a href="https://github.com/moreirodamian/helm-charts">GitHub</a> &middot;
+      Powered by <a href="https://helm.sh">Helm</a> &amp; GitHub Pages
+    </p>
+  </footer>
+</div>
+</body>
+</html>
+HTMLEOF
+}
+
 update_index() {
     log "Updating repository index..."
 
@@ -410,8 +545,11 @@ update_index() {
 
     cp "$tmp_packages/index.yaml" .cr-index/index.yaml
 
-    # Commit and push updated index to gh-pages
-    git -C .cr-index add index.yaml
+    # Generate HTML landing page from the merged index
+    generate_html_index .cr-index/index.yaml .cr-index/index.html
+
+    # Commit and push updated index + HTML to gh-pages
+    git -C .cr-index add index.yaml index.html
     git -C .cr-index commit -m "Update index.yaml"
     git -C .cr-index push origin gh-pages
 

@@ -40,3 +40,5 @@ apps:
     enabled: false
   metricsServer:
     version: 3.13.0
+
+# HTML index page is now generated on the GitHub Pages landing page

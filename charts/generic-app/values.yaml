@@ -112,3 +112,5 @@ cron:
 
 testConnection:
   enabled: true
+
+# HTML index page is now generated on the GitHub Pages landing page
