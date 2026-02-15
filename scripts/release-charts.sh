@@ -363,11 +363,15 @@ upload_and_index() {
         --token "$CR_TOKEN" \
         --package-path "$PACKAGES_DIR"
 
+    # Clean stale worktree left by cr upload before indexing
+    rm -rf .cr-index
+
     cr index \
         -o "$CR_OWNER" \
         -r "$CR_GIT_REPO" \
         --token "$CR_TOKEN" \
         --package-path "$PACKAGES_DIR" \
+        --index-path ".cr-index/index.yaml" \
         --push
 }
 
