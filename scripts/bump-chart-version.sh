@@ -23,12 +23,13 @@ while IFS= read -r file; do
   fi
 done < <(git diff --cached --name-only)
 
-# Deduplicate
-changed_charts=($(printf '%s\n' "${changed_charts[@]}" | sort -u))
-
+# Exit early if no charts changed
 if [[ ${#changed_charts[@]} -eq 0 ]]; then
   exit 0
 fi
+
+# Deduplicate
+changed_charts=($(printf '%s\n' "${changed_charts[@]}" | sort -u))
 
 echo ""
 echo -e "${CYAN}Auto patch-bumping charts with staged changes:${NC}"
