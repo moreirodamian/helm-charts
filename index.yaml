@@ -958,6 +958,20 @@ entries:
     version: 0.0.0
   ingress-nginx:
   - apiVersion: v2
+    created: "2026-02-28T20:54:52.882137753Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.14.3
+    description: Ingress controller for Kubernetes using NGINX as a reverse proxy
+      and load balancer
+    digest: cd3b650f2a7c1b0c7e7df2fda9a36a66de7a508088db453a3ad77b2f677f1dc4
+    name: ingress-nginx
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/ingress-nginx-5.0.3/ingress-nginx-5.0.3.tgz
+    version: 5.0.3
+  - apiVersion: v2
     created: "2026-02-28T20:50:49.568092083Z"
     dependencies:
     - name: ingress-nginx
@@ -2419,4 +2433,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2026-02-28T20:50:49.562682803Z"
+generated: "2026-02-28T20:54:52.877864949Z"
