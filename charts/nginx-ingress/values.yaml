@@ -1,6 +1,7 @@
 
 ingress-nginx:
   controller:
+    allowSnippetAnnotations: true
     metrics:
       enabled: true
       service:
