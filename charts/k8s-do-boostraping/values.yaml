@@ -6,6 +6,8 @@ ingress:
   loadbalancerName: do-loadbalancer.com
   doProxyProtocol:
     enabled: false
+  tcp: {}
+  udp: {}
 prometheus:
   remoteWrite:
     url: ~
