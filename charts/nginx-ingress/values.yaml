@@ -2,6 +2,8 @@
 ingress-nginx:
   controller:
     allowSnippetAnnotations: true
+    config:
+      annotations-risk-level: Critical
     metrics:
       enabled: true
       service:
@@ -78,5 +80,4 @@ ingress-nginx:
         #     summary: More than 5% of all requests returned 4XX, this requires your attention
     extraArgs:
       metrics-per-host: false
-      enable-annotation-validation: false
 
