@@ -650,6 +650,16 @@ entries:
     version: 0.0.1
   generic-app:
   - apiVersion: v2
+    created: "2026-03-07T22:35:14.058874412Z"
+    description: A versatile Helm chart for deploying applications on Kubernetes with
+      support for Argo Rollouts, standard Deployments, CronJobs, and migrations.
+    digest: 49995065e6ebf8598f291fd57f62b6d0bd7af5f25800d3fd8e3a32b73c5a0ec4
+    name: generic-app
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/generic-app-2.1.1/generic-app-2.1.1.tgz
+    version: 2.1.1
+  - apiVersion: v2
     created: "2026-02-15T20:03:49.439543-03:00"
     description: A versatile Helm chart for deploying applications on Kubernetes with
       support for Argo Rollouts, standard Deployments, CronJobs, and migrations.
@@ -2491,4 +2501,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2026-02-28T21:01:38.574196335Z"
+generated: "2026-03-07T22:35:14.058133614Z"
