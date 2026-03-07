@@ -1,0 +1,103 @@
+{{- range $worker := .Values.workers }}
+{{- with $ }}
+{{- $workerLabels := dict "root" . "workerName" $worker.name }}
+{{- $workerImage := include "worker.image" (dict "worker" $worker "root" .) }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "name" . }}-{{ $worker.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "worker-labels" $workerLabels | nindent 4 }}
+spec:
+  replicas: {{ $worker.replicaCount | default 1 }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      {{ include "worker-selector-labels" $workerLabels | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{ include "worker-labels" $workerLabels | nindent 8 }}
+    spec:
+      serviceAccountName: {{ template "name" . }}
+      terminationGracePeriodSeconds: {{ $worker.terminationGracePeriodSeconds | default $.Values.terminationGracePeriodSeconds | default 75 }}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              {{ include "worker-selector-labels" $workerLabels | nindent 14 }}
+      containers:
+        - name: {{ $worker.name }}
+          image: {{ $workerImage }}
+          imagePullPolicy: IfNotPresent
+          {{- with $worker.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $worker.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            {{- range $k, $v := .Values.app.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+            {{- range $k, $v := .Values.app.secrets }}
+            - name: {{ $k }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "name" $ }}
+                  key: {{ $k }}
+            {{- end }}
+            {{- range $k, $v := $worker.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          {{- if or .Values.app.envFrom $worker.envFrom .Values.sealedSecrets.enabled }}
+          envFrom:
+            {{- with .Values.app.envFrom }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            {{- with $worker.envFrom }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            {{- if .Values.sealedSecrets.enabled }}
+            - secretRef:
+                name: {{ template "name" . }}
+            {{- end }}
+          {{- end }}
+          {{- with $worker.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $worker.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $worker.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $worker.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $worker.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with $worker.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.dockerSecret.encryptedData }}
+      imagePullSecrets:
+        - name: docker-{{ template "name" . }}
+      {{- end }}
+{{- end }}
+{{- end }}

@@ -70,3 +70,47 @@ app.kubernetes.io/instance: {{ include "instance" . }}
   {{- include "app.image" . -}}
 {{- end }}
 {{- end -}}
+
+{{/*
+Worker image: uses worker-specific image if provided, otherwise falls back to app.image.
+Expects a dict with keys: worker (the worker item), root (the root context $).
+*/}}
+{{- define "worker.image" -}}
+{{- $worker := .worker -}}
+{{- $root := .root -}}
+{{- if and $worker.image $worker.image.registry $worker.image.name }}
+  {{- $imageRegistry := $worker.image.registry -}}
+  {{- $imageName := $worker.image.name -}}
+  {{- $imageTag := $worker.image.tag | toString | default "latest" -}}
+  {{- $imageTemp := printf "%s/%s:%s" $imageRegistry $imageName $imageTag -}}
+  {{- if hasPrefix "sha:" $imageTag }}
+    {{- $imageTemp = printf "%s/%s@%s" $imageRegistry $imageName $imageTag -}}
+  {{- end }}
+  {{- $image := $imageTemp | replace "registry.hub.docker.com/" "" -}}
+  {{- printf "%s" $image -}}
+{{- else }}
+  {{- include "app.image" $root -}}
+{{- end }}
+{{- end -}}
+
+{{/*
+Worker selector labels: name + instance + component.
+Expects a dict with keys: root (the root context $), workerName (string).
+*/}}
+{{- define "worker-selector-labels" -}}
+app.kubernetes.io/name: {{ include "name" .root }}
+app.kubernetes.io/instance: {{ include "instance" .root }}
+app.kubernetes.io/component: {{ .workerName }}
+{{- end -}}
+
+{{/*
+Worker metadata labels: chart + managed-by + name + instance + component.
+Expects a dict with keys: root (the root context $), workerName (string).
+*/}}
+{{- define "worker-labels" -}}
+helm.sh/chart: {{ .root.Chart.Name }}-{{ .root.Chart.Version | replace "+" "_" }}
+app.kubernetes.io/managed-by: {{ .root.Release.Service }}
+app.kubernetes.io/name: {{ include "name" .root }}
+app.kubernetes.io/instance: {{ include "instance" .root }}
+app.kubernetes.io/component: {{ .workerName }}
+{{- end -}}

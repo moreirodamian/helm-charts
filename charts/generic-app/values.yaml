@@ -110,6 +110,25 @@ cron:
   concurrencyPolicy: Forbid
   ttlSecondsAfterFinished: 60
 
+workers: []
+# - name: queue-worker
+#   replicaCount: 2
+#   command: ["php", "artisan", "queue:work"]
+#   args: []
+#   env: {}
+#   envFrom: []
+#   resources: {}
+#   image:
+#     registry: ecr
+#     name: my-worker
+#     tag: latest
+#   livenessProbe: {}
+#   readinessProbe: {}
+#   startupProbe: {}
+#   volumes: []
+#   volumeMounts: []
+#   terminationGracePeriodSeconds: 60
+
 testConnection:
   enabled: true
 

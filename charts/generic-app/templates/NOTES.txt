@@ -15,3 +15,10 @@ Workload type: Deployment
 {{- if .Values.migrations.enabled }}
 Migrations will run as a pre-install/pre-upgrade hook.
 {{- end }}
+
+{{- if .Values.workers }}
+Workers:
+{{- range .Values.workers }}
+  - {{ .name }} ({{ .replicaCount | default 1 }} replicas)
+{{- end }}
+{{- end }}
