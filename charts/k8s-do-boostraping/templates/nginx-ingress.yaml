@@ -21,6 +21,8 @@ spec:
       valueFiles:
         - values.yaml
       parameters:
+        - name: ingress-nginx.controller.kind
+          value: {{ .Values.ingress.controllerKind | default "DaemonSet" }}
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-type
           value: "REGIONAL"
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-name

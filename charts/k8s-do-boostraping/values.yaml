@@ -4,6 +4,8 @@ spec:
     targetRevision: HEAD
 ingress:
   loadbalancerName: do-loadbalancer.com
+  # Controller kind: DaemonSet or Deployment
+  controllerKind: DaemonSet
   doProxyProtocol:
     enabled: false
   tcp: {}
