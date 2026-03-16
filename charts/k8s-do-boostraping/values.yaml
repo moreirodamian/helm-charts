@@ -6,6 +6,7 @@ ingress:
   loadbalancerName: do-loadbalancer.com
   # Controller kind: DaemonSet or Deployment
   controllerKind: DaemonSet
+  healthCheckPort: "30418"
   doProxyProtocol:
     enabled: false
   tcp: {}

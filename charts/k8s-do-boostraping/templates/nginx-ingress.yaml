@@ -29,6 +29,12 @@ spec:
           value: {{ .Values.ingress.loadbalancerName }}
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-hostname
           value: {{ .Values.ingress.loadbalancerName }}
+        - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-healthcheck-protocol
+          value: "http"
+        - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-healthcheck-port
+          value: "{{ .Values.ingress.healthCheckPort | default "30418" }}"
+        - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-healthcheck-path
+          value: "/healthz"
       {{ if .Values.ingress.doProxyProtocol.enabled }}
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-enable-proxy-protocol
           value: "true"
