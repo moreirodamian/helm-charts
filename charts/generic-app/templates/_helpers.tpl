@@ -97,6 +97,24 @@ Expects a dict with keys: worker (the worker item), root (the root context $).
 Worker selector labels: name + instance + component.
 Expects a dict with keys: root (the root context $), workerName (string).
 */}}
+{{/*
+App pod labels: common-labels + component=app.
+Used for API/app pod templates to distinguish from worker pods.
+*/}}
+{{- define "app-pod-labels" -}}
+{{ include "common-labels" . }}
+app.kubernetes.io/component: app
+{{- end -}}
+
+{{/*
+Service selector labels: selector-labels + component=app.
+Ensures the Service only routes traffic to app pods, not workers.
+*/}}
+{{- define "service-selector-labels" -}}
+{{ include "selector-labels" . }}
+app.kubernetes.io/component: app
+{{- end -}}
+
 {{- define "worker-selector-labels" -}}
 app.kubernetes.io/name: {{ include "name" .root }}
 app.kubernetes.io/instance: {{ include "instance" .root }}

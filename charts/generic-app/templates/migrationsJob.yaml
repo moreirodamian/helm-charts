@@ -8,9 +8,13 @@ metadata:
   labels:
     {{ include "migrations-labels" . | nindent 4 }}
   annotations:
+    {{- if .Values.migrations.annotations }}
+    {{- toYaml .Values.migrations.annotations | nindent 4 }}
+    {{- else }}
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     "helm.sh/hook-weight": "-1"
+    {{- end }}
 spec:
   backoffLimit: {{ .Values.migrations.backoffLimit | default 1 }}
   activeDeadlineSeconds: {{ .Values.migrations.activeDeadlineSeconds | default 300 }}

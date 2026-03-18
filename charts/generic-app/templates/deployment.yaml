@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        {{ include "common-labels" . | nindent 8 }}
+        {{ include "app-pod-labels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ template "name" . }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds | default 75 }}
