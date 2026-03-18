@@ -26,6 +26,10 @@ networkPolicy:
 
 revisionHistoryLimit: 10
 
+# Override the Argo Rollout progressDeadlineSeconds (default 600s).
+# Set this higher than your startup probe total window to avoid premature Degraded status.
+# progressDeadlineSeconds: 720
+
 # Set rollout to configure Argo Rollouts (canary/bluegreen).
 # Set to null (~) to use a standard Deployment instead.
 rollout:

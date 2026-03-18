@@ -10,6 +10,9 @@ metadata:
     {{ include "common-labels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  {{- if .Values.progressDeadlineSeconds }}
+  progressDeadlineSeconds: {{ .Values.progressDeadlineSeconds }}
+  {{- end }}
   strategy:
     {{- .Values.rollout | toYaml | nindent 4 }}
   selector:
