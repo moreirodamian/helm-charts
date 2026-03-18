@@ -42,6 +42,10 @@ spec:
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
+            {{- range $k, $v := .Values.migrations.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
             {{- range $k, $v := .Values.app.secrets }}
             - name: {{ $k }}
               valueFrom:

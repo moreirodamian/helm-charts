@@ -100,6 +100,7 @@ migrations:
   enabled: false
   backoffLimit: 1
   activeDeadlineSeconds: 300
+  env: {}
   # Optional: Use a different image for migrations (with dev dependencies)
   # If not specified, will use app.image (retrocompatible)
   # image:
