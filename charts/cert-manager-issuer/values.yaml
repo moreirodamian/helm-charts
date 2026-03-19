@@ -1,4 +1,12 @@
 email: moreirodamian+letsencrypt@gmail.com
+zerossl:
+  enabled: false
+  eabKeyId: ""
+zerossl-secret:
+  name: zerossl-eab
+  namespace: cert-manager
+  encryptedData:
+    eab-hmac-key: zarazaEncrypted
 digitalocean:
   dns: enabled
 cloudflare:

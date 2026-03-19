@@ -38,6 +38,17 @@ spec:
         - name: cert-manager-issuer.digitalocean.dns
           value: "false"
       {{- end }}
+      {{- if and .Values.apps.certManager.zerossl .Values.apps.certManager.zerossl.enabled .Values.apps.certManager.zerossl.eabKeyId .Values.apps.certManager.zerossl.eabHmacKeyEncrypted }}
+        - name: cert-manager-issuer.zerossl.enabled
+          value: "true"
+        - name: cert-manager-issuer.zerossl.eabKeyId
+          value: {{ .Values.apps.certManager.zerossl.eabKeyId }}
+        - name: cert-manager-issuer.zerossl-secret.encryptedData.eab-hmac-key
+          value: {{ .Values.apps.certManager.zerossl.eabHmacKeyEncrypted }}
+      {{- else }}
+        - name: cert-manager-issuer.zerossl.enabled
+          value: "false"
+      {{- end }}
     chart: cert-manager
   destination:
     namespace: cert-manager

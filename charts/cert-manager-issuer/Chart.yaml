@@ -2,7 +2,7 @@ apiVersion: v2
 name: cert-manager-issuer
 description: A Helm chart for cert-manager-issuer
 type: application
-version: 1.0.2
+version: 1.0.3
 appVersion: "1.19.3"
 
 dependencies:
@@ -15,3 +15,8 @@ dependencies:
     version: 1.0.*
     repository: https://moreirodamian.github.io/helm-charts/
     condition: cloudflare.dns
+  - name: sealed-secret
+    alias: zerossl-secret
+    version: 1.0.*
+    repository: https://moreirodamian.github.io/helm-charts/
+    condition: zerossl.enabled

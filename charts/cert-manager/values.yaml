@@ -1,6 +1,14 @@
 cert-manager:
   installCRDs: true
 cert-manager-issuer:
+  zerossl:
+    enabled: false
+    eabKeyId: ""
+  zerossl-secret:
+    name: zerossl-eab
+    namespace: cert-manager
+    encryptedData:
+      eab-hmac-key: zarazaEncrypted
   digitalocean:
     dns: true
   cloudflare:

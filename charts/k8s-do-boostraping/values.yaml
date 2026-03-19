@@ -35,6 +35,10 @@ apps:
     cloudflare:
       dns: false
       token: ~
+    zerossl:
+      enabled: false
+      eabKeyId: ~
+      eabHmacKeyEncrypted: ~
   prometheus:
     enabled: true
   promtail:

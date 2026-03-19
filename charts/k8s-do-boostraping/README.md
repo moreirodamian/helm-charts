@@ -43,6 +43,9 @@ helm install do-bootstrap ./charts/k8s-do-boostraping \
 | `apps.certManager.digitalocean.token` | Encrypted DO API token for DNS-01 (enables issuer if set) | `~` |
 | `apps.certManager.cloudflare.dns` | Enable Cloudflare DNS-01 solver | `false` |
 | `apps.certManager.cloudflare.token` | Encrypted Cloudflare API token for DNS-01 (enables issuer if set) | `~` |
+| `apps.certManager.zerossl.enabled` | Deploy ZeroSSL ClusterIssuer (fallback for Let's Encrypt rate limits) | `false` |
+| `apps.certManager.zerossl.eabKeyId` | ZeroSSL EAB Key ID (public, not sensitive) | `~` |
+| `apps.certManager.zerossl.eabHmacKeyEncrypted` | ZeroSSL EAB HMAC key sealed with kubeseal (sensitive) | `~` |
 | `apps.prometheus.enabled` | Deploy Prometheus (also requires `prometheus.remoteWrite.url`) | `true` |
 | `apps.promtail.enabled` | Deploy Promtail (also requires `promtail.url`) | `true` |
 | `apps.rollout.enabled` | Deploy Argo Rollouts | `true` |
@@ -56,6 +59,31 @@ helm install do-bootstrap ./charts/k8s-do-boostraping \
 | `prometheus.remoteWrite.secret.password` | Encrypted password for remote write | `~` |
 | `prometheus.clusterName` | Cluster label for Prometheus external labels | `~` |
 | `promtail.url` | Loki push endpoint URL for Promtail | `~` |
+
+### ZeroSSL (Let's Encrypt fallback)
+
+ZeroSSL is an alternative ACME CA useful when Let's Encrypt hits rate limits (5 certs per domain per 168h). It creates a `zerossl-prod` ClusterIssuer that works identically to `letsencrypt-prod` (HTTP-01 challenge via nginx).
+
+To obtain EAB credentials (one-time per email):
+
+```bash
+curl -s -X POST "https://api.zerossl.com/acme/eab-credentials-email" \
+  -d "email=your-email@example.com"
+# Returns: { "eab_kid": "...", "eab_hmac_key": "..." }
+```
+
+Then seal the HMAC key:
+
+```bash
+echo -n '<eab_hmac_key>' | kubeseal --raw --scope cluster-wide \
+  --cert <cluster-cert.crt> --from-file=/dev/stdin
+```
+
+To use ZeroSSL for a specific ingress, set the annotation:
+
+```yaml
+cert-manager.io/cluster-issuer: zerossl-prod
+```
 
 ### Example
 
@@ -71,6 +99,10 @@ apps:
     cloudflare:
       dns: true
       token: AgBY7...encrypted...
+    zerossl:
+      enabled: true
+      eabKeyId: "2kDjpRR0u-2cYLTdP_nqdg"
+      eabHmacKeyEncrypted: AgBY7...encrypted...
   prometheus:
     enabled: true
   promtail:
