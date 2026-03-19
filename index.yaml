@@ -2,6 +2,22 @@ apiVersion: v1
 entries:
   cert-manager:
   - apiVersion: v2
+    created: "2026-03-19T23:09:26.682391887Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: v1.19.3
+    - name: cert-manager-issuer
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    description: A Helm chart for cert-manager
+    digest: 81b067f2353ba43fc9e83d9cf3fe5aab7a16182e3eb847e86b14ac14dbc0a098
+    name: cert-manager
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-1.20.3/cert-manager-1.20.3.tgz
+    version: 1.20.3
+  - apiVersion: v2
     created: "2026-02-15T20:03:49.402854-03:00"
     dependencies:
     - name: cert-manager
@@ -98,6 +114,31 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-1.11.2/cert-manager-1.11.2.tgz
     version: 1.11.2
   cert-manager-issuer:
+  - apiVersion: v2
+    appVersion: 1.19.3
+    created: "2026-03-19T23:09:26.682786694Z"
+    dependencies:
+    - condition: digitalocean.dns
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    - alias: cloudflare-secret
+      condition: cloudflare.dns
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    - alias: zerossl-secret
+      condition: zerossl.enabled
+      name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    description: A Helm chart for cert-manager-issuer
+    digest: b5fcf1e2954875b6e3845cf21528f0d0a6e71c16943dd971604c57f34b1f4de5
+    name: cert-manager-issuer
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-issuer-1.0.3/cert-manager-issuer-1.0.3.tgz
+    version: 1.0.3
   - apiVersion: v2
     appVersion: 1.19.3
     created: "2026-02-15T20:03:49.406769-03:00"
@@ -239,6 +280,16 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-issuer-0.0.1/cert-manager-issuer-0.0.1.tgz
     version: 0.0.1
   do-boostraping:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2026-03-19T23:09:26.683140005Z"
+    description: Applications
+    digest: 816adacfa7aa0893a8adad2aae55a345e080f0b155d432396efb6513c054a930
+    name: do-boostraping
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/do-boostraping-1.0.17/do-boostraping-1.0.17.tgz
+    version: 1.0.17
   - apiVersion: v2
     appVersion: "1.0"
     created: "2026-03-16T19:02:27.787276845Z"
@@ -2581,4 +2632,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2026-03-19T01:14:03.78214658Z"
+generated: "2026-03-19T23:09:26.676393128Z"
