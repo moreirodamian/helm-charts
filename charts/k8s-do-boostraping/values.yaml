@@ -6,7 +6,12 @@ ingress:
   loadbalancerName: do-loadbalancer.com
   # Controller kind: DaemonSet or Deployment
   controllerKind: DaemonSet
-  healthCheckPort: "30418"
+  # Fixed NodePort for HTTP (used when healthcheck.useNginx is true)
+  nodePort: "30080"
+  healthcheck:
+    # true: LB healthchecks directly against nginx-ingress on a pinned NodePort (validates ingress is alive)
+    # false: LB uses DO CCM auto-config (kube-proxy port 10256, validates node is alive)
+    useNginx: false
   doProxyProtocol:
     enabled: false
   tcp: {}
