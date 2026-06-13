@@ -1,0 +1,241 @@
+# =============================================================================
+# alloy wrapper chart values
+#
+# A single Grafana Alloy Deployment that:
+#   * scrapes Prometheus annotation-based targets and remote_writes to Grafana
+#     Cloud (replaces the `prometheus` chart's remote_write path)
+#   * collects pod logs via the Kubernetes API and writes them to Loki
+#     (replaces the `promtail` chart)
+#
+# All Grafana Cloud credentials are injected as env vars from a Secret that is
+# materialised by the bundled `sealed-secret` subchart — nothing is ever stored
+# in plaintext. Endpoints and cluster name are injected as plain env vars by the
+# consumer (do-boostraping) so this chart stays generic.
+#
+# Required env (provided by consumer via the upstream `alloy.alloy.extraEnv`):
+#   PROM_URL   - Grafana Cloud Prometheus remote_write URL
+#   LOKI_URL   - Grafana Cloud Loki push URL
+#   CLUSTER    - external cluster label
+# Required env (provided by the sealed Secret via `alloy.alloy.envFrom`):
+#   PROM_USER, PROM_PASS, LOKI_USER, LOKI_PASS
+# =============================================================================
+
+# --- SealedSecret holding the Grafana Cloud credentials -----------------------
+# encryptedData keys are injected by the consumer (do-boostraping) as AgB... blobs.
+# Cluster-wide scope keeps it consistent with the rest of the repo's sealed secrets.
+sealed-secret:
+  name: alloy-grafana-cloud
+  namespace: monitoring
+  type: Opaque
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+  encryptedData: {}
+
+# --- Upstream grafana/alloy ---------------------------------------------------
+alloy:
+  # Single Deployment: one scraper (no duplicate metrics) + API-based log tailing
+  # (no host mounts, no privileged DaemonSet needed at this cluster's scale).
+  controller:
+    type: deployment
+    replicas: 1
+
+  # Fixed SA name so the extra pods/log ClusterRoleBinding (templates/rbac-logs.yaml)
+  # can reference it deterministically.
+  serviceAccount:
+    create: true
+    name: alloy
+
+  rbac:
+    create: true
+
+  alloy:
+    # Credentials come from the sealed Secret; endpoints/cluster from extraEnv.
+    envFrom:
+      - secretRef:
+          name: alloy-grafana-cloud
+    # Defaults overridden by the consumer (index-based helm params).
+    extraEnv:
+      - name: PROM_URL
+        value: ""
+      - name: LOKI_URL
+        value: ""
+      - name: CLUSTER
+        value: ""
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
+
+    # WAL/positions live here; ephemeral is acceptable (remote_write backfills on
+    # restart from the scrape, log positions reset to tail).
+    storagePath: /tmp/alloy
+
+    configMap:
+      create: true
+      content: |-
+        // ===========================================================
+        // Grafana Alloy config (River) - managed by the `alloy` chart
+        // ===========================================================
+
+        // ---------- METRICS: scrape -> allowlist -> remote_write ----------
+
+        prometheus.remote_write "grafana_cloud" {
+          external_labels = {
+            cluster = sys.env("CLUSTER"),
+          }
+          endpoint {
+            url = sys.env("PROM_URL")
+            basic_auth {
+              username = sys.env("PROM_USER")
+              password = sys.env("PROM_PASS")
+            }
+          }
+        }
+
+        // Cost-control allowlist (ported from the prometheus chart's
+        // writeRelabelConfigs): keep the curated metric set + everything from
+        // annotation-scraped service endpoints, drop exporter internals.
+        prometheus.relabel "allowlist" {
+          forward_to = [prometheus.remote_write.grafana_cloud.receiver]
+
+          rule {
+            source_labels = ["job"]
+            regex         = "kubernetes-service-endpoints"
+            target_label  = "metric_enabled"
+            replacement   = "true"
+          }
+          rule {
+            source_labels = ["__name__"]
+            regex         = "(up|instance:node_num_cpu:sum|kubernetes_io_hostname|machine_cpu_cores|machine_memory_bytes|container_memory_working_set_bytes|container_cpu_usage_seconds_total|container_fs_usage_bytes|container_fs_limit_bytes|nginx_ingress_controller_requests|nginx_ingress_controller_nginx_process_connections|nginx_ingress_controller_success|nginx_ingress_controller_config_last_reload_successful|nginx_ingress_controller_request_size_sum|nginx_ingress_controller_nginx_process_cpu_seconds_total|nginx_ingress_controller_nginx_process_resident_memory_bytes|nginx_ingress_controller_request_duration_seconds_bucket|nginx_ingress_controller_ssl_expire_time_seconds|kube_pod_info|kube_pod_status_phase|kube_pod_container_status_restarts_total|kube_pod_container_status_waiting_reason|kube_pod_container_status_running|kube_pod_container_status_terminated_reason|kube_pod_container_resource_requests|kube_pod_container_resource_limits|kube_deployment_spec_replicas|kube_deployment_status_replicas_available|kube_deployment_status_replicas_unavailable|kube_deployment_status_replicas_updated|kube_node_status_condition|kube_node_info|kube_node_status_allocatable|kube_namespace_status_phase|kube_horizontalpodautoscaler_status_current_replicas|kube_horizontalpodautoscaler_spec_max_replicas|kube_horizontalpodautoscaler_spec_min_replicas|kube_replicaset_owner|kube_statefulset_replicas|kube_statefulset_status_replicas_ready)"
+            target_label  = "metric_enabled"
+            replacement   = "true"
+          }
+          rule {
+            source_labels = ["metric_enabled"]
+            regex         = "true"
+            action        = "keep"
+          }
+          rule {
+            source_labels = ["__name__"]
+            regex         = "(statsd_exporter.*|promhttp_.*)"
+            action        = "drop"
+          }
+          rule {
+            action = "labeldrop"
+            regex  = "(endpoint|image|metrics_path|instance|app_kubernetes_io_instance|app_kubernetes_io_managed_by|app_kubernetes_io_version|helm_sh_chart|prometheus|metric_enabled)"
+          }
+        }
+
+        // Discover services annotated with prometheus.io/scrape=true.
+        discovery.kubernetes "services" {
+          role = "service"
+        }
+
+        discovery.relabel "service_endpoints" {
+          targets = discovery.kubernetes.services.targets
+
+          rule {
+            source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scrape"]
+            regex         = "true"
+            action        = "keep"
+          }
+          rule {
+            source_labels = ["__meta_kubernetes_namespace"]
+            regex         = "(kube-system|prom)"
+            action        = "drop"
+          }
+          rule {
+            source_labels = ["__meta_kubernetes_service_name"]
+            regex         = "(.*prometheus-node-exporter|.*kube-state-metrics)"
+            action        = "drop"
+          }
+          rule {
+            source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scheme"]
+            regex         = "(https?)"
+            target_label  = "__scheme__"
+            action        = "replace"
+          }
+          rule {
+            source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_path"]
+            regex         = "(.+)"
+            target_label  = "__metrics_path__"
+            action        = "replace"
+          }
+          rule {
+            source_labels = ["__address__", "__meta_kubernetes_service_annotation_prometheus_io_port"]
+            regex         = "([^:]+)(?::\\d+)?;(\\d+)"
+            replacement   = "$1:$2"
+            target_label  = "__address__"
+            action        = "replace"
+          }
+          rule {
+            regex  = "__meta_kubernetes_service_label_(.+)"
+            action = "labelmap"
+          }
+          rule {
+            source_labels = ["__meta_kubernetes_namespace"]
+            target_label  = "kubernetes_namespace"
+            action        = "replace"
+          }
+          rule {
+            source_labels = ["__meta_kubernetes_service_name"]
+            target_label  = "kubernetes_name"
+            action        = "replace"
+          }
+          rule {
+            target_label = "job"
+            replacement  = "kubernetes-service-endpoints"
+            action       = "replace"
+          }
+        }
+
+        prometheus.scrape "service_endpoints" {
+          targets    = discovery.relabel.service_endpoints.output
+          forward_to = [prometheus.relabel.allowlist.receiver]
+        }
+
+        // ---------- LOGS: pod logs (via K8s API) -> Loki ----------
+
+        loki.write "grafana_cloud" {
+          endpoint {
+            url = sys.env("LOKI_URL")
+            basic_auth {
+              username = sys.env("LOKI_USER")
+              password = sys.env("LOKI_PASS")
+            }
+          }
+        }
+
+        discovery.kubernetes "pods" {
+          role = "pod"
+        }
+
+        discovery.relabel "pod_logs" {
+          targets = discovery.kubernetes.pods.targets
+
+          rule {
+            source_labels = ["__meta_kubernetes_namespace"]
+            target_label  = "namespace"
+          }
+          rule {
+            source_labels = ["__meta_kubernetes_pod_name"]
+            target_label  = "pod"
+          }
+          rule {
+            source_labels = ["__meta_kubernetes_pod_container_name"]
+            target_label  = "container"
+          }
+          rule {
+            source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_container_name"]
+            separator     = "/"
+            target_label  = "job"
+          }
+        }
+
+        loki.source.kubernetes "pods" {
+          targets    = discovery.relabel.pod_logs.output
+          forward_to = [loki.write.grafana_cloud.receiver]
+        }

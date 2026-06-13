@@ -1,3 +1,29 @@
+# Loki push credentials + URL are injected as env vars and expanded into the
+# client config via `-config.expand-env=true`, so nothing is stored in plaintext
+# and the consumer never has to --set into the clients[] array (which would clobber
+# basic_auth). The consumer provides:
+#   * LOKI_URL  -> plain env (promtail.extraEnv), host push URL
+#   * LOKI_USER / LOKI_PASS -> from the sealed Secret `loki-grafana-cloud`
 promtail:
+  extraArgs:
+    - -config.expand-env=true
+  extraEnv:
+    - name: LOKI_URL
+      value: ""
+  extraEnvFrom:
+    - secretRef:
+        name: loki-grafana-cloud
   config:
-    clients: []
+    clients:
+      - url: ${LOKI_URL}
+        basic_auth:
+          username: ${LOKI_USER}
+          password: ${LOKI_PASS}
+
+sealed-secret:
+  name: loki-grafana-cloud
+  namespace: monitoring
+  type: Opaque
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+  encryptedData: {}

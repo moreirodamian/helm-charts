@@ -1,0 +1,8 @@
+{{- /*
+Guard: Alloy is the unified replacement for prometheus + promtail, so enabling
+it together with either legacy collector would double-ship metrics/logs. Fail
+fast at render time. Emits no manifest.
+*/ -}}
+{{- if and .Values.apps.alloy.enabled (or .Values.apps.prometheus.enabled .Values.apps.promtail.enabled) -}}
+{{- fail "do-boostraping: apps.alloy.enabled is mutually exclusive with apps.prometheus.enabled / apps.promtail.enabled (Alloy replaces both). Enable Alloy OR the legacy prometheus+promtail stack, not both." -}}
+{{- end -}}

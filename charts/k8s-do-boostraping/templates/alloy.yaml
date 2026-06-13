@@ -1,0 +1,63 @@
+{{- if and .Values.apps.alloy.enabled .Values.alloy.remoteWrite.url .Values.alloy.loki.url }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alloy-{{ .Values.apps.suffix }}
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  {{ if .Values.apps.project }}
+  project: {{ .Values.apps.project }}
+  {{ else }}
+  project: infra-{{ .Values.apps.suffix }}
+  {{ end }}
+  source:
+    repoURL: 'https://moreirodamian.github.io/helm-charts/'
+    targetRevision: 1.0.0
+    chart: alloy
+    helm:
+      parameters:
+        # --- endpoints + cluster label (plain env) ---
+        - name: "alloy.alloy.extraEnv[0].name"
+          value: "PROM_URL"
+        - name: "alloy.alloy.extraEnv[0].value"
+          value: {{ .Values.alloy.remoteWrite.url }}
+        - name: "alloy.alloy.extraEnv[1].name"
+          value: "LOKI_URL"
+        - name: "alloy.alloy.extraEnv[1].value"
+          value: {{ .Values.alloy.loki.url }}
+        - name: "alloy.alloy.extraEnv[2].name"
+          value: "CLUSTER"
+        - name: "alloy.alloy.extraEnv[2].value"
+          value: {{ .Values.alloy.clusterName }}
+        # --- credentials Secret (sealed) ---
+        - name: "alloy.alloy.envFrom[0].secretRef.name"
+          value: {{ .Values.alloy.secret.name }}
+        - name: "sealed-secret.name"
+          value: {{ .Values.alloy.secret.name }}
+        {{- if .Values.alloy.remoteWrite.secret.username }}
+        - name: "sealed-secret.encryptedData.PROM_USER"
+          value: {{ .Values.alloy.remoteWrite.secret.username }}
+        {{- end }}
+        {{- if .Values.alloy.remoteWrite.secret.password }}
+        - name: "sealed-secret.encryptedData.PROM_PASS"
+          value: {{ .Values.alloy.remoteWrite.secret.password }}
+        {{- end }}
+        {{- if .Values.alloy.loki.secret.username }}
+        - name: "sealed-secret.encryptedData.LOKI_USER"
+          value: {{ .Values.alloy.loki.secret.username }}
+        {{- end }}
+        {{- if .Values.alloy.loki.secret.password }}
+        - name: "sealed-secret.encryptedData.LOKI_PASS"
+          value: {{ .Values.alloy.loki.secret.password }}
+        {{- end }}
+  destination:
+    namespace: monitoring
+    name: {{ .Values.apps.destination.name }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
+{{- end }}

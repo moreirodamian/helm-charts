@@ -25,7 +25,34 @@ prometheus:
       password: ~
   clusterName: ~
 promtail:
+  # Host-only Loki push URL (no credentials in the URL).
   url: ~
+  # Loki credentials are sealed; the controller materialises them into this
+  # Secret (keys LOKI_USER / LOKI_PASS). Inject the AgB... blobs below.
+  secret:
+    name: loki-grafana-cloud
+    username: ~
+    password: ~
+# Grafana Alloy: unified metrics remote_write + logs collector.
+# Mutually exclusive with prometheus + promtail (see the guard in
+# templates/validate.yaml). All credentials are sealed-secrets.
+alloy:
+  clusterName: ~
+  # Secret (and SealedSecret) name holding the 4 Grafana Cloud credentials.
+  secret:
+    name: alloy-grafana-cloud
+  remoteWrite:
+    # Grafana Cloud Prometheus remote_write URL.
+    url: ~
+    secret:
+      username: ~
+      password: ~
+  loki:
+    # Grafana Cloud Loki push URL.
+    url: ~
+    secret:
+      username: ~
+      password: ~
 apps:
   suffix: dev
   destination:
@@ -48,6 +75,9 @@ apps:
     enabled: true
   promtail:
     enabled: true
+  # Alloy replaces prometheus + promtail. Do NOT enable alongside them.
+  alloy:
+    enabled: false
   rollout:
     enabled: true
   sealedSecrets:

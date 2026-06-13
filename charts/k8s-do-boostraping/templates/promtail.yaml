@@ -14,12 +14,28 @@ spec:
   {{ end }}
   source:
     repoURL: 'https://moreirodamian.github.io/helm-charts/'
-    targetRevision: 6.17.2
+    targetRevision: 6.17.3
     chart: promtail
     helm:
       parameters:
-        - name: "promtail.config.clients[0].url"
+        # Host-only push URL via env (expanded by -config.expand-env).
+        - name: "promtail.extraEnv[0].name"
+          value: "LOKI_URL"
+        - name: "promtail.extraEnv[0].value"
           value: {{ .Values.promtail.url }}
+        # Loki credentials from the sealed Secret.
+        - name: "promtail.extraEnvFrom[0].secretRef.name"
+          value: {{ .Values.promtail.secret.name }}
+        - name: "sealed-secret.name"
+          value: {{ .Values.promtail.secret.name }}
+        {{- if .Values.promtail.secret.username }}
+        - name: "sealed-secret.encryptedData.LOKI_USER"
+          value: {{ .Values.promtail.secret.username }}
+        {{- end }}
+        {{- if .Values.promtail.secret.password }}
+        - name: "sealed-secret.encryptedData.LOKI_PASS"
+          value: {{ .Values.promtail.secret.password }}
+        {{- end }}
   destination:
     namespace: monitoring
     name: {{ .Values.apps.destination.name }}

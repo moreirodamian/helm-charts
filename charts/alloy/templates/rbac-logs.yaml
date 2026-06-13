@@ -1,0 +1,39 @@
+{{- /*
+Least-privilege RBAC so loki.source.kubernetes can tail pod logs through the
+Kubernetes API. The upstream alloy ClusterRole covers discovery (get/list/watch
+on pods, services, etc.) but not the pods/log subresource, which log tailing
+needs. We grant only that, bound to the fixed `alloy` ServiceAccount.
+*/ -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Release.Name }}-alloy-logs
+  labels:
+    app.kubernetes.io/name: alloy
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: logs
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - pods/log
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Release.Name }}-alloy-logs
+  labels:
+    app.kubernetes.io/name: alloy
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: logs
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ .Release.Name }}-alloy-logs
+subjects:
+  - kind: ServiceAccount
+    name: alloy
+    namespace: {{ .Release.Namespace }}
