@@ -1,5 +1,29 @@
 apiVersion: v1
 entries:
+  alloy:
+  - apiVersion: v2
+    appVersion: 1.17.0
+    created: "2026-06-13T13:13:43.637971937Z"
+    dependencies:
+    - name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    - name: alloy
+      repository: https://grafana.github.io/helm-charts
+      version: 1.10.0
+    description: Grafana Alloy collector (metrics remote_write + logs to Loki) wired
+      to Grafana Cloud with sealed-secrets credentials. Unified replacement for the
+      prometheus + promtail charts.
+    digest: 70c258b91543a3cb5f9620ff1f0a09afd4822addbc5beedf2de300ae4c502855
+    home: https://grafana.com/oss/alloy/
+    name: alloy
+    sources:
+    - https://github.com/grafana/alloy
+    - https://grafana.com/docs/alloy/latest/
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/alloy-1.0.0/alloy-1.0.0.tgz
+    version: 1.0.0
   cert-manager:
   - apiVersion: v2
     created: "2026-03-19T23:09:26.682391887Z"
@@ -280,6 +304,16 @@ entries:
     - https://github.com/moreirodamian/helm-charts/releases/download/cert-manager-issuer-0.0.1/cert-manager-issuer-0.0.1.tgz
     version: 0.0.1
   do-boostraping:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2026-06-13T13:13:43.638411166Z"
+    description: Applications
+    digest: 685c71d83560bacefff0345728493db9b8163a2147cdf409b4b1314422e8d31e
+    name: do-boostraping
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/do-boostraping-1.1.0/do-boostraping-1.1.0.tgz
+    version: 1.1.0
   - apiVersion: v2
     appVersion: "1.0"
     created: "2026-04-12T14:23:12.117994764Z"
@@ -2653,6 +2687,30 @@ entries:
   promtail:
   - apiVersion: v2
     appVersion: 3.5.1
+    created: "2026-06-13T13:13:43.640221271Z"
+    dependencies:
+    - name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    - name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.17.1
+    description: Promtail is an agent which ships the contents of local logs to a
+      Loki instance
+    digest: 2442b81dcd0ca7306b0c29d49565361fe047e12604356aafbaeee8b4e54c6440
+    home: https://grafana.com/loki
+    icon: https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png
+    name: promtail
+    sources:
+    - https://github.com/grafana/loki
+    - https://grafana.com/oss/loki/
+    - https://grafana.com/docs/loki/latest/
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/promtail-6.17.3/promtail-6.17.3.tgz
+    version: 6.17.3
+  - apiVersion: v2
+    appVersion: 3.5.1
     created: "2026-02-15T20:03:49.987196-03:00"
     dependencies:
     - name: promtail
@@ -2822,4 +2880,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2026-04-12T14:23:12.117560149Z"
+generated: "2026-06-13T13:13:43.633585348Z"
