@@ -30,10 +30,18 @@ spec:
           labelSelector:
             matchLabels:
               {{ include "selector-labels" . | nindent 14 }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ template "name" . }}
           image: {{ $image }}
           imagePullPolicy: IfNotPresent
+          {{- with .Values.app.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
             {{- range $k, $v := .Values.app.env }}
             - name: {{ $k }}

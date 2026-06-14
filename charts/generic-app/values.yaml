@@ -48,7 +48,12 @@ rollout:
 deployment:
   replicaCount: 2
 
+# Pod-level securityContext (e.g. {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}})
+podSecurityContext: {}
+
 app:
+  # Container-level securityContext (e.g. {allowPrivilegeEscalation: false, capabilities: {drop: [ALL]}})
+  securityContext: {}
   image:
     registry: ecr
     name: ~
