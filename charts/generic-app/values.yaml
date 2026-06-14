@@ -21,6 +21,7 @@ pdb:
 
 networkPolicy:
   enabled: false
+  # podSelector: {}   # optional override; omit to target this app's pods, set {} for namespace-wide
   ingress: []
   egress: []
 

@@ -8,8 +8,12 @@ metadata:
     {{ include "common-labels" . | nindent 4 }}
 spec:
   podSelector:
+    {{- if hasKey .Values.networkPolicy "podSelector" }}
+    {{- toYaml .Values.networkPolicy.podSelector | nindent 4 }}
+    {{- else }}
     matchLabels:
       {{ include "selector-labels" . | nindent 6 }}
+    {{- end }}
   policyTypes:
     {{- if .Values.networkPolicy.ingress }}
     - Ingress
