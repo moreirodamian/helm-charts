@@ -23,6 +23,10 @@ spec:
       parameters:
         - name: ingress-nginx.controller.kind
           value: {{ .Values.ingress.controllerKind | default "DaemonSet" }}
+        {{- if .Values.ingress.disablePublicNodePort }}
+        - name: ingress-nginx.controller.service.annotations.kubernetes\.digitalocean\.com/firewall-managed
+          value: "false"
+        {{- end }}
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-type
           value: "REGIONAL"
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-name

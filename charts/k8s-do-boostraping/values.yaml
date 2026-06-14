@@ -14,6 +14,10 @@ ingress:
     useNginx: false
   doProxyProtocol:
     enabled: false
+  # Disable the DOKS-managed public-access firewall rule for the LB NodePort
+  # (annotation kubernetes.digitalocean.com/firewall-managed=false). Closes the node-IP+NodePort
+  # bypass: traffic can only reach the cluster via the LB (which uses the VPC private network).
+  disablePublicNodePort: true
   # DO LoadBalancer source-range allowlist (native spec.loadBalancerSourceRanges — DO's preferred method;
   # the do-loadbalancer-allow-rules annotation is ignored when this is set). List of CIDRs.
   # Empty list = no firewall (LB open). Current list locks the LB to Cloudflare ranges
