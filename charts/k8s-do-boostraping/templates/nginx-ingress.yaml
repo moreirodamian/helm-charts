@@ -45,9 +45,9 @@ spec:
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-enable-proxy-protocol
           value: "true"
       {{ end }}
-      {{- if .Values.ingress.loadBalancerAllowRules }}
-        - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-allow-rules
-          value: "{{ .Values.ingress.loadBalancerAllowRules }}"
+      {{- range $i, $cidr := .Values.ingress.loadBalancerSourceRanges }}
+        - name: ingress-nginx.controller.service.loadBalancerSourceRanges[{{ $i }}]
+          value: "{{ $cidr }}"
       {{- end }}
       {{- range $port, $service := .Values.ingress.tcp }}
         - name: ingress-nginx.tcp.{{ $port }}
