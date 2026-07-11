@@ -20,6 +20,23 @@
 #   PROM_USER, PROM_PASS, LOKI_USER, LOKI_PASS
 # =============================================================================
 
+# --- kube-state-metrics --------------------------------------------------------
+# Generates the kube_* metrics in the allowlist (pod/deployment/HPA/node state).
+# Fixed name so the static scrape target in the Alloy config is deterministic.
+kube-state-metrics:
+  fullnameOverride: kube-state-metrics
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 192Mi
+  # No scrape annotations: Alloy scrapes it via a dedicated static job (the
+  # annotation-based job would double-scrape it).
+  prometheus:
+    monitor:
+      enabled: false
+
 # --- SealedSecret holding the Grafana Cloud credentials -----------------------
 # encryptedData keys are injected by the consumer (do-boostraping) as AgB... blobs.
 # Cluster-wide scope keeps it consistent with the rest of the repo's sealed secrets.
@@ -109,7 +126,7 @@ alloy:
           }
           rule {
             source_labels = ["__name__"]
-            regex         = "(up|instance:node_num_cpu:sum|kubernetes_io_hostname|machine_cpu_cores|machine_memory_bytes|container_memory_working_set_bytes|container_cpu_usage_seconds_total|container_fs_usage_bytes|container_fs_limit_bytes|nginx_ingress_controller_requests|nginx_ingress_controller_nginx_process_connections|nginx_ingress_controller_success|nginx_ingress_controller_config_last_reload_successful|nginx_ingress_controller_request_size_sum|nginx_ingress_controller_nginx_process_cpu_seconds_total|nginx_ingress_controller_nginx_process_resident_memory_bytes|nginx_ingress_controller_request_duration_seconds_bucket|nginx_ingress_controller_ssl_expire_time_seconds|kube_pod_info|kube_pod_status_phase|kube_pod_container_status_restarts_total|kube_pod_container_status_waiting_reason|kube_pod_container_status_running|kube_pod_container_status_terminated_reason|kube_pod_container_resource_requests|kube_pod_container_resource_limits|kube_deployment_spec_replicas|kube_deployment_status_replicas_available|kube_deployment_status_replicas_unavailable|kube_deployment_status_replicas_updated|kube_node_status_condition|kube_node_info|kube_node_status_allocatable|kube_namespace_status_phase|kube_horizontalpodautoscaler_status_current_replicas|kube_horizontalpodautoscaler_spec_max_replicas|kube_horizontalpodautoscaler_spec_min_replicas|kube_replicaset_owner|kube_statefulset_replicas|kube_statefulset_status_replicas_ready)"
+            regex         = "(up|instance:node_num_cpu:sum|kubernetes_io_hostname|machine_cpu_cores|machine_memory_bytes|container_memory_working_set_bytes|container_cpu_usage_seconds_total|container_fs_usage_bytes|container_fs_limit_bytes|nginx_ingress_controller_requests|nginx_ingress_controller_nginx_process_connections|nginx_ingress_controller_success|nginx_ingress_controller_config_last_reload_successful|nginx_ingress_controller_request_size_sum|nginx_ingress_controller_nginx_process_cpu_seconds_total|nginx_ingress_controller_nginx_process_resident_memory_bytes|nginx_ingress_controller_ssl_expire_time_seconds|kube_pod_info|kube_pod_status_phase|kube_pod_container_status_restarts_total|kube_pod_container_status_waiting_reason|kube_pod_container_status_running|kube_pod_container_status_terminated_reason|kube_pod_container_resource_requests|kube_pod_container_resource_limits|kube_deployment_spec_replicas|kube_deployment_status_replicas_available|kube_deployment_status_replicas_unavailable|kube_deployment_status_replicas_updated|kube_node_status_condition|kube_node_info|kube_node_status_allocatable|kube_namespace_status_phase|kube_horizontalpodautoscaler_status_current_replicas|kube_horizontalpodautoscaler_spec_max_replicas|kube_horizontalpodautoscaler_spec_min_replicas|kube_replicaset_owner|kube_statefulset_replicas|kube_statefulset_status_replicas_ready)"
             target_label  = "metric_enabled"
             replacement   = "true"
           }
@@ -195,6 +212,83 @@ alloy:
         prometheus.scrape "service_endpoints" {
           targets    = discovery.relabel.service_endpoints.output
           forward_to = [prometheus.relabel.allowlist.receiver]
+        }
+
+        // ---------- METRICS: kube-state-metrics (kube_* state) ----------
+        // Dedicated static job (the annotation job drops *kube-state-metrics
+        // services on purpose). Only allowlisted kube_* names survive.
+
+        prometheus.scrape "kube_state_metrics" {
+          job_name   = "kube-state-metrics"
+          // Short DNS resolves in the release namespace (KSM ships in this chart).
+          targets    = [{ __address__ = "kube-state-metrics:8080" }]
+          forward_to = [prometheus.relabel.allowlist.receiver]
+        }
+
+        // ---------- METRICS: cadvisor via kubelet (container_* usage) ----------
+        // Direct kubelet scrape (nodes/metrics RBAC comes with the upstream
+        // chart). Only container-level rows are kept: pod/node cgroup
+        // aggregates and the pause (POD) container are dropped, and the
+        // high-cardinality cgroup labels (id, name, image) are stripped.
+
+        discovery.kubernetes "nodes" {
+          role = "node"
+        }
+
+        discovery.relabel "cadvisor" {
+          targets = discovery.kubernetes.nodes.targets
+
+          rule {
+            source_labels = ["__meta_kubernetes_node_address_InternalIP"]
+            regex         = "(.+)"
+            replacement   = "$1:10250"
+            target_label  = "__address__"
+            action        = "replace"
+          }
+          rule {
+            replacement  = "/metrics/cadvisor"
+            target_label = "__metrics_path__"
+            action       = "replace"
+          }
+          rule {
+            source_labels = ["__meta_kubernetes_node_name"]
+            target_label  = "node"
+            action        = "replace"
+          }
+        }
+
+        prometheus.scrape "cadvisor" {
+          job_name = "cadvisor"
+          targets  = discovery.relabel.cadvisor.output
+          scheme   = "https"
+
+          authorization {
+            type             = "Bearer"
+            credentials_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+          }
+          tls_config {
+            insecure_skip_verify = true
+          }
+
+          forward_to = [prometheus.relabel.cadvisor_cleanup.receiver]
+        }
+
+        prometheus.relabel "cadvisor_cleanup" {
+          forward_to = [prometheus.relabel.allowlist.receiver]
+
+          // Drop pod/node cgroup aggregates and the pause container: keep only
+          // real per-container rows. machine_* metrics are unaffected (their
+          // name does not match container_*).
+          rule {
+            source_labels = ["__name__", "container"]
+            separator     = ";"
+            regex         = "container_[a-z_]+;(POD)?"
+            action        = "drop"
+          }
+          rule {
+            action = "labeldrop"
+            regex  = "(id|name|image)"
+          }
         }
 
         // ---------- LOGS: pod logs (via K8s API) -> Loki ----------
