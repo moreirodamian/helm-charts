@@ -63,6 +63,8 @@ promtail:
 # Mutually exclusive with prometheus + promtail (see the guard in
 # templates/validate.yaml). All credentials are sealed-secrets.
 alloy:
+  # Version of the wrapper alloy chart to deploy (Application targetRevision).
+  chartVersion: ~
   clusterName: ~
   # Secret (and SealedSecret) name holding the 4 Grafana Cloud credentials.
   secret:

@@ -140,6 +140,20 @@ alloy:
             regex         = "(statsd_exporter.*|promhttp_.*)"
             action        = "drop"
           }
+          // Cost control: the ingress-nginx metrics Service is annotation-scraped,
+          // which would blanket-allow ~20k histogram series. Drop every bucket and
+          // the low-value histogram families; requests + request_duration sum/count
+          // (avg latency) survive via the curated list.
+          rule {
+            source_labels = ["__name__"]
+            regex         = "nginx_ingress_controller_.*_bucket"
+            action        = "drop"
+          }
+          rule {
+            source_labels = ["__name__"]
+            regex         = "nginx_ingress_controller_(header_duration_seconds|connect_duration_seconds|response_duration_seconds|response_size|request_size|bytes_sent)_(sum|count)"
+            action        = "drop"
+          }
           rule {
             action = "labeldrop"
             regex  = "(endpoint|image|metrics_path|instance|app_kubernetes_io_instance|app_kubernetes_io_managed_by|app_kubernetes_io_version|helm_sh_chart|prometheus|metric_enabled)"
