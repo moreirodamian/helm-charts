@@ -53,6 +53,28 @@ spec:
         - name: ingress-nginx.controller.service.loadBalancerSourceRanges[{{ $i }}]
           value: "{{ $cidr }}"
       {{- end }}
+      {{- with .Values.ingress.resources }}
+        {{- with .requests }}
+        {{- if .cpu }}
+        - name: ingress-nginx.controller.resources.requests.cpu
+          value: "{{ .cpu }}"
+        {{- end }}
+        {{- if .memory }}
+        - name: ingress-nginx.controller.resources.requests.memory
+          value: "{{ .memory }}"
+        {{- end }}
+        {{- end }}
+        {{- with .limits }}
+        {{- if .cpu }}
+        - name: ingress-nginx.controller.resources.limits.cpu
+          value: "{{ .cpu }}"
+        {{- end }}
+        {{- if .memory }}
+        - name: ingress-nginx.controller.resources.limits.memory
+          value: "{{ .memory }}"
+        {{- end }}
+        {{- end }}
+      {{- end }}
       {{- range $port, $service := .Values.ingress.tcp }}
         - name: ingress-nginx.tcp.{{ $port }}
           value: "{{ $service }}"

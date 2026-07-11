@@ -38,6 +38,8 @@ ingress:
     - 104.24.0.0/14
     - 172.64.0.0/13
     - 131.0.72.0/22
+  # Optional nginx controller resource overrides (requests/limits with cpu/memory).
+  resources: {}
   tcp: {}
   udp: {}
 prometheus:
