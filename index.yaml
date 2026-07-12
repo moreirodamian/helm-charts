@@ -3,6 +3,32 @@ entries:
   alloy:
   - apiVersion: v2
     appVersion: 1.17.0
+    created: "2026-07-12T00:25:03.282383778Z"
+    dependencies:
+    - name: sealed-secret
+      repository: https://moreirodamian.github.io/helm-charts/
+      version: 1.0.*
+    - name: alloy
+      repository: https://grafana.github.io/helm-charts
+      version: 1.10.0
+    - name: kube-state-metrics
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 7.8.1
+    description: Grafana Alloy collector (metrics remote_write + logs to Loki) wired
+      to Grafana Cloud with sealed-secrets credentials. Unified replacement for the
+      prometheus + promtail charts.
+    digest: f3d74e217026bcf885669e9b7f5effd1c8149fe0a0c5382653aa4afeb86425c9
+    home: https://grafana.com/oss/alloy/
+    name: alloy
+    sources:
+    - https://github.com/grafana/alloy
+    - https://grafana.com/docs/alloy/latest/
+    type: application
+    urls:
+    - https://github.com/moreirodamian/helm-charts/releases/download/alloy-1.1.2/alloy-1.1.2.tgz
+    version: 1.1.2
+  - apiVersion: v2
+    appVersion: 1.17.0
     created: "2026-07-11T23:07:06.529886563Z"
     dependencies:
     - name: sealed-secret
@@ -3094,4 +3120,4 @@ entries:
     urls:
     - https://github.com/moreirodamian/helm-charts/releases/download/sealed-secrets-2.8.2/sealed-secrets-2.8.2.tgz
     version: 2.8.2
-generated: "2026-07-11T23:07:06.52553485Z"
+generated: "2026-07-12T00:25:03.277064053Z"
