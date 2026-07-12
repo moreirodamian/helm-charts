@@ -82,9 +82,9 @@ alloy:
     resources:
       requests:
         cpu: 100m
-        memory: 256Mi
-      limits:
         memory: 512Mi
+      limits:
+        memory: 1Gi
 
     # WAL/positions live here; ephemeral is acceptable (remote_write backfills on
     # restart from the scrape, log positions reset to tail).
