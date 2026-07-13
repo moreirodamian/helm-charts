@@ -96,6 +96,16 @@ customIngress: []
 
 sealedSecrets:
   enabled: true
+  # Ordering mechanism for SealedSecrets (and the migrations Job) when
+  # migrations are enabled:
+  #   false (default) -> ArgoCD sync-waves: secrets are normal tracked
+  #     resources at wave -5, migrations run as a Sync-phase hook at wave -3.
+  #     Safe for ArgoCD (no hook delete/recreate cycle on the secrets).
+  #   true -> helm hooks (pre-install/pre-upgrade). REQUIRED when installing
+  #     with plain `helm install/upgrade`: helm sorts unknown kinds (CRDs like
+  #     SealedSecret) after Deployments and the pre-install migrations Job
+  #     needs the secrets to exist first.
+  asHooks: false
   encryptedData: {}
   annotations:
     "helm.sh/hook-weight": "-5"
