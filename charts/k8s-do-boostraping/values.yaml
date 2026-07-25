@@ -14,6 +14,14 @@ ingress:
     useNginx: false
   doProxyProtocol:
     enabled: false
+  # Second DO LoadBalancer with a private VPC IP only (no public IP), serving the
+  # same ingress-nginx pods. Use it to reach the ingress from inside the VPC
+  # (e.g. NetBird routing peers) — the public LB firewall rejects private CIDRs.
+  # Inherits doProxyProtocol so nginx behaves the same on both.
+  internalLoadBalancer:
+    enabled: false
+    # DO LB name; defaults to "<loadbalancerName>-internal"
+    name: ""
   # Disable the DOKS-managed public-access firewall rule for the LB NodePort
   # (annotation kubernetes.digitalocean.com/firewall-managed=false). Closes the node-IP+NodePort
   # bypass: traffic can only reach the cluster via the LB (which uses the VPC private network).

@@ -49,6 +49,20 @@ spec:
         - name: ingress-nginx.controller.service.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-enable-proxy-protocol
           value: "true"
       {{ end }}
+      {{- if .Values.ingress.internalLoadBalancer.enabled }}
+        - name: ingress-nginx.controller.service.internal.enabled
+          value: "true"
+        - name: ingress-nginx.controller.service.internal.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-network
+          value: "INTERNAL"
+        - name: ingress-nginx.controller.service.internal.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-type
+          value: "REGIONAL"
+        - name: ingress-nginx.controller.service.internal.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-name
+          value: {{ .Values.ingress.internalLoadBalancer.name | default (printf "%s-internal" .Values.ingress.loadbalancerName) }}
+        {{- if .Values.ingress.doProxyProtocol.enabled }}
+        - name: ingress-nginx.controller.service.internal.annotations.service\.beta\.kubernetes\.io/do-loadbalancer-enable-proxy-protocol
+          value: "true"
+        {{- end }}
+      {{- end }}
       {{- range $i, $cidr := .Values.ingress.loadBalancerSourceRanges }}
         - name: ingress-nginx.controller.service.loadBalancerSourceRanges[{{ $i }}]
           value: "{{ $cidr }}"
