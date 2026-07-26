@@ -81,3 +81,13 @@ ingress-nginx:
     extraArgs:
       metrics-per-host: false
 
+
+# Extra DO internal (VPC-only) LoadBalancers pointing at the same controller pods.
+# Each entry creates one Service (and therefore one DO LB with its own private IP),
+# so different access planes can reach the ingress on different addresses and be
+# told apart in nginx via $proxy_protocol_server_addr.
+#   extraInternalLoadBalancers:
+#     clients:
+#       loadbalancerName: my-cluster-internal-clients
+#       proxyProtocol: true
+extraInternalLoadBalancers: {}

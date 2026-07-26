@@ -1,0 +1,48 @@
+{{- /*
+Additional DO internal (VPC-only) LoadBalancers for the same ingress-nginx pods.
+The upstream chart supports a single internal service; extra ones let you tell
+planes apart at the nginx level: with PROXY protocol the destination address is
+available as $proxy_protocol_server_addr, so a configuration-snippet can allow
+or deny paths depending on which LB the request came through.
+*/}}
+{{- range $name, $lb := .Values.extraInternalLoadBalancers }}
+{{- if $lb.enabled | default true }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ printf "%s-ingress-nginx-controller-%s" $.Release.Name $name | trunc 63 | trimSuffix "-" }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    app.kubernetes.io/component: controller
+    xolabs.io/lb-plane: {{ $name }}
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-network: "INTERNAL"
+    service.beta.kubernetes.io/do-loadbalancer-type: "REGIONAL"
+    service.beta.kubernetes.io/do-loadbalancer-name: {{ required "extraInternalLoadBalancers.<name>.loadbalancerName is required" $lb.loadbalancerName | quote }}
+    {{- if $lb.proxyProtocol | default false }}
+    service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
+    {{- end }}
+    {{- with $lb.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: {{ $lb.externalTrafficPolicy | default "Cluster" }}
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    app.kubernetes.io/component: controller
+{{- end }}
+{{- end }}
