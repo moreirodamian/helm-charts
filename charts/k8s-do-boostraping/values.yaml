@@ -22,6 +22,13 @@ ingress:
     enabled: false
     # DO LB name; defaults to "<loadbalancerName>-internal"
     name: ""
+  # Additional internal LBs (one private IP each) for separate access planes.
+  # Passed through to the ingress-nginx wrapper chart (>= 5.1.0).
+  #   extraInternalLoadBalancers:
+  #     clients:
+  #       loadbalancerName: my-cluster-internal-clients
+  #       proxyProtocol: true
+  extraInternalLoadBalancers: {}
   # Disable the DOKS-managed public-access firewall rule for the LB NodePort
   # (annotation kubernetes.digitalocean.com/firewall-managed=false). Closes the node-IP+NodePort
   # bypass: traffic can only reach the cluster via the LB (which uses the VPC private network).
