@@ -43,7 +43,11 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
-            {{- range $k, $v := .Values.app.env }}
+            {{- /* Worker env keys override app env keys (single entry per
+                 name): duplicated env names have merge-key semantics in the
+                 K8s API and leave ArgoCD permanently OutOfSync. */}}
+            {{- $workerEnv := mergeOverwrite (deepCopy (.Values.app.env | default dict)) ($worker.env | default dict) }}
+            {{- range $k, $v := $workerEnv }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
@@ -53,10 +57,6 @@ spec:
                 secretKeyRef:
                   name: {{ template "name" $ }}
                   key: {{ $k }}
-            {{- end }}
-            {{- range $k, $v := $worker.env }}
-            - name: {{ $k }}
-              value: {{ $v | quote }}
             {{- end }}
           {{- if or .Values.app.envFrom $worker.envFrom .Values.sealedSecrets.enabled }}
           envFrom:
